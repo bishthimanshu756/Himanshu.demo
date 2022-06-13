@@ -26,7 +26,7 @@
                             </tr>
                         </thead>
                         <tbody style="text-align:center ;">
-                            @foreach( $users as $user )
+                            @foreach ($users as $user)
                                     <tr class="border-black border-t-2 py-10">
                                         <td>{{ $no++ }}</td>
                                         <td>{{ $user->name }}</td>

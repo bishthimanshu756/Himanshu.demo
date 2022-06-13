@@ -19,7 +19,7 @@
                     <label for="email" class="block font-black text-center">Email</label>
                     <input type="email" name="email" value="{{ old('email') }}" required class=" text-center w-full bg-gray-200">
                     
-                    @error( 'email' )
+                    @error('email')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
@@ -27,7 +27,7 @@
                     <label for="number" class="block font-black text-center">Ph. Number</label>
                     <input type="number" id="number" name="number" value="{{ old('number') }}" required class=" text-center w-full bg-gray-200">
 
-                    @error( 'number' )
+                    @error('number')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
@@ -35,15 +35,15 @@
                     <label for="password" class="block font-black text-center">Password</label>
                     <input type="password" id="password" name="password" required class=" text-center w-full bg-gray-200">
 
-                    @error( 'password' )
+                    @error('password')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>
                 <div class="mt-4">
                     <label for="City" class="block font-black text-center">City</label>
-                    <input type="text" id="city" name="city" value="{{ old('city')}}" required class=" text-center w-full bg-gray-200">
+                    <input type="text" id="city" name="city" value="{{ old('city') }}" required class=" text-center w-full bg-gray-200">
 
-                    @error( 'city' )
+                    @error('city')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>

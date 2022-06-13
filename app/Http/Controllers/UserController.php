@@ -11,7 +11,8 @@ class UserController extends Controller
 {
     public function index(){
         //listing
-        return view( 'users.index',[ 'users'=>User::get() ]);
+        $users = User::get();
+        return view( 'users.index', compact('users'));
     }
 
     public function create(){
@@ -35,10 +36,10 @@ class UserController extends Controller
         return back()->with( 'success','User added successfully.' );
     }
 
-    public function edit($user){
+    public function edit(User $user){
         //redirecting to edit page
 
-        return view('users.edit', [ 'user'=> User::find($user) ]);
+        return view('users.edit', compact('user'));
     }
 
     public function update(User $user){

@@ -7,7 +7,7 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
                 <div class="p-6 bg-white border-b border-gray-200">
                     
-                    <form method="POST" action="{{ route( 'users.update', $user) }}" class="mx-auto w-1/4 mt-10">
+                    <form method="POST" action="{{ route('users.update', $user) }}" class="mx-auto w-1/4 mt-10">
 
                     @csrf
                         <!-- Name -->
@@ -43,7 +43,7 @@
                         <!-- Number -->
                         <div class="mt-4">
                             <label for="number" class="block font-black text-center">Ph. Number</label>
-                            <input type="number" id="number" name="number" value="{{$user->number}}" required class="w-full bg-gray-200 text-center">
+                            <input type="number" id="number" name="number" value="{{ $user->number }}" required class="w-full bg-gray-200 text-center">
 
                             @error('number')
                                 <p class="text-red-500 text-xs mt-1">{{$message}}</p>
