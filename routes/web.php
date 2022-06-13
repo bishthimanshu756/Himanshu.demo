@@ -19,23 +19,34 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/dashboard', function () {
-    return view('dashboard');
-})->middleware(['auth'])->name('dashboard');
+
 
 require __DIR__.'/auth.php';
 
 
-//listing of user
-Route::get('/users', [UserController::class, 'index'])->middleware('auth')->name('users.index');
+Route::middleware('auth')->group( function() {
 
-//edit and update the details
-Route::get('users/{user}/edit', [UserController::class, 'edit'])->middleware('auth')->name('users.edit');
-Route::post('users/{user}/edit', [UserController::class, 'update'])->middleware('auth')->name('users.update');
+    Route::get('/dashboard', function () {
+        return view('dashboard');
+    })->name('dashboard');
 
-//adding new user
-Route::get('user/add', [UserController::class, 'add'])->middleware('auth')->name('user.add');
-Route::post('user/add', [UserController::class, 'store'])->middleware('auth')->name('user.update');
+    Route::controller(UserController::class)->group( function() {
+        //listing of user
+        Route::get('/users', 'index')->name('users.index');
 
-//delete the user
-Route::get('users/{user}/delete', [UserController::class, 'delete'])->middleware('auth')->name('user.delete');
+        //adding new user
+        Route::get('users/create', 'create')->name('users.create');
+        Route::post('users/create', 'store')->name('users.create');
+
+
+        //edit and update the details
+        Route::get('users/{user}/edit', 'edit')->name('users.update');
+        Route::post('users/{user}/edit', 'update')->name('users.update');
+
+
+        //delete the user
+        Route::get('users/{user}/delete', 'delete')->name('users.delete');
+    });
+    
+});
+

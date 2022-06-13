@@ -10,12 +10,12 @@
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg px-4 py-4">
                 <div class="flex items-center justify-between ">
                     <h3 class="font-semibold text-xl text-gray-800 leading-tight">Users</h3>
-                    <a href="/user/add" class="bg-indigo-50 border font-semibold p-2">Add New User</a>
+                    <a href="{{ route( 'users.create' ) }}" class="bg-red-50 border font-semibold p-2 hover:bg-red-400">Add New User</a>
                 </div>
                 <div class="p-6 bg-white border-b border-gray-200">
                     <?php $no=1?>
-                    <table class="w-full h-full" >
-                        <thead>
+                    <table class="border-2 border-gray-700 h-full w-full" >
+                        <thead class="bg-gray-200">
                             <tr>
                                 <th>S.No.</th>
                                 <th>Name</th>
@@ -26,15 +26,16 @@
                             </tr>
                         </thead>
                         <tbody style="text-align:center ;">
-                            @foreach($users as $user)
-                                    <tr>
-                                        <td>{{$no++}}</td>
-                                        <td>{{$user->name}}</td>
-                                        <td>{{$user->email}}</td>
-                                        <td>{{$user->number}}</td>
-                                        <td>{{$user->city}}</td>
-                                        <td><a href="users/{{$user->id}}/edit">Edit</a></td>
-                                        <td><a href="users/{{$user->id}}/delete">Delete</a></td>
+                            @foreach( $users as $user )
+                                    <tr class="border-black border-t-2 py-10">
+                                        <td>{{ $no++ }}</td>
+                                        <td>{{ $user->name }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->number }}</td>
+                                        <td>{{ $user->city }}</td>
+                                        <td><a href="{{ route('users.update', $user) }}" class="bg-green-400 border-2 m-1 px-1.5">Edit</a></td>
+                                        
+                                        <td><a href="{{ route('users.delete', $user) }}" class="bg-red-500 border-2 m-1 px-1.5 py-1">Delete</a></td>
                                     </tr>
                             @endforeach
                         </tbody>

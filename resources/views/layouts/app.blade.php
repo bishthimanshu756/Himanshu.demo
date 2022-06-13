@@ -29,11 +29,12 @@
             </header>
             
             <div style="display:flex" class="">
+
                 <!-- Side Bar -->
                 <nav class="bg-gray-700 font-bold h-screen text-blue-400 text-center text-lg w-1/6">
                     <ul class="mt-6 leading-loose">
-                        <li><a href="/dashboard">Dashboard</a></li>
-                        <li><a href="/users">Users</a></li>
+                        <li class="hover:bg-blue-900 hover:text-white active:bg-blue-900 active:text-white"><a href="{{ route('dashboard') }}">Dashboard</a></li>
+                        <li class="hover:bg-blue-900 hover:text-white active:bg-blue-900 active:text-white"><a href="{{ route('users.index') }}">Users</a></li>
                     </ul>
                 </nav>
 
@@ -44,7 +45,9 @@
             </div>
         </div>
         @if(session()->has('success')){
-            <p>{{session('success')}}</p>
+            <p class="fixed bg-blue-500 text-white py-2 px-4 rounded-xl bottom-3 right-3 text-sm">
+                {{ session('success') }}
+            </p>
         }
 
         @endif
