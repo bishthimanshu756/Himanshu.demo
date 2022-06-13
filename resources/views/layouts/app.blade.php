@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<html lang="{{ str_replace('_', '-', app()->getLocale()) }}">
+    <head>
+        <meta charset="utf-8">
+        <link href="https://unpkg.com/tailwindcss@^2/dist/tailwind.min.css" rel="stylesheet">
+        <meta name="viewport" content="width=device-width, initial-scale=1">
+        <meta name="csrf-token" content="{{ csrf_token() }}">
+
+        <title>{{ config('app.name', 'Laravel') }}</title>
+
+        <!-- Fonts -->
+        <link rel="stylesheet" href="https://fonts.googleapis.com/css2?family=Nunito:wght@400;600;700&display=swap">
+
+        <!-- Styles -->
+        <link rel="stylesheet" href="{{ asset('css/app.css') }}">
+
+        <!-- Scripts -->
+        <script src="{{ asset('js/app.js') }}" defer></script>
+    </head>
+    <body class="font-sans antialiased">
+        <div class="min-h-screen bg-gray-100">
+            @include('layouts.navigation')
+
+            <!-- Page Heading -->
+            <header class="bg-white shadow">
+                <div class="max-w-7xl mx-auto py-6 px-4 sm:px-6 lg:px-8">
+                    {{ $header }}
+                </div>
+            </header>
+            
+            <div style="display:flex" class="">
+                <!-- Side Bar -->
+                <nav class="bg-gray-700 font-bold h-screen text-blue-400 text-center text-lg w-1/6">
+                    <ul class="mt-6 leading-loose">
+                        <li><a href="/dashboard">Dashboard</a></li>
+                        <li><a href="/users">Users</a></li>
+                    </ul>
+                </nav>
+
+                <!-- Page Content -->
+                <main class="w-5/6 h-screen">
+                    {{ $slot }}
+                </main>
+            </div>
+        </div>
+        @if(session()->has('success')){
+            <p>{{session('success')}}</p>
+        }
+
+        @endif
+    </body>
+</html>
