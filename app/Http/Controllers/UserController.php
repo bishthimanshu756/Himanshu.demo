@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules;
 use Illuminate\Validation\Rules\Password;
 
@@ -11,7 +12,7 @@ class UserController extends Controller
 {
     public function index(){
         //listing
-        $users = User::get();
+        $users = User::where('id','!=' ,Auth::id())->get();
         return view( 'users.index', compact('users'));
     }
 

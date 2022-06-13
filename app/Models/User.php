@@ -1,6 +1,7 @@
 <?php
 
 namespace App\Models;
+use App\Models\Role;
 
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
@@ -50,4 +51,7 @@ class User extends Authenticatable
         $this->attributes['password']= bcrypt($password);
     }
     
+    public function role() {
+        $this->belongsTo(Role::class);
+    }
 }
