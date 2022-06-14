@@ -18,7 +18,8 @@ class UserSeeder extends Seeder
     {
         User::create([
             'role_id'=>'1',
-            'name' => 'Admin',
+            'first_name' => 'Admin',
+            'last_name' => 'XYZ',
             'email' => 'admin@gmail.com',
             'number' => '1232667890', 
             'city' => 'Mohali',
@@ -27,7 +28,8 @@ class UserSeeder extends Seeder
 
         User::create([
             'role_id'=>'2',
-            'name' => 'Himanshu',
+            'first_name' => 'Himanshu',
+            'last_name' => 'Bisht',
             'email' => 'himanshu@gmail.com',
             'number' => '1235467890', 
             'city' => 'Haldwani',
@@ -36,7 +38,8 @@ class UserSeeder extends Seeder
 
         User::create([
             'role_id'=>'3',
-            'name' => 'trainer',
+            'first_name' => 'Trainer',
+            'last_name' => 'Abc',
             'email' => 'trainer@gmail.com',
             'number' => '12326632490', 
             'city' => 'Chandigarh',
@@ -45,7 +48,8 @@ class UserSeeder extends Seeder
 
         User::create([
             'role_id'=>'4',
-            'name' => 'Employee',
+            'first_name' => 'Employee',
+            'last_name' => 'Abc',
             'email' => 'employee@gmail.com',
             'number' => '1235432490', 
             'city' => 'Mohali',

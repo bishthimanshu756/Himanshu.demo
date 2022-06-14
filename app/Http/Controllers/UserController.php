@@ -2,6 +2,7 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -12,24 +13,27 @@ class UserController extends Controller
 {
     public function index(){
         //listing
-        $users = User::where('id','!=' ,Auth::id())->get();
+        $users = User::where('id', '!=', Auth::id())->get();
         return view( 'users.index', compact('users'));
     }
 
     public function create(){
         //redirectig to add page
-        return view( 'users.create' );
+        $roles= Role::get();
+        return view('users.create', compact('roles'));
     }
 
     public function store(){
 
         //adding User
         $attributes = request()->validate([
-            'name' => ['required','max:255', 'min:5', 'string'],
+            'first_name' => ['required','max:255', 'min:5', 'string'],
+            'last_name' => ['required','max:255', 'min:5', 'string'],
             'email' => ['required','email','max:255', 'unique:users,email'],
             'password' => ['required',Password::min(8)->mixedCase()->numbers()->symbols()],
             'number' => ['required','integer','min:10', 'unique:users,number'],
-            'city' => ['required','min:4','max:255']
+            'city' => ['required','min:4','max:255'],
+            'role_id' => ['required'],
         ]);
         
         User::create($attributes);
@@ -39,23 +43,26 @@ class UserController extends Controller
 
     public function edit(User $user){
         //redirecting to edit page
-
-        return view('users.edit', compact('user'));
+        $roles = Role::all();
+        return view('users.edit', compact('user','roles'));
     }
 
     public function update(User $user){
         //update the user data and 
 
         $attributes= request()->validate([
-            'name'=> ['required','max:255', 'min:5', 'string'],
+            'first_name' => ['required','max:255', 'min:5', 'string'],
+            'last_name'=> ['required','max:255', 'min:5', 'string'],
             'email'=> ['required','email','max:255'],
             'password' => ['required',Password::min(8)->mixedCase()->numbers()->symbols()],
-            'number'=> ['required','integer','digits:10'],
-            'city'=> ['required','min:4','max:50']
+            'number'=> ['required','integer','min:10'],
+            'city'=> ['required','min:4','max:50'],
+            'role_id' => ['required']
         ]);
+
         $user->update($attributes);
 
-        return redirect()->route("users.index")->with('success','User updated successfully');
+        return redirect()->route('users.index')->with('success', __('User updated successfully'));
 
     }
 

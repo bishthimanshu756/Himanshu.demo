@@ -8,7 +8,8 @@
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg px-4 py-4">
-                <h3>Welcome {{auth()->user()->name}}</h3>
+                <?php $role=auth()->user()->role ?>
+                <h3>Welcome to {{$role->name}} Panel</h3>
             </div>
         </div>
     </div>
