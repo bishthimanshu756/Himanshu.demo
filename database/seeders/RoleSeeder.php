@@ -21,7 +21,7 @@ class RoleSeeder extends Seeder
         ]);
 
         Role::create([
-            'name' => 'Sub-admin',
+            'name' => 'Sub admin',
             'slug' => 'sub-admin',
         ]);
 

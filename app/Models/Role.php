@@ -10,10 +10,15 @@ class Role extends Model
 {
     use HasFactory;
 
-    // protected $guarde    d=[];
-    protected $fillable=['first_name', 'last_name', 'email', 'password', 'number', 'city', 'role_id'];
+    const ADMIN = 1;
 
-    public function user() {
+    // protected $guarded=[];
+    protected $fillable=[
+        'name',
+        'slug',
+    ];
+
+    public function users() {
         return $this->hasMany(User::class);
     }
 }

@@ -23,7 +23,8 @@ class UserSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'number' => '1232667890', 
             'city' => 'Mohali',
-            'password' => 'password'
+            'password' => 'password',
+            'created_by'=> '1'
         ]);
 
         User::create([
@@ -33,7 +34,8 @@ class UserSeeder extends Seeder
             'email' => 'himanshu@gmail.com',
             'number' => '1235467890', 
             'city' => 'Haldwani',
-            'password' => 'password'
+            'password' => 'password',
+            'created_by' => '1'
         ]);
 
         User::create([
@@ -43,7 +45,8 @@ class UserSeeder extends Seeder
             'email' => 'trainer@gmail.com',
             'number' => '12326632490', 
             'city' => 'Chandigarh',
-            'password' => 'password'
+            'password' => 'password',
+            'created_by' => '1'
         ]);
 
         User::create([
@@ -53,7 +56,8 @@ class UserSeeder extends Seeder
             'email' => 'employee@gmail.com',
             'number' => '1235432490', 
             'city' => 'Mohali',
-            'password' => 'password'
+            'password' => 'password',
+            'created_by' => '1'
         ]);
     }
 }

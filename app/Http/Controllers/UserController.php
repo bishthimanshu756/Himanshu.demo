@@ -11,39 +11,40 @@ use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
-    public function index(){
+    public function index() {
         //listing
         $users = User::where('id', '!=', Auth::id())->get();
-        return view( 'users.index', compact('users'));
+        return view('users.index', compact('users'));
     }
 
-    public function create(){
+    public function create() {
         //redirectig to add page
         $roles= Role::get();
         return view('users.create', compact('roles'));
     }
 
-    public function store(){
+    public function store() {
 
         //adding User
         $attributes = request()->validate([
-            'first_name' => ['required','max:255', 'min:5', 'string'],
-            'last_name' => ['required','max:255', 'min:5', 'string'],
+            'first_name' => ['required','max:255', 'min:3', 'string'],
+            'last_name' => ['string'],
             'email' => ['required','email','max:255', 'unique:users,email'],
             'password' => ['required',Password::min(8)->mixedCase()->numbers()->symbols()],
             'number' => ['required','integer','min:10', 'unique:users,number'],
             'city' => ['required','min:4','max:255'],
             'role_id' => ['required'],
+            'created_by' => ['required'],
         ]);
         
         User::create($attributes);
 
-        return back()->with( 'success','User added successfully.' );
+        return back()->with( 'success', __('User added successfully.') );
     }
 
     public function edit(User $user){
         //redirecting to edit page
-        $roles = Role::all();
+        $roles = Role::get();
         return view('users.edit', compact('user','roles'));
     }
 
@@ -51,8 +52,8 @@ class UserController extends Controller
         //update the user data and 
 
         $attributes= request()->validate([
-            'first_name' => ['required','max:255', 'min:5', 'string'],
-            'last_name'=> ['required','max:255', 'min:5', 'string'],
+            'first_name' => ['required','max:255', 'min:3', 'string'],
+            'last_name'=> ['string'],
             'email'=> ['required','email','max:255'],
             'password' => ['required',Password::min(8)->mixedCase()->numbers()->symbols()],
             'number'=> ['required','integer','min:10'],
@@ -66,10 +67,11 @@ class UserController extends Controller
 
     }
 
+
     public function delete(User $user){
         //deleting the data and redirecting to index page
         $user->delete();
-        return redirect()->route('users.index')->with('success','User deleted successfully');
+        return redirect()->route('users.index')->with('success', __('User deleted successfully') );
     }
 
 }

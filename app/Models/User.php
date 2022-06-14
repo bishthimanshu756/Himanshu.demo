@@ -20,13 +20,22 @@ class User extends Authenticatable
      */
 
     // protected $guarded=[];
-    protected $fillable=['first_name', 'last_name', 'email', 'password', 'number', 'city', 'role_id'];
 
-    // protected $fillable = [
-    //     'name',
-    //     'email',
-    //     'password',
-    // ];
+    protected $fillable = [
+        'first_name',
+        'last_name',
+        'email',
+        'password',
+        'number',
+        'city',
+        'role_id',
+        'created_by',
+    ];
+
+    const ADMIN = 1;
+    const SUB_ADMIN = 2;
+    const TRAINER = 3;
+    const EMPLOYEE = 4;
 
     /**
      * The attributes that should be hidden for serialization.
@@ -47,12 +56,24 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-
+    // Password attributes
     public function setPasswordAttribute($password){
         $this->attributes['password']= bcrypt($password);
     }
     
+    // Full name attributes
+    public function getFullNameAttribute() 
+    {
+        return $this->first_name . ' ' . $this->last_name;
+    }
+
     public function role() {
         return $this->belongsTo(Role::class);
+    }
+
+
+    public function scopeAdmin() 
+    {
+        return $this->role_id = 1;
     }
 }

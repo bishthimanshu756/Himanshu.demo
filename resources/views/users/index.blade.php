@@ -21,8 +21,7 @@
                         <thead class="bg-gray-200">
                             <tr>
                                 <th>{{ __('S.No.') }}</th>
-                                <th>{{ __('First name') }}</th>
-                                <th>{{ __('Last name') }}</th>
+                                <th>{{ __('Full name') }}</th>
                                 <th>{{ __('Email') }}</th>
                                 <th>{{ __('Phone Number') }} </th>
                                 <th>{{ __('City') }}</th>
@@ -31,83 +30,22 @@
                             </tr>
                         </thead>
                         <tbody style="text-align:center ;">
-
-                                @if (auth()->user()->role_id == 1) 
-                                    @foreach($users as $user)
-                                        @if($user->role_id==2 || $user->role_id==3 || $user->role_id==4)
-                                            <tr class="border-black border-t-2 py-10">
-                                                <td>{{ $no++ }}</td>
-                                                <td>{{ $user->first_name }}</td>
-                                                <td>{{ $user->last_name }}</td>
-                                                <td>{{ $user->email }}</td>
-                                                <td>{{ $user->number }}</td>
-                                                <td>{{ $user->city }}</td>
-                                                <td>{{ $user->role->name }}</td>
-                                                <td><a href="{{ route('users.update', $user) }}" class="bg-green-400 border-2 m-1 px-1.5">Edit</a></td>
-                                                
-                                                <td><a href="{{ route('users.delete', $user) }}" class="bg-red-500 border-2 m-1 px-1.5 py-1">Delete</a></td>
-                                            </tr>
-                                        @endif
-                                    @endforeach
+                        
+                            @foreach($users as $user)
+                                @if(Auth::user()->role_id < $user->role_id)
+                                    <tr class="border-black border-t-2 py-10">
+                                        <td>{{ $no++ }}</td>
+                                        <td>{{ $user->full_name }}</td>
+                                        <td>{{ $user->email }}</td>
+                                        <td>{{ $user->number }}</td>
+                                        <td>{{ $user->city }}</td>
+                                        <td>{{ $user->role->name }}</td>
+                                        <td><a href="{{ route('users.update', $user) }}" class="bg-green-400 border-2 m-1 px-1.5">Edit</a></td>
+                                        
+                                        <td><a href="{{ route('users.delete', $user) }}" class="bg-red-500 border-2 m-1 px-1.5 py-1">Delete</a></td>
+                                    </tr>
                                 @endif
-
-                                @if (auth()->user()->role_id == 2) 
-                                    @foreach($users as $user)
-                                        @if($user->role_id==2 || $user->role_id==3 || $user->role_id==4)
-                                            <tr class="border-black border-t-2 py-10">
-                                                <td>{{ $no++ }}</td>
-                                                <td>{{ $user->first_name }}</td>
-                                                <td>{{ $user->last_name }}</td>
-                                                <td>{{ $user->email }}</td>
-                                                <td>{{ $user->number }}</td>
-                                                <td>{{ $user->city }}</td>
-                                                <td>{{ $user->role->name }}</td>
-                                                <td><a href="{{ route('users.update', $user) }}" class="bg-green-400 border-2 m-1 px-1.5">Edit</a></td>
-                                                
-                                                <td><a href="{{ route('users.delete', $user) }}" class="bg-red-500 border-2 m-1 px-1.5 py-1">Delete</a></td>
-                                            </tr>
-                                        @endif
-                                    @endforeach
-                                @endif
-
-                                @if (auth()->user()->role_id == 3) 
-                                    @foreach($users as $user)
-                                        @if($user->role_id==3 || $user->role_id==4)
-                                            <tr class="border-black border-t-2 py-10">
-                                                <td>{{ $no++ }}</td>
-                                                <td>{{ $user->first_name }}</td>
-                                                <td>{{ $user->last_name }}</td>
-                                                <td>{{ $user->email }}</td>
-                                                <td>{{ $user->number }}</td>
-                                                <td>{{ $user->city }}</td>
-                                                <td>{{ $user->role->name }}</td>
-                                                <td><a href="{{ route('users.update', $user) }}" class="bg-green-400 border-2 m-1 px-1.5">Edit</a></td>
-                                                
-                                                <td><a href="{{ route('users.delete', $user) }}" class="bg-red-500 border-2 m-1 px-1.5 py-1">Delete</a></td>
-                                            </tr>
-                                        @endif
-                                    @endforeach
-                                @endif
-
-                                @if (auth()->user()->role_id == 4) 
-                                    @foreach($users as $user)
-                                        @if($user->role_id==4)
-                                            <tr class="border-black border-t-2 py-10">
-                                                <td>{{ $no++ }}</td>
-                                                <td>{{ $user->first_name }}</td>
-                                                <td>{{ $user->last_name }}</td>
-                                                <td>{{ $user->email }}</td>
-                                                <td>{{ $user->number }}</td>
-                                                <td>{{ $user->city }}</td>
-                                                <td>{{ $user->role->name }}</td>
-                                                <td><a href="{{ route('users.update', $user) }}" class="bg-green-400 border-2 m-1 px-1.5">Edit</a></td>
-                                                
-                                                <td><a href="{{ route('users.delete', $user) }}" class="bg-red-500 border-2 m-1 px-1.5 py-1">Delete</a></td>
-                                            </tr>
-                                        @endif
-                                    @endforeach
-                                @endif
-
+                            @endforeach
                         </tbody>
                     </table>
                 </div>

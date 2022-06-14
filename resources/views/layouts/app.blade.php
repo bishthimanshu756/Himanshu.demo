@@ -44,11 +44,10 @@
                 </main>
             </div>
         </div>
-        @if(session()->has('success')){
+        @if(session()->has('success'))
             <p class="fixed bg-blue-500 text-white py-2 px-4 rounded-xl bottom-3 right-3 text-sm">
                 {{ session('success') }}
             </p>
-        }
 
         @endif
     </body>

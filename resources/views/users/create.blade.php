@@ -72,32 +72,20 @@
                     <label for="role_id" class="block font-black text-center">{{ __('Role') }}</label>
                     <select name="role_id" id="role_id" class="text-center w-full">
 
-                        @if(auth()->user()->role_id==1)
-                            @foreach($roles as $role)
-                                @if($role->id == 2 || $role->id == 3 || $role->id == 4)
-                                    <option value="{{ $role->id }}" class=" text-center w-full bg-gray-200">{{ $role->name }}</option>
-                                @endif
-                            @endforeach
-                        @endif
-
-                        @if(auth()->user()->role_id==2)
-                            @foreach($roles as $role)
-                                @if($role->id == 3 || $role->id == 4)
-                                    <option value="{{ $role->id }}" class=" text-center w-full bg-gray-200">{{ $role->name }}</option>
-                                @endif
-                            @endforeach
-                        @endif
-                        @if(auth()->user()->role_id==3)
-                            @foreach($roles as $role)
-                                @if($role->id == 4)
-                                    <option value="{{ $role->id }}" class=" text-center w-full bg-gray-200">{{ $role->name }}</option>
-                                @endif
-                            @endforeach
-                        @endif
+                        @foreach($roles as $role)
+                            @if(Auth::user()->role_id < $role->id)
+                                <option value="{{ $role->id }}" class=" text-center w-full bg-gray-200">{{ $role->name }}</option>
+                            @endif
+                        @endforeach
                         
                     </select>
                 </div>
-                
+
+                <!-- Created by -->
+                <div class="mt-4">
+                <input type="text" id="created_by" name="created_by" value="{{ Auth::id() }}" hidden>
+                </div>
+
                 <!-- Submit Button -->
                 <div class="mt-4 ml-4">
                     <button type="submit" class="border-2 px-4 py-1.5 mx-auto font-bold bg-gray-200 border-0.5 border-gray-500 hover:bg-blue-300 hover:border-blue-500 ">Submit</button>
