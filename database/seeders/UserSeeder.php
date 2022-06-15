@@ -24,7 +24,8 @@ class UserSeeder extends Seeder
             'number' => '1232667890', 
             'city' => 'Mohali',
             'password' => 'password',
-            'created_by'=> '1'
+            'created_by'=> '1',
+            'is_active' => '1'
         ]);
 
         User::create([
@@ -35,7 +36,20 @@ class UserSeeder extends Seeder
             'number' => '1235467890', 
             'city' => 'Haldwani',
             'password' => 'password',
-            'created_by' => '1'
+            'created_by' => '1',
+            'is_active' => '1'
+        ]);
+
+        User::create([
+            'role_id'=>'2',
+            'first_name' => 'Sub',
+            'last_name' => 'Admin',
+            'email' => 'subadmin@gmail.com',
+            'number' => '4234242424', 
+            'city' => 'Haldwani',
+            'password' => 'password',
+            'created_by' => '1',
+            'is_active' => '1'
         ]);
 
         User::create([
@@ -46,7 +60,8 @@ class UserSeeder extends Seeder
             'number' => '12326632490', 
             'city' => 'Chandigarh',
             'password' => 'password',
-            'created_by' => '1'
+            'created_by' => '1',
+            'is_active' => '1'
         ]);
 
         User::create([
@@ -57,7 +72,8 @@ class UserSeeder extends Seeder
             'number' => '1235432490', 
             'city' => 'Mohali',
             'password' => 'password',
-            'created_by' => '1'
+            'created_by' => '1',
+            'is_active' => '1'
         ]);
     }
 }

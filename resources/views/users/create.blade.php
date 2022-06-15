@@ -1,7 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-    </x-slot>
-
     <div class="py-12 max-w-7xl mx-auto sm:px-6 lg:px-8">
         <div class="p-6 bg-white border-b border-gray-200">
             <form method="POST" action="{{ route('users.create') }}" class="mx-auto w-1/4 mt-10">
@@ -74,16 +71,15 @@
 
                         @foreach($roles as $role)
                             @if(Auth::user()->role_id < $role->id)
-                                <option value="{{ $role->id }}" class=" text-center w-full bg-gray-200">{{ $role->name }}</option>
+                                <option name="role" value="{{ $role->id }}" class=" text-center w-full bg-gray-200">{{ $role->name }}</option>
                             @endif
                         @endforeach
                         
                     </select>
-                </div>
 
-                <!-- Created by -->
-                <div class="mt-4">
-                <input type="text" id="created_by" name="created_by" value="{{ Auth::id() }}" hidden>
+                    @error('role')
+                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                    @enderror
                 </div>
 
                 <!-- Submit Button -->

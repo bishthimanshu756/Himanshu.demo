@@ -11,6 +11,9 @@ class Role extends Model
     use HasFactory;
 
     const ADMIN = 1;
+    const SUB_ADMIN = 2;
+    const TRAINER = 3;
+    const EMPLOYEE = 4;
 
     // protected $guarded=[];
     protected $fillable=[

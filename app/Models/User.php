@@ -7,6 +7,7 @@ use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
+use Illuminate\Support\Facades\Auth;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -30,12 +31,11 @@ class User extends Authenticatable
         'city',
         'role_id',
         'created_by',
+        'is_active',
     ];
-
-    const ADMIN = 1;
-    const SUB_ADMIN = 2;
-    const TRAINER = 3;
-    const EMPLOYEE = 4;
+    
+    const INACTIVE = 0;
+    const ACTIVE = 1;
 
     /**
      * The attributes that should be hidden for serialization.
@@ -75,5 +75,19 @@ class User extends Authenticatable
     public function scopeAdmin() 
     {
         return $this->role_id = 1;
+    }
+
+    public function scopeUserVisible($query)
+    {
+        return $query->Where('role_id', '>', Auth::user()->role_id)
+        ->Where('created_by', Auth::id());
+    }
+
+    public function scopeUserListing($query){
+        return $query->where('id', '>', Auth::id());
+    }
+
+    public function checkTeam($query){
+        return $query->where('team_id', '=', Auth::id());
     }
 }

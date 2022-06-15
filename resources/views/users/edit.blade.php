@@ -1,7 +1,4 @@
 <x-app-layout>
-    <x-slot name="header">
-    </x-slot>
-
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="bg-white overflow-hidden shadow-sm sm:rounded-lg">
@@ -33,22 +30,24 @@
                         <!-- Email -->
                         <div class="mt-4">
                             <label for="email" class="block font-black text-center">{{ __('Email') }}</label>
-                            <input type="email" name="email" value="{{ $user->email }}" required class="w-full bg-gray-200 text-center">
+                            <input type="email" name="email" value="{{ $user->email }}" readonly class="w-full bg-gray-200 text-center">
                             
                             @error('email')
                                 <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                             @enderror
                         </div>
 
-                        <!-- Password -->
-                        <div class="mt-4">
-                            <label for="password" class="block font-black text-center">{{ __('Password') }}</label>
-                            <input type="password" name="password" required class="w-full bg-gray-200 text-center">
-                            
-                            @error('password')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
+                        @if(Auth::user()->role_id == 1)
+                            <!-- Password -->
+                            <div class="mt-4">
+                                <label for="password" class="block font-black text-center">{{ __('Password') }}</label>
+                                <input type="password" name="password" required class="w-full bg-gray-200 text-center">
+                                
+                                @error('password')
+                                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
+                                @enderror
+                            </div>
+                        @endif
 
                         <!-- Number -->
                         <div class="mt-4">
@@ -73,15 +72,26 @@
                         <!-- Role -->
                         <div class="mt-4">
                             <label for="role_id" class="block font-black text-center">{{ __('Role') }}</label>
-                            <select name="role_id" id="role_id" class="text-center w-full">
+                            <select name="role_id" id="role_id" class="text-center w-full bg-gray-200">
 
                                 @foreach($roles as $role)
                                     @if(Auth::user()->role_id < $role->id)
-                                        <option value="{{ $role->id }}" {{ $role->id == $user->role_id ? 'selected' : '' }} > {{ $role->name }} </option>
+                                        <option value="{{ $role->id }}" {{ $role->id == $user->role_id ? 'selected' : '' }}  > {{ $role->name }} </option>
                                     @endif
                                 @endforeach
                         
                             </select>
+
+                        </div>
+
+                        <!-- Status -->
+                        <div class="mt-4">
+                            <label for="status" class="block font-black text-center">{{ __('Status') }}</label>
+                            <input type="radio" name="is_active" id="status" value="1" {{$user->is_active=='1'? 'checked':''}}>
+                            <label for="status">{{ __('Active') }}</label>
+                            <input type="radio" name="is_active" id="status" value="0" {{$user->is_active=='0'? 'checked':''}}>
+                            <label for="status">{{ __('Inactive') }}</label>
+                            
                         </div>
 
                         <!-- Submit -->

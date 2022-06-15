@@ -12,6 +12,9 @@ module.exports = {
             fontFamily: {
                 sans: ['Nunito', ...defaultTheme.fontFamily.sans],
             },
+            color: {
+                'sky-900': '#0c4a6e',
+            },
         },
     },
 

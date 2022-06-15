@@ -13,7 +13,8 @@ class UserController extends Controller
 {
     public function index() {
         //listing
-        $users = User::where('id', '!=', Auth::id())->get();
+        // $users = User::where('id', '!=', Auth::id())->get();
+        $users= User::UserVisible()->get();
         return view('users.index', compact('users'));
     }
 
@@ -25,6 +26,19 @@ class UserController extends Controller
 
     public function store() {
 
+        if(Auth::user()->role_id == Role::TRAINER)
+        {
+            $ids = '4';
+        }
+        elseif(Auth::user()->role_id == Role::SUB_ADMIN)
+        {
+            $ids = '3,4';
+        }
+        else
+        {
+            $ids = '2,3,4';
+        }
+
         //adding User
         $attributes = request()->validate([
             'first_name' => ['required','max:255', 'min:3', 'string'],
@@ -33,9 +47,12 @@ class UserController extends Controller
             'password' => ['required',Password::min(8)->mixedCase()->numbers()->symbols()],
             'number' => ['required','integer','min:10', 'unique:users,number'],
             'city' => ['required','min:4','max:255'],
-            'role_id' => ['required'],
-            'created_by' => ['required'],
-        ]);
+            'role_id' => 'required | in:'.$ids,
+        ]
+    );
+        
+    // we need to store auth id into created_by column when user created.
+        $attributes['created_by'] = Auth::id();
         
         User::create($attributes);
 
@@ -51,6 +68,8 @@ class UserController extends Controller
     public function update(User $user){
         //update the user data and 
 
+        $status = '0,1';
+        
         $attributes= request()->validate([
             'first_name' => ['required','max:255', 'min:3', 'string'],
             'last_name'=> ['string'],
@@ -58,7 +77,8 @@ class UserController extends Controller
             'password' => ['required',Password::min(8)->mixedCase()->numbers()->symbols()],
             'number'=> ['required','integer','min:10'],
             'city'=> ['required','min:4','max:50'],
-            'role_id' => ['required']
+            'role_id' => ['required'],
+            'is_active' => 'required | in:'.$status
         ]);
 
         $user->update($attributes);
