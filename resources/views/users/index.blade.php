@@ -38,10 +38,14 @@
                                             <span ><date>{{ date_format($user->created_at, 'd-m-Y') }}</date></span>
                                             <span class="block text-xs text-gray-400"><time>{{ date_format($user->created_at, 'H:i:s')}}</time></span>
                                         </td>
-                                        <td class="p-2">{{ $user->is_active ? 'Active' : 'Not Active' }}</td>
-                                        <td class="font-bold p-2"><a href="{{ route('users.update', $user) }}" class="bg-green-400 border-2 hover:bg-green-800 hover:text-white m-1 px-4 py-1">Edit</a></td>
+                                        <td class="p-2">{{ $user->status ? 'Active' : 'Not Active' }}</td>
+                                        <td class="font-bold p-2">
+                                            <a href="{{ route('users.update', $user) }}" class="bg-green-400 border-2 hover:bg-green-800 hover:text-white m-1 px-4 py-1">Edit</a>
+                                        </td>
                                         
-                                        <td class="font-bold p-2"><a href="{{ route('users.delete', $user) }}" class="bg-red-500 border-2 hover:bg-red-700 hover:text-white m-1 px-1.5 py-1">Delete</a></td>
+                                        <td class="font-bold p-2">
+                                            <a href="{{ route('users.delete', $user) }}" class="bg-red-500 border-2 hover:bg-red-700 hover:text-white m-1 px-1.5 py-1">Delete</a>
+                                        </td>
                                     </tr>
                                 @endif
                             @endforeach

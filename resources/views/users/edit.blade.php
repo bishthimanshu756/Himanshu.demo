@@ -49,26 +49,6 @@
                             </div>
                         @endif
 
-                        <!-- Number -->
-                        <div class="mt-4">
-                            <label for="number" class="block font-black text-center">{{ __('Ph. Number') }}</label>
-                            <input type="number" id="number" name="number" value="{{ $user->number }}" required class="w-full bg-gray-200 text-center">
-
-                            @error('number')
-                                <p class="text-red-500 text-xs mt-1">{{$message}}</p>
-                            @enderror
-                        </div>
-
-                        <!-- City -->
-                        <div class="mt-4">
-                            <label for="city" class="block font-black text-center">{{ __('City') }}</label>
-                            <input type="text" id="city" name="city" value="{{ $user->city }}" required class="w-full bg-gray-200 text-center">
-
-                            @error('city')
-                                <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                            @enderror
-                        </div>
-
                         <!-- Role -->
                         <div class="mt-4">
                             <label for="role_id" class="block font-black text-center">{{ __('Role') }}</label>
@@ -85,11 +65,11 @@
                         </div>
 
                         <!-- Status -->
-                        <div class="mt-4">
+                        <div class="mt-4 text-center">
                             <label for="status" class="block font-black text-center">{{ __('Status') }}</label>
-                            <input type="radio" name="is_active" id="status" value="1" {{$user->is_active=='1'? 'checked':''}}>
-                            <label for="status">{{ __('Active') }}</label>
-                            <input type="radio" name="is_active" id="status" value="0" {{$user->is_active=='0'? 'checked':''}}>
+                            <input type="radio" name="is_active" id="status" value="1" {{$user->status=='1'? 'checked':''}}>
+                            <label for="status" class="mr-4">{{ __('Active') }}</label>
+                            <input type="radio" name="is_active" id="status" value="0" {{$user->status=='0'? 'checked':''}}>
                             <label for="status">{{ __('Inactive') }}</label>
                             
                         </div>

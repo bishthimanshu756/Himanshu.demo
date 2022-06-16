@@ -19,14 +19,15 @@ return new class extends Migration
             $table->string('first_name');
             $table->string('last_name');
             $table->string('email')->unique();
-            $table->bigInteger('number');
-            $table->string('city');
-            $table->integer('is_active')->default(0);
+            $table->string('password');
+            $table->boolean('email_status')->default(0);
+            $table->boolean('status')->default(0);
             $table->integer('created_by');
             $table->timestamp('email_verified_at')->nullable();
-            $table->string('password');
             $table->rememberToken();
             $table->timestamps();
+            $table->softDeletes();
+            // $table->dropSoftDeletes();
         });
     }
 

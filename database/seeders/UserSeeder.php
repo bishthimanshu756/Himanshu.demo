@@ -21,23 +21,10 @@ class UserSeeder extends Seeder
             'first_name' => 'Admin',
             'last_name' => 'XYZ',
             'email' => 'admin@gmail.com',
-            'number' => '1232667890', 
-            'city' => 'Mohali',
             'password' => 'password',
+            'email_status' => '1',
+            'status' => '1',         
             'created_by'=> '1',
-            'is_active' => '1'
-        ]);
-
-        User::create([
-            'role_id'=>'2',
-            'first_name' => 'Himanshu',
-            'last_name' => 'Bisht',
-            'email' => 'himanshu@gmail.com',
-            'number' => '1235467890', 
-            'city' => 'Haldwani',
-            'password' => 'password',
-            'created_by' => '1',
-            'is_active' => '1'
         ]);
 
         User::create([
@@ -45,35 +32,43 @@ class UserSeeder extends Seeder
             'first_name' => 'Sub',
             'last_name' => 'Admin',
             'email' => 'subadmin@gmail.com',
-            'number' => '4234242424', 
-            'city' => 'Haldwani',
             'password' => 'password',
-            'created_by' => '1',
-            'is_active' => '1'
+            'email_status' => '1',
+            'status' => '1',         
+            'created_by'=> '1',
+        ]);
+
+        User::create([
+            'role_id'=>'2',
+            'first_name' => 'Sub',
+            'last_name' => 'Admin 2',
+            'email' => 'subadmin2@gmail.com',
+            'password' => 'password',
+            'email_status' => '1',
+            'status' => '1',         
+            'created_by'=> '1',
         ]);
 
         User::create([
             'role_id'=>'3',
             'first_name' => 'Trainer',
-            'last_name' => 'Abc',
+            'last_name' => 'user',
             'email' => 'trainer@gmail.com',
-            'number' => '12326632490', 
-            'city' => 'Chandigarh',
             'password' => 'password',
-            'created_by' => '1',
-            'is_active' => '1'
+            'email_status' => '1',
+            'status' => '1',         
+            'created_by'=> '2',
         ]);
 
         User::create([
             'role_id'=>'4',
             'first_name' => 'Employee',
-            'last_name' => 'Abc',
+            'last_name' => 'user',
             'email' => 'employee@gmail.com',
-            'number' => '1235432490', 
-            'city' => 'Mohali',
             'password' => 'password',
-            'created_by' => '1',
-            'is_active' => '1'
+            'email_status' => '1',
+            'status' => '1',         
+            'created_by'=> '4',
         ]);
     }
 }
