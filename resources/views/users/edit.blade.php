@@ -64,16 +64,6 @@
 
                         </div>
 
-                        <!-- Status -->
-                        <div class="mt-4 text-center">
-                            <label for="status" class="block font-black text-center">{{ __('Status') }}</label>
-                            <input type="radio" name="is_active" id="status" value="1" {{$user->status=='1'? 'checked':''}}>
-                            <label for="status" class="mr-4">{{ __('Active') }}</label>
-                            <input type="radio" name="is_active" id="status" value="0" {{$user->status=='0'? 'checked':''}}>
-                            <label for="status">{{ __('Inactive') }}</label>
-                            
-                        </div>
-
                         <!-- Submit -->
                         <div class="mt-4 ml-4">
                             <button type="submit" class="border-2 px-4 py-1.5">Submit</button>

@@ -28,11 +28,10 @@ class User extends Authenticatable
         'last_name',
         'email',
         'password',
-        'number',
-        'city',
         'role_id',
         'created_by',
-        'is_active',
+        'status',
+        'email_status'
     ];
     
     const INACTIVE = 0;

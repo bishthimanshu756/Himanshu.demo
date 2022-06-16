@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserStatusController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
 
@@ -30,6 +31,13 @@ Route::middleware('auth')->group( function() {
         return view('dashboard');
     })->name('dashboard');
 
+
+    //User status change
+    Route::get('users/{user}/status', [
+        UserStatusController::class , 'update'
+        ])->name('users.status');
+
+
     Route::controller(UserController::class)->group( function() {
         //listing of user
         Route::get('/users', 'index')->name('users.index');
@@ -38,14 +46,13 @@ Route::middleware('auth')->group( function() {
         Route::get('users/create', 'create')->name('users.create');
         Route::post('users/create', 'store')->name('users.create');
 
-
         //edit and update the details
         Route::get('users/{user}/edit', 'edit')->name('users.update');
         Route::post('users/{user}/edit', 'update')->name('users.update');
 
-
         //delete the user
         Route::get('users/{user}/delete', 'delete')->name('users.delete');
+        
     });
     
 });
