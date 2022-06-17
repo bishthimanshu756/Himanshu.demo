@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\UserController;
+use App\Http\Controllers\UserResetController;
 use App\Http\Controllers\UserStatusController;
 use App\Models\User;
 use Illuminate\Support\Facades\Route;
@@ -43,7 +44,7 @@ Route::middleware('auth')->group( function() {
         
         //edit and update the details
         Route::get('users/{user}/edit', 'edit')->name('users.update');
-        Route::post('users/{user}/edit', 'update')->name('users.update');
+        Route::any('users/{user}/edit', 'update')->name('users.update');
         
         //delete the user
         Route::get('users/{user}/delete', 'delete')->name('users.delete');
@@ -51,7 +52,11 @@ Route::middleware('auth')->group( function() {
     });
     
         //User status change
-        Route::get('users/{user}/status', [UserStatusController::class , 'update'])->name('users.status');
-    
+    Route::get('users/{user}/status', [UserStatusController::class , 'update'])->name('users.status');
+
+    Route::controller(UserResetController::class)->group(function(){
+        Route::get('users/{user}/reset', 'showResetForm')->name('users.reset');
+        Route::post('users/{user}/reset', 'resetPassword')->name('users.reset');
+    });
 });
 

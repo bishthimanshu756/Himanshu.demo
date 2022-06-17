@@ -2,7 +2,7 @@
 
 namespace App\Models;
 use App\Models\Role;
-
+use GuzzleHttp\Psr7\Request;
 use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
@@ -88,6 +88,8 @@ class User extends Authenticatable
         return $query->Where('role_id', '>', Auth::user()->role_id)
         ->Where('created_by', Auth::id());
     }
+
+
 
     public function scopeUserListing($query){
         return $query->where('id', '>', Auth::id());

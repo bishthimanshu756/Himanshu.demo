@@ -72,6 +72,10 @@
             <p class="fixed bg-blue-500 text-white py-2 px-4 rounded-xl bottom-3 right-3 text-sm">
                 {{ session('success') }}
             </p>
+        @elseif(session()->has('error'))
+            <p class="fixed bg-red-500 text-white py-2 px-4 rounded-xl bottom-3 right-3 text-sm">
+                {{ session('error') }}
+            </p>
 
         @endif
     </body>

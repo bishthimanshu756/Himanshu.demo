@@ -19,7 +19,7 @@
                                 <th class="p-2.5 text-gray-800">{{ __('Type Of User') }}</th>
                                 <th class="p-2.5 text-gray-800">{{ __('Created Date') }}</th">
                                 <th class="p-2.5 text-gray-800">{{ __('Status')}}</th>
-                                <th class="p-2.5 text-gray-800" colspan="3">{{ __('Actions') }}</th>
+                                <th class="p-2.5 text-gray-800" colspan="4">{{ __('Actions') }}</th>
                             </tr>
                         </thead>
                         <tbody style="text-align:center ;">
@@ -48,6 +48,10 @@
 
                                         <td class="font-bold p-2">
                                             <a href="{{ route('users.status', $user) }}" class="bg-gray-400 border-2 hover:bg-gray-600 hover:text-white m-1 px-1.5 py-1">{{ $user->status ? 'Inactive' : 'Active'}} </a>
+                                        </td>
+
+                                        <td class="font-bold p-2">
+                                            <a href="{{ route('users.reset', $user) }}" class="bg-red-900 border-2 hover:bg-red-600 hover:text-white m-1 px-3 py-1.5 text-white">{{ __('Reset') }} </a>
                                         </td>
                                     </tr>
                                 @endif

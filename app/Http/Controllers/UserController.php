@@ -2,15 +2,12 @@
 
 namespace App\Http\Controllers;
 
-use App\Mail\UserCreated;
 use App\Models\Role;
 use App\Models\User;
-use App\Notifications\MyWelcomeNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Mail;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rules\Password;
+
 
 class UserController extends Controller
 {
@@ -28,7 +25,7 @@ class UserController extends Controller
         ]);
     }
 
-    public function store(Request $request) {
+    public function store(Request $request, User $user) {
 
         if(Auth::user()->role_id == Role::TRAINER) {
             $ids = '4';
@@ -47,6 +44,21 @@ class UserController extends Controller
                 ->with('error', __('Role does not exists'));
         }
 
+        $user = User::where('email', $request->email)->withTrashed()->first();
+        if ($user){        
+            if(!$user->deleted_at) {
+                return back()->with('error', __('Email already exists'));
+            }else{
+                $user->restore();
+                $user->update([
+                    'first_name' => $request->first_name,
+                    'last_name' => $request->last_name,
+                    'role_id' => $request->role_id,
+                ]);
+                return back()->with('success', __('User updated successfully.'));
+            }
+        }
+
         //create a user 
         $attributes = request()->validate([
             'first_name' => ['required','max:255', 'min:3', 'string'],
@@ -58,11 +70,9 @@ class UserController extends Controller
     
         // we need to store auth id into created_by column when user created.
     
-        $attributes += [
-            'created_by' => Auth::id(),
-        ];
+        $attributes += ['created_by' => Auth::id()];
 
-       $user = User::create($attributes);
+        User::create($attributes);
 
         return back()->with('success', __('User added successfully.'));
     }
@@ -75,6 +85,7 @@ class UserController extends Controller
     }
 
     public function update(User $user, Request $request) {
+        dd($request);
         if (Auth::user()->role_id == Role::TRAINER) {
             $ids = '4';
         } elseif (Auth::user()->role_id == Role::SUB_ADMIN) {
