@@ -13,7 +13,7 @@ use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable,SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
 
     /**
      * The attributes that are mass assignable.
@@ -78,7 +78,7 @@ class User extends Authenticatable
         return $this->role_id = 1;
     }
 
-    public function scopeUserVisible($query)
+    public function scopeUserVisibleTo($query)
     {   
         if(Auth::id()== Role::ADMIN)
         {
@@ -93,7 +93,4 @@ class User extends Authenticatable
         return $query->where('id', '>', Auth::id());
     }
 
-    public function checkTeam($query){
-        return $query->where('team_id', '=', Auth::id());
-    }
 }

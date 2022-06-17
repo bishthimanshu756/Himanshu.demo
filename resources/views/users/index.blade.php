@@ -1,6 +1,5 @@
 <x-app-layout>
-
-    <div class="py-12">
+    <div class="h-screen overflow-x-auto py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="overflow-hidden px-4 py-4 ">
                 <div class="flex items-center justify-between ">
@@ -48,7 +47,7 @@
                                         </td>
 
                                         <td class="font-bold p-2">
-                                            <a href="{{ route('users.status', $user) }}" class="bg-yellow-400 border-2 hover:bg-yellow-700 hover:text-white m-1 px-1.5 py-1">{{ $user->status ? 'Inactive' : 'Active'}}</a>
+                                            <a href="{{ route('users.status', $user) }}" class="bg-gray-400 border-2 hover:bg-gray-600 hover:text-white m-1 px-1.5 py-1">{{ $user->status ? 'Inactive' : 'Active'}} </a>
                                         </td>
                                     </tr>
                                 @endif

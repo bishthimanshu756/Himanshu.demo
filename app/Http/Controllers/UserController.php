@@ -2,29 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Mail\UserCreated;
 use App\Models\Role;
 use App\Models\User;
+use App\Notifications\MyWelcomeNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Validation\Rules;
+use Illuminate\Support\Facades\Mail;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
     public function index() {
-        //listing
-        $users= User::UserVisible()->get();
 
-        //to listing with trashed users
-        // $users= User::UserVisible()->get();
-        
-        return view('users.index', compact('users'));
+        return view('users.index', [
+            'users' => User::UserVisibleTo()->get(),
+        ]);
     }
 
     public function create() {
-        //redirectig to add page
-        $roles= Role::get();
-        return view('users.create', compact('roles'));
+
+        return view('users.create', [
+            'roles' => Role::get(),
+        ]);
     }
 
     public function store(Request $request) {
@@ -35,61 +36,58 @@ class UserController extends Controller
         elseif(Auth::user()->role_id == Role::SUB_ADMIN) {
             $ids = '3,4';
         }
-        else
-        {
+        else {
             $ids = '2,3,4';
         }
 
         $roles = Role::where('slug', '!=', 'admin')->pluck('id')->toArray();
 
         if (!in_array($request->role_id, $roles)) {
-            return redirect()->route('users.index')->with('error', __('Role does not exists'));
+            return redirect()->route('users.index')
+                ->with('error', __('Role does not exists'));
         }
 
-        //adding User
+        //create a user 
         $attributes = request()->validate([
             'first_name' => ['required','max:255', 'min:3', 'string'],
             'last_name' => ['string'],
             'email' => ['required','email','max:255', 'unique:users,email'],
             'password' => ['required',Password::defaults()],
-            'role_id' => 'required | in:'.$ids,
-        ]
-    );
-        
-    // we need to store auth id into created_by column when user created.
+            'role_id' => 'required|in:'.$ids,
+        ]);
+    
+        // we need to store auth id into created_by column when user created.
     
         $attributes += [
             'created_by' => Auth::id(),
         ];
-        User::create($attributes);
 
-        return back()->with( 'success', __('User added successfully.') );
+       $user = User::create($attributes);
+
+        return back()->with('success', __('User added successfully.'));
     }
 
     public function edit(User $user){
-        //redirecting to edit page
-        $roles = Role::get();
-        return view('users.edit', compact('user','roles'));
+        return view('users.edit', [
+            'roles' => Role::get(),
+            'user' => $user,
+        ]);
     }
 
-    public function update(User $user, Request $request){
-        //update the user data
-        
-        if(Auth::user()->role_id == Role::TRAINER) {
+    public function update(User $user, Request $request) {
+        if (Auth::user()->role_id == Role::TRAINER) {
             $ids = '4';
-        }
-        elseif(Auth::user()->role_id == Role::SUB_ADMIN) {
+        } elseif (Auth::user()->role_id == Role::SUB_ADMIN) {
             $ids = '3,4';
-        }
-        else
-        {
+        } else {
             $ids = '2,3,4';
         }
 
         $roles = Role::where('slug', '!=', 'admin')->pluck('id')->toArray();
 
         if (!in_array($request->role_id, $roles)) {
-            return redirect()->route('users.index')->with('error', __('Role does not exists'));
+            return redirect()->route('users.index')
+                ->with('error', __('Role does not exists'));
         }
         
         $attributes= request()->validate([
@@ -99,21 +97,20 @@ class UserController extends Controller
             'password' => ['required', Password::defaults()],
         ]);
         
-        $attributes+=[
+        $attributes += [
             'role_id' => $request->role_id,
         ];
 
         $user->update($attributes);
 
-        return redirect()->route('users.index')->with('success', __('User updated successfully'));
-
+        return redirect()->route('users.index')
+            ->with('success', __('User updated successfully'));
     }
 
-
-    public function delete(User $user){
-        //deleting the data and redirecting to index page
+    //* Delete a user //
+    public function delete(User $user) {
         $user->delete();
-        return redirect()->route('users.index')->with('success', __('User deleted successfully') );
+        return redirect()->route('users.index')
+            ->with('success', __('User deleted successfully') );
     }
-
 }
