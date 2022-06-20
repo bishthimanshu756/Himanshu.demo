@@ -19,7 +19,7 @@
                     <label for="last_name" class="block font-black">{{ __('Last name') }}</label>
                     <input type="text" name="last_name" value="{{ old('last_name') }}" required class="rounded-md w-full" placeholder="Enter Last Name">
                     
-                    @error('name')
+                    @error('last_name')
                         <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
                     @enderror
                 </div>

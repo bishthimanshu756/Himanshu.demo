@@ -63,8 +63,7 @@ class User extends Authenticatable
     }
     
     // Full name attributes
-    public function getFullNameAttribute() 
-    {
+    public function getFullNameAttribute() {
         return $this->first_name . ' ' . $this->last_name;
     }
 
@@ -72,27 +71,18 @@ class User extends Authenticatable
         return $this->belongsTo(Role::class);
     }
 
-
-    public function scopeAdmin() 
-    {
+    public function scopeAdmin() {
         return $this->role_id = 1;
     }
 
-    public function scopeUserVisibleTo($query)
-    {   
-        if(Auth::id()== Role::ADMIN)
-        {
+    public function scopeUserVisibleTo($query) {   
+        if(Auth::id()== Role::ADMIN) {
             return $query->Where('role_id', '>', Auth::user()->role_id);
+        }else {
+            return $query->Where('role_id', '>', Auth::user()->role_id)
+            ->Where('created_by', Auth::id());
         }
-
-        return $query->Where('role_id', '>', Auth::user()->role_id)
-        ->Where('created_by', Auth::id());
     }
 
-
-
-    public function scopeUserListing($query){
-        return $query->where('id', '>', Auth::id());
-    }
 
 }

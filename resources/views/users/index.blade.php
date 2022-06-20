@@ -51,7 +51,7 @@
                                         </td>
 
                                         <td class="font-bold p-2">
-                                            <a href="{{ route('users.reset', $user) }}" class="bg-red-900 border-2 hover:bg-red-600 hover:text-white m-1 px-3 py-1.5 text-white">{{ __('Reset') }} </a>
+                                            <a href="{{ route('users.reset-password', $user) }}" class="bg-red-900 border-2 hover:bg-red-600 hover:text-white m-1 px-3 py-1.5 text-white">{{ __('Reset Password') }} </a>
                                         </td>
                                     </tr>
                                 @endif

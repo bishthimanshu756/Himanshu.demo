@@ -48,7 +48,7 @@
                         <div >
                             <li class="pl-6 active:bg-white active:text-blue-400 hover:bg-white hover:text-blue-900 p-2.5 rounded-xl">
                                 <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 32 32" fill="currentColor"><defs></defs><title>collapse-categories</title><rect x="14" y="25" width="14" height="2"></rect><polygon points="7.17 26 4.59 28.58 6 30 10 26 6 22 4.58 23.41 7.17 26"></polygon><rect x="14" y="15" width="14" height="2"></rect><polygon points="7.17 16 4.59 18.58 6 20 10 16 6 12 4.58 13.41 7.17 16"></polygon><rect x="14" y="5" width="14" height="2"></rect><polygon points="7.17 6 4.59 8.58 6 10 10 6 6 2 4.58 3.41 7.17 6"></polygon><rect id="_Transparent_Rectangle_" data-name="<Transparent Rectangle>" class="cls-1" width="32" height="32" style="fill:none"></rect></svg>
-                                <a href="#"> {{ __('Categories') }} </a>
+                                <a href="{{ route('categories.index') }}"> {{ __('Categories') }} </a>
                             </li>
                         </div>
                         <div>
