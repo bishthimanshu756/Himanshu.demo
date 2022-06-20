@@ -1,11 +1,17 @@
 <x-app-layout>
-    <div class="h-screen overflow-x-auto py-12 h-screen mx-auto w-3/5">
+    <div class="h-screen py-12 h-screen mx-24 my-6 w-1/2">
+        <div class="flex items-center justify-between mb-8">
+            <h3 class="font-extrabold text-blue-900 text-xl">
+                <a href="{{ route('users.index') }}">Users</a> 
+                <span class="text-black"> > {{ $user->full_name }}</span>
+            </h3>
+        </div>
         <div class="p-6 bg-white border-b border-gray-200">
-            <form method="POST" action="{{ route('users.update', $user) }}" class="mt-10 p-5">
+            <form method="POST" action="{{ route('users.update', $user) }}" class=" px-5">
                 @csrf
                 <!-- First Name -->
                 <div>
-                    <label for="first_name" class="block font-black">{{ __('First name') }}</label>
+                    <label for="first_name" class="block font-black">{{ __('First name') }}<sup class="text-red-500">*</sup></label>
                     <input type="text" name="first_name" value="{{ $user->first_name }}" required class="rounded-md w-full" placeholder="Enter First Name">
 
                     @error('first_name')
@@ -14,8 +20,8 @@
                 </div>
 
                 <!-- Last Name -->
-                <div>
-                    <label for="last_name" class="block font-black">{{ ('Last name') }}</label>
+                <div class="mt-4">
+                    <label for="last_name" class="block font-black">{{ ('Last name') }}<sup class="text-red-500">*</sup></label>
                     <input type="text" name="last_name" value="{{ $user->last_name }}" required class="rounded-md w-full" placeholder="Enter Last Name">
 
                     @error('last_name')
@@ -36,7 +42,7 @@
                 @if(Auth::user()->role_id == 1)
                 <!-- Password -->
                 <div class="mt-4">
-                    <label for="password" class="block font-black">{{ __('Password') }}</label>
+                    <label for="password" class="block font-black">{{ __('Password') }}<sup class="text-red-500">*</sup></label>
                     <input type="password" name="password" required class="rounded-md w-full" placeholder="Enter Password">
 
                     @error('password')
@@ -62,8 +68,8 @@
 
                 <!-- Buttons -->
                 <div class="mt-4">
-                    <button type="submit" class="bg-blue-400 border-0.5 border-2 border-blue-600 font-bold hover: hover:bg-blue-800 hover:border-blue-900 mx-auto px-4 py-1.5 rounded-md hover:text-white">Submit</button>
-                    <div class="bg-gray-200 border-0.5 border-2 border-gray-500 font-bold hover:bg-gray-600 inline ml-8 px-4 py-1.5 rounded-md">
+                    <button type="submit" class="bg-gray-600 border-2 border-gray-600 text-white font-bold hover: hover:bg-gray-800 hover:border-gray-900 hover:text-white mx-auto px-4 py-1.5 rounded-md">Update User</button>
+                    <div class="bg-blue-100 border-2 border-blue-200 font-bold hover:bg-blue-400 hover:text-white inline ml-8 px-4 py-1.5 rounded-md">
                         <a href="{{ route('users.index') }}">Cancel</a>
                     </div>
                 </div>

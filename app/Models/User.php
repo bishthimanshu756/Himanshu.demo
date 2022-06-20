@@ -9,6 +9,7 @@ use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
 use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 
 class User extends Authenticatable
@@ -59,7 +60,7 @@ class User extends Authenticatable
 
     // Password attributes
     public function setPasswordAttribute($password){
-        $this->attributes['password']= bcrypt($password);
+        $this->attributes['password']= Hash::make($password);
     }
     
     // Full name attributes
@@ -70,9 +71,9 @@ class User extends Authenticatable
     public function role() {
         return $this->belongsTo(Role::class);
     }
-
-    public function scopeAdmin() {
-        return $this->role_id = 1;
+    
+    public function categories() {
+        return $this->hasMany(Category::class);
     }
 
     public function scopeUserVisibleTo($query) {   
@@ -83,6 +84,4 @@ class User extends Authenticatable
             ->Where('created_by', Auth::id());
         }
     }
-
-
 }

@@ -4,6 +4,7 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\WelcomeController;
+use App\Models\Role;
 use GuzzleHttp\Middleware;
 use Illuminate\Support\Facades\Route;
 
@@ -59,8 +60,20 @@ Route::middleware('auth')->group( function() {
         Route::post('users/{user}/reset-password', 'resetPassword')->name('users.reset-password');
     });
 
-        //listing of Categories
-    Route::get('/categories', [CategoryController::class, 'index'])->name('categories.index');
+    Route::controller(CategoryController::class)->group(function() {
+        
+        Route::get('/categories', 'index')->name('categories.index');
+
+        // adding new Category
+        Route::get('categories/create', 'create')->name('categories.create');
+        Route::post('categories/create', 'store')->name('categories.create');
+
+        Route::get('categories/{category}/edit', 'edit')->name('categories.update');
+        Route::post('categories/{category}/edit', 'update')->name('categories.update');
+
+        //deleting category
+        Route::get('categories/{category}/delete', 'delete')->name('categories.delete');
+    });
 });
 
         //User Password Set
