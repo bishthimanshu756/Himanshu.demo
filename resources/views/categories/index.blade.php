@@ -37,7 +37,7 @@
                                     <td>{{ $category->status ? 'Active' : 'Inactive'}}</td>
                                     <div class="w=2/3">
                                         <td class="font-bold p-2">
-                                            <a href="{{ route('categories.update', $category) }}" class="bg-green-400 border-2 hover:bg-green-800 hover:text-white m-1 px-4 py-1">Edit</a>
+                                            <a href="{{ route('categories.edit', $category) }}" class="bg-green-400 border-2 hover:bg-green-800 hover:text-white m-1 px-4 py-1">Edit</a>
                                         </td>
                                         
                                         <td class="font-bold p-2">
@@ -45,7 +45,7 @@
                                         </td>
 
                                         <td class="font-bold p-2">
-                                            <a href="#" class="bg-gray-400 border-2 hover:bg-gray-600 hover:text-white m-1 px-1.5 py-1">{{ $category->status ? 'Inactive' : 'Active'}} </a>
+                                            <a href="{{ route('categories.status', $category) }}" class="bg-gray-400 border-2 hover:bg-gray-600 hover:text-white m-1 px-1.5 py-1">{{ $category->status ? 'Inactive' : 'Active'}} </a>
                                         </td>
                                     </div>
                                 </tr>

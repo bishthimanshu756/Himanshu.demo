@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use phpDocumentor\Reflection\Types\Null_;
 
 class CategoryController extends Controller
 {
@@ -20,13 +21,17 @@ class CategoryController extends Controller
 
     public function store(Request $request) {
         $request->validate([
-            'name' => ['required', 'min:3', 'max:50'],
-            'slug' => ['required'],
+            'name' => ['required', 'max:50'],
         ]);
+
+        $category= Category::where('name', $request->name)->onlyTrashed()->first();
+        if($category) {
+            $category->restore();
+            return redirect()->route('categories.index')->with('success', 'Category restore successfully');
+        }
 
         Category::create([
             'name' => $request->name,
-            'slug' => $request->slug,
             'user_id' => Auth::id(),
         ]);
         
@@ -51,7 +56,6 @@ class CategoryController extends Controller
             ->with('success', __('Category updated successfully'));
     }
 
-    //* Delete a user //
     public function delete(Category $category) {
         $category->delete();
 

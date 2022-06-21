@@ -1,6 +1,7 @@
 <?php
 
 use App\Http\Controllers\CategoryController;
+use App\Http\Controllers\CategoryStatusController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\WelcomeController;
@@ -40,11 +41,11 @@ Route::middleware('auth')->group( function() {
         
         //adding new user
         Route::get('users/create', 'create')->name('users.create');
-        Route::post('users/create', 'store')->name('users.create');
+        Route::post('users/create', 'store')->name('users.store');
         
         //edit and update the details
-        Route::get('users/{user}/edit', 'edit')->name('users.update');
-        Route::post('users/{user}/edit', 'update')->name('users.update');
+        Route::get('users/{user}/edit', 'edit')->name('users.edit');
+        Route::post('users/{user}/update', 'update')->name('users.update');
         
         //delete the user
         Route::get('users/{user}/delete', 'delete')->name('users.delete');
@@ -66,14 +67,16 @@ Route::middleware('auth')->group( function() {
 
         // adding new Category
         Route::get('categories/create', 'create')->name('categories.create');
-        Route::post('categories/create', 'store')->name('categories.create');
+        Route::post('categories/store', 'store')->name('categories.store');
 
-        Route::get('categories/{category}/edit', 'edit')->name('categories.update');
-        Route::post('categories/{category}/edit', 'update')->name('categories.update');
+        Route::get('categories/{category}/edit', 'edit')->name('categories.edit');
+        Route::post('categories/{category}/update', 'update')->name('categories.update');
 
         //deleting category
         Route::get('categories/{category}/delete', 'delete')->name('categories.delete');
     });
+
+    Route::get('categories/{category}/status', [CategoryStatusController::class, 'update'])->name('categories.status');
 });
 
         //User Password Set

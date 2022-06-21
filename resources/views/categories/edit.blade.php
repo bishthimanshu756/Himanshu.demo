@@ -19,16 +19,6 @@
                     @enderror
                 </div>
 
-                <!-- Slug Name -->
-                <div class="mt-4">
-                    <label for="slug" class="block font-black">{{ ('Slug Name') }}</label>
-                    <input type="text" name="slug" value="{{ $category->slug }}" class="text-gray-400 rounded-md w-full" readonly>
-
-                    @error('slug')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
-                </div>
-
                 <!-- Buttons -->
                 <div class="mt-4">
                     <button type="submit" class="bg-gray-600 border-2 border-gray-600 text-white font-bold hover: hover:bg-gray-800 hover:border-gray-900 hover:text-white mx-auto px-4 py-1.5 rounded-md">Update Category</button>

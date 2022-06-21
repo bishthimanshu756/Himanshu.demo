@@ -39,7 +39,7 @@
                                         </td>
                                         <td class="p-2">{{ $user->status ? 'Active' : 'Inactive' }}</td>
                                         <td class="font-bold p-2">
-                                            <a href="{{ route('users.update', $user) }}" class="bg-green-400 border-2 hover:bg-green-800 hover:text-white m-1 px-4 py-1">Edit</a>
+                                            <a href="{{ route('users.edit', $user) }}" class="bg-green-400 border-2 hover:bg-green-800 hover:text-white m-1 px-4 py-1">Edit</a>
                                         </td>
                                         
                                         <td class="font-bold p-2">

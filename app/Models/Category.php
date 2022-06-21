@@ -5,10 +5,15 @@ namespace App\Models;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Auth;
+use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Category extends Model
 {
-    use HasFactory;
+    use HasFactory, Sluggable, SoftDeletes;
+
+    const ACTIVE = 1;
+    const INACTIVE = 0;
 
     protected $fillable=[
         'user_id',
@@ -23,5 +28,14 @@ class Category extends Model
 
     public function scopeVisibleTo($query) {
         return $query->where('user_id', '=' ,Auth::id())->get();
+    }
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'name'
+            ]
+        ];
     }
 }

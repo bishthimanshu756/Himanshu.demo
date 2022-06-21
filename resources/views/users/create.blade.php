@@ -7,7 +7,7 @@
             </h3>
         </div>
         <div class="p-6 bg-white border-b border-gray-200">
-            <form method="POST" action="{{ route('users.create') }}" class="px-5">
+            <form method="POST" action="{{ route('users.store') }}" class="px-5">
 
                 @csrf
                 <!-- First Name -->
