@@ -11,22 +11,18 @@
                 @csrf
                 <!-- First Name -->
                 <div>
-                    <label for="first_name" class="block font-black">{{ __('First name') }}<sup class="text-red-500">*</sup></label>
+                    <label for="first_name" class="block font-black required">{{ __('First name') }}</label>
                     <input type="text" name="first_name" value="{{ $user->first_name }}" required class="rounded-md w-full" placeholder="Enter First Name">
-
-                    @error('first_name')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
+                    
+                    <x-validation-error name="first_name" />
                 </div>
 
                 <!-- Last Name -->
                 <div class="mt-4">
-                    <label for="last_name" class="block font-black">{{ ('Last name') }}<sup class="text-red-500">*</sup></label>
+                    <label for="last_name" class="block font-black required">{{ ('Last name') }}</label>
                     <input type="text" name="last_name" value="{{ $user->last_name }}" required class="rounded-md w-full" placeholder="Enter Last Name">
 
-                    @error('last_name')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
+                    <x-validation-error name="last_name" />
                 </div>
 
                 <!-- Email -->
@@ -34,20 +30,16 @@
                     <label for="email" class="block font-black">{{ __('Email') }}</label>
                     <input type="email" name="email" value="{{ $user->email }}" readonly class="rounded-md w-full" placeholder="Enter Email Address">
 
-                    @error('email')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
+                    <x-validation-error name="email" />
                 </div>
 
                 @if(Auth::user()->role_id == 1)
                 <!-- Password -->
                 <div class="mt-4">
-                    <label for="password" class="block font-black">{{ __('Password') }}<sup class="text-red-500">*</sup></label>
+                    <label for="password" class="block font-black required">{{ __('Password') }}</label>
                     <input type="password" name="password" required class="rounded-md w-full" placeholder="Enter Password">
 
-                    @error('password')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
+                    <x-validation-error name="password" />
                 </div>
                 @endif
 

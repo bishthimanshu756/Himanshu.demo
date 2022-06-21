@@ -1423,6 +1423,12 @@ select {
     display: block;
 }
 
+.required:after{ 
+    content:'*'; 
+    color:red; 
+    padding-left:5px;
+}
+
 .hover\:border-gray-900:hover {
   --tw-border-opacity: 1;
   border-color: rgb(17 24 39 / var(--tw-border-opacity));
@@ -1481,6 +1487,10 @@ select {
 .hover\:bg-gray-50:hover {
   --tw-bg-opacity: 1;
   background-color: rgb(249 250 251 / var(--tw-bg-opacity));
+}
+
+.hover\:font-bold:hover {
+  font-weight: 700;
 }
 
 .hover\:text-gray-500:hover {

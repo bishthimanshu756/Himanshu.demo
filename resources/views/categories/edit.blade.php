@@ -11,12 +11,10 @@
                 @csrf
                 <!-- Category Name -->
                 <div>
-                    <label for="name" class="block font-black">{{ __('Name') }}<sup class="text-red-500">*</sup></label>
+                    <label for="name" class="block font-black required">{{ __('Name') }}</label>
                     <input type="text" name="name" value="{{ $category->name }}" required class="rounded-md w-full" placeholder="E.g. Orthodontics" >
 
-                    @error('name')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
+                    <x-validation-error name="name" />
                 </div>
 
                 <!-- Buttons -->

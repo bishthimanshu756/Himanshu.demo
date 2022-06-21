@@ -12,42 +12,34 @@
                 @csrf
                 <!-- First Name -->
                 <div>
-                    <label for="first_name" class="block font-black">{{ __('First name') }}<sup class="text-red-500">*</sup></label>
+                    <label for="first_name" class="block font-black required">{{ __('First name') }}</label>
                     <input type="text" name="first_name" value="{{ old('first_name') }}" required class="rounded-md w-full" placeholder="Enter First Name">
                     
-                    @error('first_name')
-                    <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
+                    <x-validation-error name="first_name" />
                 </div>
 
                 <!-- Last Name -->
                 <div class="mt-4">
-                    <label for="last_name" class="block font-black">{{ __('Last name') }}<sup class="text-red-500">*</sup></label>
+                    <label for="last_name" class="block font-black required">{{ __('Last name') }}</label>
                     <input type="text" name="last_name" value="{{ old('last_name') }}" required class="rounded-md w-full" placeholder="Enter Last Name">
                     
-                    @error('last_name')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
+                    <x-validation-error name="last_name" />
                 </div>
 
                 <!-- Email -->
                 <div class="mt-4">
-                    <label for="email" class="block font-black">{{ __('Email') }}<sup class="text-red-500">*</sup></label>
+                    <label for="email" class="block font-black required">{{ __('Email') }}</label>
                     <input type="email" name="email" value="{{ old('email') }}" required class="rounded-md w-full" placeholder="Enter Email Address">
                     
-                    @error('email')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
+                    <x-validation-error name="email" />
                 </div>
 
                 <!-- Password -->
                 <div class="mt-4">
-                    <label for="password" class="block font-black">{{ __('Password') }}<sup class="text-red-500">*</sup></label>
+                    <label for="password" class="block font-black required">{{ __('Password') }}</label>
                     <input type="password" id="password" name="password" required class="rounded-md w-full" placeholder="Enter Your Password">
 
-                    @error('password')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
+                    <x-validation-error name="password" />
                 </div>
                 
                 <!-- Role -->
@@ -63,9 +55,7 @@
                         
                     </select>
 
-                    @error('role')
-                        <p class="text-red-500 text-xs mt-1">{{ $message }}</p>
-                    @enderror
+                    <x-validation-error name="role" />
                 </div>
 
                 <!-- Buttons -->
