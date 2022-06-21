@@ -3,6 +3,7 @@
 namespace App\Policies;
 
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
 
@@ -53,7 +54,9 @@ class UserPolicy
      */
     public function edit(User $user, User $model)
     {
-        return $model->created_by == $user->id;
+        if(Gate::allows('admin') || $model->created_by === $user->id) {
+            return true;
+        }
     }
 
     /**
@@ -65,7 +68,9 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        return $model->created_by == $user->id;
+        if(Gate::allows('admin') || $model->created_by === $user->id) {
+            return true;
+        }
     }
 
     /**
@@ -77,7 +82,9 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        return $model->created_by == $user->id;
+        if(Gate::allows('admin') || $model->created_by === $user->id) {
+            return true;
+        }
     }
 
     /**

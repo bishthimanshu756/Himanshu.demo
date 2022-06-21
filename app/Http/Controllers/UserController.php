@@ -4,7 +4,6 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
-use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
@@ -87,43 +86,43 @@ class UserController extends Controller
 
     public function edit(User $user) {
        
-        if(Gate::allows('admin') || $this->authorize('edit', $user)) {
-            return view('users.edit', [
-                'roles' => Role::get(),
-                'user' => $user,
-            ]);
-        }
+        $this->authorize('edit', $user);
+
+        return view('users.edit', [
+            'roles' => Role::get(),
+            'user' => $user,
+        ]);
     }
 
     public function update(User $user, Request $request) {
         
-        if(Gate::allows('admin') || $this->authorize('update', $user)) {
-            $attributes = request()->validate([
-                'first_name' => ['required', 'max:255', 'min:3', 'string'],
-                'last_name' => ['required'],
-                'email' => ['required', 'email', 'max:255'],
-                'password' => ['required', Password::defaults()],
-            ]);
+        $this->authorize('update', $user);
+        $attributes = request()->validate([
+            'first_name' => ['required', 'max:255', 'min:3', 'string'],
+            'last_name' => ['required'],
+            'email' => ['required', 'email', 'max:255'],
+            'password' => ['required', Password::defaults()],
+        ]);
 
-            $attributes += [
-                'role_id' => $request->role_id,
-            ];
+        $attributes += [
+            'role_id' => $request->role_id,
+        ];
 
-            $user->update($attributes);
+        $user->update($attributes);
 
-            return redirect()->route('users.index')
-                ->with('success', __('User updated successfully'));
-        }
+        return redirect()->route('users.index')
+            ->with('success', __('User updated successfully'));
+    
     }
 
     //* Delete a user //
     public function delete(User $user)
     {
-        if( Gate::allows('admin') || $this->authorize('delete', $user)) {
-            $user->delete();
+        $this->authorize('delete', $user);
+        $user->delete();
 
-            return redirect()->route('users.index')
-                ->with('success', __('User deleted successfully'));
-        }
+        return redirect()->route('users.index')
+            ->with('success', __('User deleted successfully'));
     }
+    
 }
