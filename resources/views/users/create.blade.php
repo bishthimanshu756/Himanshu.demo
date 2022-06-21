@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="mx-24 my-6 py-12 w-1/2">
+    <div class="mx-24 my-6 py-12 w-3/5">
         <div class="flex items-center justify-between mb-8">
             <h3 class="font-extrabold text-blue-900 text-xl">
                 <a href="{{ route('users.index') }}">Users</a> 
@@ -70,8 +70,13 @@
 
                 <!-- Buttons -->
                 <div class="mt-4">
-                    <button type="submit" class="bg-gray-400 border-0.5 border-2 border-gray-500 font-bold hover: hover:bg-gray-700 hover:border-gray-900 hover:text-white mx-auto px-4 py-1.5 rounded-md">Submit</button>
-                    <div class="bg-blue-100 border-2 font-bold hover:bg-blue-600 hover:border-blue-700 hover:text-white inline ml-8 px-4 py-1.5 rounded-md text-gray-700">
+                    <button type="submit" name="action" value="create" class="bg-gray-500 text-white border-0.5 border-2 border-gray-500 font-bold hover: hover:bg-gray-600 hover:border-gray-900 hover:text-white mx-auto px-4 py-1.5 rounded-md">
+                        Create User
+                    </button>
+                    <button type="submit"name="action" value="create_another" class="bg-gray-500 text-white border-0.5 border-2 border-gray-500 font-bold hover: hover:bg-gray-600 hover:border-gray-900 hover:text-white ml-4 px-4 py-1.5 rounded-md">
+                        Create User & Create Another
+                    </button>
+                    <div class="bg-blue-100 border-2 font-bold hover:bg-blue-600 hover:border-blue-700 hover:text-white inline ml-4 px-4 py-1.5 rounded-md text-gray-700">
                         <a href="{{ route('users.index') }}" >Cancel</a>
                     </div>
                 </div>

@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="h-screen overflow-x-auto py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="overflow-hidden px-4 py-4 ">
+            <div class="px-4 py-4 ">
                 <div class="flex items-center justify-between ">
                     <h3 class="font-extrabold text-blue-900 text-xl">Users</h3>
                     @if (auth()->user()->role_id != 4)
@@ -23,9 +23,7 @@
                             </tr>
                         </thead>
                         <tbody style="text-align:center ;">
-                        
                             @foreach($users as $user)
-                                @if(Auth::user()->role_id < $user->role_id)
                                     <tr class="border-gray-200 border-t-2 py-10">
                                         <td class="p-2">{{ $no++ }}</td>
                                         <td class="p-2">
@@ -38,23 +36,19 @@
                                             <span class="block text-xs text-gray-400"><time>{{ date_format($user->created_at, 'H:i:s')}}</time></span>
                                         </td>
                                         <td class="p-2">{{ $user->status ? 'Active' : 'Inactive' }}</td>
-                                        <td class="font-bold p-2">
-                                            <a href="{{ route('users.edit', $user) }}" class="bg-green-400 border-2 hover:bg-green-800 hover:text-white m-1 px-4 py-1">Edit</a>
-                                        </td>
-                                        
-                                        <td class="font-bold p-2">
-                                            <a href="{{ route('users.delete', $user) }}" class="bg-red-500 border-2 hover:bg-red-700 hover:text-white m-1 px-1.5 py-1">Delete</a>
-                                        </td>
-
-                                        <td class="font-bold p-2">
-                                            <a href="{{ route('users.status', $user) }}" class="bg-gray-400 border-2 hover:bg-gray-600 hover:text-white m-1 px-1.5 py-1">{{ $user->status ? 'Inactive' : 'Active'}} </a>
-                                        </td>
-
-                                        <td class="font-bold p-2">
-                                            <a href="{{ route('users.reset-password', $user) }}" class="bg-red-900 border-2 hover:bg-red-600 hover:text-white m-1 px-3 py-1.5 text-white">{{ __('Reset Password') }} </a>
+                                        <td>
+                                            <div class="w=2/3 dropdown">
+                                                <svg id="Layer_1" class="w-4 h-6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.96 122.88"><defs><style>.cls-1{fill-rule:evenodd;}</style></defs><title>3-vertical-dots</title><path class="cls-1" d="M15,0A15,15,0,1,1,0,15,15,15,0,0,1,15,0Zm0,92.93a15,15,0,1,1-15,15,15,15,0,0,1,15-15Zm0-46.47a15,15,0,1,1-15,15,15,15,0,0,1,15-15Z"></path>
+                                                </svg>
+                                                <div class="dropdown_content bg-gray-200">
+                                                        <a href="{{ route('users.edit', $user) }}" class="hover:bg-gray-400 " style="padding: 2px 15px">{{ __('Edit') }}</a>
+                                                        <a href="{{ route('users.delete', $user) }}" class="hover:bg-gray-400 ">{{ __('Delete') }}</a>
+                                                        <a href="{{ route('users.reset-password', $user) }}" class="hover:bg-gray-400 ">{{ $user->status ? 'Inactive' : 'Active'}} </a>
+                                                        <a href="{{ route('users.reset-password', $user) }}" class="hover:bg-gray-400 ">{{ __('Reset Password') }} </a>
+                                                </div>
+                                            </div>
                                         </td>
                                     </tr>
-                                @endif
                             @endforeach
                         </tbody>
                     </table>

@@ -1,3 +1,19 @@
 @tailwind base;
 @tailwind components;
 @tailwind utilities;
+
+.dropdown{
+    display: inline-block;
+    position:relative;
+}
+
+.dropdown_content{
+    display: none;
+    position: absolute;
+    padding: 0px 15px;
+    
+}
+
+.dropdown:hover .dropdown_content{
+    display: block;
+}

@@ -1,9 +1,8 @@
 <?php
 
 namespace App\Models;
+
 use App\Models\Role;
-use GuzzleHttp\Psr7\Request;
-use Illuminate\Contracts\Auth\MustVerifyEmail;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\SoftDeletes;
 use Illuminate\Foundation\Auth\User as Authenticatable;
@@ -11,10 +10,11 @@ use Illuminate\Notifications\Notifiable;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
+use Cviebrock\EloquentSluggable\Sluggable;
 
 class User extends Authenticatable
 {
-    use HasApiTokens, HasFactory, Notifiable, SoftDeletes;
+    use HasApiTokens, HasFactory, Notifiable, SoftDeletes, Sluggable;
 
     /**
      * The attributes that are mass assignable.
@@ -83,5 +83,14 @@ class User extends Authenticatable
             return $query->Where('role_id', '>', Auth::user()->role_id)
             ->Where('created_by', Auth::id());
         }
+    }
+
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'full_name'
+            ]
+        ];
     }
 }

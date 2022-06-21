@@ -5,7 +5,6 @@ namespace App\Http\Controllers;
 use App\Models\Category;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use phpDocumentor\Reflection\Types\Null_;
 
 class CategoryController extends Controller
 {
@@ -20,6 +19,7 @@ class CategoryController extends Controller
     }
 
     public function store(Request $request) {
+        
         $request->validate([
             'name' => ['required', 'max:50'],
         ]);
@@ -27,7 +27,8 @@ class CategoryController extends Controller
         $category= Category::where('name', $request->name)->onlyTrashed()->first();
         if($category) {
             $category->restore();
-            return redirect()->route('categories.index')->with('success', 'Category restore successfully');
+            return redirect()->route('categories.index')
+                ->with('success', 'Category restore successfully');
         }
 
         Category::create([
@@ -35,10 +36,20 @@ class CategoryController extends Controller
             'user_id' => Auth::id(),
         ]);
         
-        return redirect()->route('categories.index')->with('success', __('Category created successfully'));
+        switch($request->action) {
+            case 'create':
+                return redirect()->route('categories.index')
+                    ->with('success', __('Category created successfully'));
+                break;
+            case 'create_another':
+                return back()
+                    ->with('success', __('Category created successfully'));
+                break;
+        }
     }
 
     public function edit(Category $category) {
+        $this->authorize('edit', $category);
 
         return view('categories.edit', [
             'category' => $category,
@@ -46,6 +57,8 @@ class CategoryController extends Controller
     }
 
     public function update(Category $category, Request $request) {
+        $this->authorize('update', $category);
+
         $attributes= $request->validate([
             'name' => ['required', 'max:50'],
         ]);
@@ -57,6 +70,8 @@ class CategoryController extends Controller
     }
 
     public function delete(Category $category) {
+        $this->authorize('delete', $category);
+        
         $category->delete();
 
         return redirect()->route('categories.index')

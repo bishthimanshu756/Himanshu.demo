@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use Illuminate\Support\Facades\Gate;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Validation\Rules\Password;
@@ -73,42 +74,56 @@ class UserController extends Controller
         $user = User::create($attributes);
         // Notification::send($user, new WelcomeNotification(Auth::user()));
 
-        return back()->with('success', __('User added successfully.'));
+        switch ($request->action){
+            case 'create':
+                return redirect()->route('users.index')
+                    ->with('success', 'User created successfully');
+                    break;
+            case 'create_another': 
+                return back()->with('success', __('User added successfully.'));
+        }
+
     }
 
     public function edit(User $user) {
-
-        return view('users.edit', [
-            'roles' => Role::get(),
-            'user' => $user,
-        ]);
+       
+        if(Gate::allows('admin') || $this->authorize('edit', $user)) {
+            return view('users.edit', [
+                'roles' => Role::get(),
+                'user' => $user,
+            ]);
+        }
     }
 
     public function update(User $user, Request $request) {
+        
+        if(Gate::allows('admin') || $this->authorize('update', $user)) {
+            $attributes = request()->validate([
+                'first_name' => ['required', 'max:255', 'min:3', 'string'],
+                'last_name' => ['required'],
+                'email' => ['required', 'email', 'max:255'],
+                'password' => ['required', Password::defaults()],
+            ]);
 
-        $attributes = request()->validate([
-            'first_name' => ['required', 'max:255', 'min:3', 'string'],
-            'last_name' => ['required'],
-            'email' => ['required', 'email', 'max:255'],
-            'password' => ['required', Password::defaults()],
-        ]);
+            $attributes += [
+                'role_id' => $request->role_id,
+            ];
 
-        $attributes += [
-            'role_id' => $request->role_id,
-        ];
+            $user->update($attributes);
 
-        $user->update($attributes);
-
-        return redirect()->route('users.index')
-            ->with('success', __('User updated successfully'));
+            return redirect()->route('users.index')
+                ->with('success', __('User updated successfully'));
+        }
     }
 
     //* Delete a user //
     public function delete(User $user)
     {
-        $user->delete();
+        if( Gate::allows('admin') || $this->authorize('delete', $user)) {
+            $user->delete();
 
-        return redirect()->route('users.index')
-            ->with('success', __('User deleted successfully'));
+            return redirect()->route('users.index')
+                ->with('success', __('User deleted successfully'));
+        }
     }
 }

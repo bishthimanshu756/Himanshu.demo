@@ -2,11 +2,11 @@
 
 namespace App\Policies;
 
-use App\Models\Category;
 use App\Models\User;
 use Illuminate\Auth\Access\HandlesAuthorization;
 
-class CategoryPolicy
+
+class UserPolicy
 {
     use HandlesAuthorization;
 
@@ -25,10 +25,10 @@ class CategoryPolicy
      * Determine whether the user can view the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function view(User $user, Category $category)
+    public function view(User $user, User $model)
     {
         //
     }
@@ -48,46 +48,46 @@ class CategoryPolicy
      * Determine whether the user can edit the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function edit(User $user, Category $category)
+    public function edit(User $user, User $model)
     {
-        return $category->user_id === $user->id;
+        return $model->created_by == $user->id;
     }
 
     /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function update(User $user, Category $category)
+    public function update(User $user, User $model)
     {
-        return $category->user_id === $user->id;
+        return $model->created_by == $user->id;
     }
 
     /**
      * Determine whether the user can delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function delete(User $user, Category $category)
+    public function delete(User $user, User $model)
     {
-        return $category->user_id === $user->id;
+        return $model->created_by == $user->id;
     }
 
     /**
      * Determine whether the user can restore the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function restore(User $user, Category $category)
+    public function restore(User $user, User $model)
     {
         //
     }
@@ -96,10 +96,10 @@ class CategoryPolicy
      * Determine whether the user can permanently delete the model.
      *
      * @param  \App\Models\User  $user
-     * @param  \App\Models\Category  $category
+     * @param  \App\Models\User  $model
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function forceDelete(User $user, Category $category)
+    public function forceDelete(User $user, User $model)
     {
         //
     }

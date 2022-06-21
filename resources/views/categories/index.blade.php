@@ -1,7 +1,7 @@
 <x-app-layout>
     <div class="h-screen overflow-x-auto py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
-            <div class="overflow-hidden px-4 py-4 ">
+            <div class=" px-4 py-4 ">
                 <div class="flex items-center justify-between ">
                     <h3 class="font-extrabold text-blue-900 text-xl">Categories</h3>
                     <a href="{{ route('categories.create') }}" class="bg-blue-400 border font-bold hover:bg-white hover:text-blue-900 p-2 rounded-md text-center text-sm text-white w-32">{{ __('Create Category') }}</a>
@@ -35,19 +35,17 @@
                                         <span class="block text-xs text-gray-400"><time>{{ date_format($category->created_at, 'H:i:s')}}</time></span>
                                     </td>
                                     <td>{{ $category->status ? 'Active' : 'Inactive'}}</td>
-                                    <div class="w=2/3">
-                                        <td class="font-bold p-2">
-                                            <a href="{{ route('categories.edit', $category) }}" class="bg-green-400 border-2 hover:bg-green-800 hover:text-white m-1 px-4 py-1">Edit</a>
-                                        </td>
-                                        
-                                        <td class="font-bold p-2">
-                                            <a href="{{ route('categories.delete', $category) }}" class="bg-red-500 border-2 hover:bg-red-700 hover:text-white m-1 px-1.5 py-1">Delete</a>
-                                        </td>
-
-                                        <td class="font-bold p-2">
-                                            <a href="{{ route('categories.status', $category) }}" class="bg-gray-400 border-2 hover:bg-gray-600 hover:text-white m-1 px-1.5 py-1">{{ $category->status ? 'Inactive' : 'Active'}} </a>
-                                        </td>
-                                    </div>
+                                    <td>
+                                        <div class="w=2/3 dropdown">
+                                            <svg id="Layer_1" class="w-4 h-6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.96 122.88"><defs><style>.cls-1{fill-rule:evenodd;}</style></defs><title>3-vertical-dots</title><path class="cls-1" d="M15,0A15,15,0,1,1,0,15,15,15,0,0,1,15,0Zm0,92.93a15,15,0,1,1-15,15,15,15,0,0,1,15-15Zm0-46.47a15,15,0,1,1-15,15,15,15,0,0,1,15-15Z"></path>
+                                            </svg>
+                                            <div class="dropdown_content bg-gray-200">
+                                                    <a href="{{ route('categories.edit', $category) }}" class="hover:bg-gray-400 " style="padding: 2px 15px">Edit</a>
+                                                    <a href="{{ route('categories.delete', $category) }}" class="hover:bg-gray-400 ">Delete</a>
+                                                    <a href="{{ route('categories.status', $category) }}" class="hover:bg-gray-400 ">{{ $category->status ? 'Inactive' : 'Active'}} </a>
+                                            </div>
+                                        </div>
+                                    </td>
                                 </tr>
                             @endforeach
                         </tbody>
