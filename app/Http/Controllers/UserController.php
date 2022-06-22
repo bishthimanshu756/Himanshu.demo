@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\Team;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -14,7 +15,7 @@ class UserController extends Controller
     public function index() {
 
         return view('users.index', [
-            'users' => User::UserVisibleTo()->get(),
+            'users' => User::VisibleTo()->get(),
         ]);
     }
 
@@ -71,6 +72,15 @@ class UserController extends Controller
         $attributes += ['created_by' => Auth::id()];
 
         $user = User::create($attributes);
+
+        if ( $user->role_id != Role::SUB_ADMIN) {
+
+            Team::create([
+                'team_id' => Auth::id(),
+                'user_id' => $user->id,
+            ]);
+
+        }
         // Notification::send($user, new WelcomeNotification(Auth::user()));
 
         switch ($request->action){
@@ -88,7 +98,7 @@ class UserController extends Controller
        
         $this->authorize('edit', $user);
 
-        return view('users.edit', [
+        return view('users._personal-information', [
             'roles' => Role::get(),
             'user' => $user,
         ]);

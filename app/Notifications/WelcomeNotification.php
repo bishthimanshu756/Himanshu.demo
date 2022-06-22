@@ -41,11 +41,11 @@ class WelcomeNotification extends Notification
      * @param  mixed  $notifiable
      * @return \Illuminate\Notifications\Messages\MailMessage
      */
-    public function toMail($notifiable, $user)
+    public function toMail($user)
     {
         return (new MailMessage)
                     ->subject('Welcome notification')
-                    ->line("Hi {{$user->name}}")
+                    ->line("Hi")
                     ->line('Your profile has been created.')
                     ->line('To set you password click the button')
                     ->action('Set Password', url( route('users.set-password', $user)))

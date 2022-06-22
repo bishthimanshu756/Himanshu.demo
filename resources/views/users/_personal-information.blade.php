@@ -1,13 +1,14 @@
 <x-app-layout>
-    <div class="h-screen py-12 h-screen mx-24 my-6 w-1/2">
+    <div class="h-screen py-12 h-screen mx-24 my-6">
         <div class="flex items-center justify-between mb-8">
             <h3 class="font-extrabold text-blue-900 text-xl">
                 <a href="{{ route('users.index') }}">Users</a> 
                 <span class="text-black"> > {{ $user->full_name }}</span>
             </h3>
         </div>
-        <div class="p-6 bg-white border-b border-gray-200">
-            <form method="POST" action="{{ route('users.update', $user) }}" class=" px-5">
+        <div class="bg-white border-b border-gray-200">
+            <x-tab :user=$user/>
+            <form method="POST" action="{{ route('users.update', $user) }}" class=" px-12 py-6 w-3/5">
                 @csrf
                 <!-- First Name -->
                 <div>

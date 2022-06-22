@@ -25,7 +25,7 @@ class UserSeeder extends Seeder
             'password' => 'admin123',
             'email_status' => '1',
             'status' => '1',         
-            'created_by'=> '1',
+            'created_by'=> '0',
         ]);
 
         User::create([

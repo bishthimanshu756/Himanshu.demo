@@ -21,9 +21,9 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-
+    
     // protected $guarded=[];
-
+    
     protected $fillable = [
         'first_name',
         'last_name',
@@ -37,7 +37,15 @@ class User extends Authenticatable
     
     const INACTIVE = 0;
     const ACTIVE = 1;
-
+    
+    public function sluggable(): array
+    {
+        return [
+            'slug' => [
+                'source' => 'full_name'
+            ]
+        ];
+    }
 
     /**
      * The attributes that should be hidden for serialization.
@@ -58,16 +66,16 @@ class User extends Authenticatable
         'email_verified_at' => 'datetime',
     ];
 
-    // Password attributes
+    // Attributes
     public function setPasswordAttribute($password){
         $this->attributes['password']= Hash::make($password);
     }
     
-    // Full name attributes
     public function getFullNameAttribute() {
         return $this->first_name . ' ' . $this->last_name;
     }
 
+    // Relationships 
     public function role() {
         return $this->belongsTo(Role::class);
     }
@@ -75,22 +83,39 @@ class User extends Authenticatable
     public function categories() {
         return $this->hasMany(Category::class);
     }
+    
+    public function teams()
+    {
+        return $this->belongsToMany(Team::class, 'teams', 'team_id', 'user_id')
+        ->withTimestamps();
+    }
 
-    public function scopeUserVisibleTo($query) {   
-        if(Auth::id()== Role::ADMIN) {
+    public function assignedUsers() {
+        return $this->belongsToMany(User::class, 'teams', 'team_id', 'user_id');
+    }
+
+    // Scopes
+    public function scopeVisibleTo($query) {   
+        if (Auth::id()== Role::ADMIN) {
             return $query->Where('role_id', '>', Auth::user()->role_id);
-        }else {
+        } else {
             return $query->Where('role_id', '>', Auth::user()->role_id)
-            ->Where('created_by', Auth::id());
+                ->Where('created_by', Auth::id());
         }
     }
 
-    public function sluggable(): array
-    {
-        return [
-            'slug' => [
-                'source' => 'full_name'
-            ]
-        ];
+    public function scopeCreatedByAdmin($query) {
+        $query->where('created_by', Role::ADMIN);
     }
+
+    public function scopeEmployee($query) {   
+       $query->where('role_id', Role::EMPLOYEE);
+    }
+
+    public function scopeActive($query) {   
+        $query->where('status', User::ACTIVE);
+    }
+
+
+
 }

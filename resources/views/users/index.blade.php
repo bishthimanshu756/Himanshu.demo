@@ -43,7 +43,7 @@
                                                 <div class="dropdown_content bg-gray-200 z-50">
                                                         <a href="{{ route('users.edit', $user) }}" class="hover:bg-gray-400 hover:font-bold text-xs" style="padding: 6px 34px">{{ __('Edit') }}</a>
                                                         <a href="{{ route('users.delete', $user) }}" class="hover:bg-gray-400 hover:font-bold text-xs" style="padding: 6px 24px">{{ __('Delete') }}</a>
-                                                        <a href="{{ route('users.reset-password', $user) }}" class="hover:bg-gray-400 hover:font-bold text-xs" style="padding: 6px 21px">{{ $user->status ? 'Inactive' : 'Active'}} </a>
+                                                        <a href="{{ route('users.status', $user) }}" class="hover:bg-gray-400 hover:font-bold text-xs" style="padding: 6px 21px">{{ $user->status ? 'Inactive' : 'Active'}} </a>
                                                         <a href="{{ route('users.reset-password', $user) }}" class="hover:bg-gray-400 text-xs" style="padding: 6px 0px;">{{ __('Reset Password') }} </a>
                                                 </div>
                                             </div>
