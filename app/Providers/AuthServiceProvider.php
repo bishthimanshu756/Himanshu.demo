@@ -3,6 +3,7 @@
 namespace App\Providers;
 
 use App\Models\Category;
+use App\Models\Role;
 use App\Models\User;
 use App\Policies\CategoryPolicy;
 use App\Policies\UserPolicy;
@@ -41,6 +42,8 @@ class AuthServiceProvider extends ServiceProvider
         Gate::define('trainer', function(User $user) {
             return in_array($user->role_id, [1,2,3]);
         });
+
+        
 
     }
 }

@@ -84,15 +84,17 @@ class User extends Authenticatable
         return $this->hasMany(Category::class);
     }
     
-    public function teams()
-    {
-        return $this->belongsToMany(Team::class, 'teams', 'team_id', 'user_id')
-        ->withTimestamps();
+    public function trainers() {
+        return $this->belongsToMany(User::class, 'teams', 'user_id' , 'team_id')
+            ->withTimestamps();
     }
 
-    public function assignedUsers() {
-        return $this->belongsToMany(User::class, 'teams', 'team_id', 'user_id');
+    public function assignedUsers()
+    {
+        return $this->belongsToMany(User::class, 'teams', 'team_id', 'user_id')
+            ->withTimestamps();
     }
+
 
     // Scopes
     public function scopeVisibleTo($query) {   
@@ -106,6 +108,10 @@ class User extends Authenticatable
 
     public function scopeCreatedByAdmin($query) {
         $query->where('created_by', Role::ADMIN);
+    }
+
+    public function scopeTrainer($query) {
+        $query->where('role_id', Role::TRAINER);
     }
 
     public function scopeEmployee($query) {   

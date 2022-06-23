@@ -37,16 +37,18 @@
                                         </td>
                                         <td class="p-2">{{ $user->status ? 'Active' : 'Inactive' }}</td>
                                         <td>
-                                            <div class="w=2/3 dropdown">
-                                                <svg id="Layer_1" class="w-4 h-6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.96 122.88"><defs><style>.cls-1{fill-rule:evenodd;}</style></defs><title>3-vertical-dots</title><path class="cls-1" d="M15,0A15,15,0,1,1,0,15,15,15,0,0,1,15,0Zm0,92.93a15,15,0,1,1-15,15,15,15,0,0,1,15-15Zm0-46.47a15,15,0,1,1-15,15,15,15,0,0,1,15-15Z"></path>
-                                                </svg>
-                                                <div class="dropdown_content bg-gray-200 z-50">
-                                                        <a href="{{ route('users.edit', $user) }}" class="hover:bg-gray-400 hover:font-bold text-xs" style="padding: 6px 34px">{{ __('Edit') }}</a>
-                                                        <a href="{{ route('users.delete', $user) }}" class="hover:bg-gray-400 hover:font-bold text-xs" style="padding: 6px 24px">{{ __('Delete') }}</a>
-                                                        <a href="{{ route('users.status', $user) }}" class="hover:bg-gray-400 hover:font-bold text-xs" style="padding: 6px 21px">{{ $user->status ? 'Inactive' : 'Active'}} </a>
-                                                        <a href="{{ route('users.reset-password', $user) }}" class="hover:bg-gray-400 text-xs" style="padding: 6px 0px;">{{ __('Reset Password') }} </a>
+                                            <div x-data="{ show:false}" @click.away="show = false" class="relative">
+                                                <button @click="show = !show" >
+                                                    <svg id="Layer_1" class="w-4 h-6" data-name="Layer 1" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 29.96 122.88"><defs><style>.cls-1{fill-rule:evenodd;}</style></defs><title>3-vertical-dots</title><path class="cls-1" d="M15,0A15,15,0,1,1,0,15,15,15,0,0,1,15,0Zm0,92.93a15,15,0,1,1-15,15,15,15,0,0,1,15-15Zm0-46.47a15,15,0,1,1-15,15,15,15,0,0,1,15-15Z"></path>
+                                                    </svg>
+                                                </button>
+                                                <div x-show="show" class="absolute border-2 border-black-600 w-50 z-50">
+                                                    <a href="{{ route('users.edit', $user) }}" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7">{{ __('Edit') }}</a>
+                                                    <a href="{{ route('users.delete', $user) }}" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7" >{{__('Delete')}}</a>
+                                                    <a href="{{ route('users.status', $user) }}" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7" >{{ $user->status ? 'Inactive' : 'Active'}}</a>
+                                                    <a href="{{ route('users.reset-password', $user) }}" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7">{{__('Reset Password')}}</a>
                                                 </div>
-                                            </div>
+                                            </div>              
                                         </td>
                                     </tr>
                             @endforeach

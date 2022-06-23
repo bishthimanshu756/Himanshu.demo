@@ -2,33 +2,82 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class TeamUserController extends Controller
 {
-    public function index(User $user)
+    public function index(User $trainer)
     {
-        $employees = User::CreatedByAdmin()->Active()->Employee()->get();
+        $this->authorize('view', $trainer);
+
+        $employees = User::createdbyadmin()->active()->employee()
+            ->whereDoesnthave('trainers', function ($query) use ($trainer) {
+                $query->where('team_id', $trainer->id);
+            })->get();
 
         return view('users.users_trainer', [
-            'user' => $user,
+            'trainer' => $trainer,
             'employees' => $employees,
-            
+            'assingedUsers' => $trainer->assignedUsers()->get(),
+
         ]);
     }
 
-    public function store(Request $request, User $user) {
-        
-        $user->teams()->attach($request->checked);
+    public function store(Request $request, User $trainer)
+    {
+        $this->authorize('edit', $trainer);
 
-        return back();
+        $validator = Validator::make($request->all(), [
+            'userIds' => [
+                'required',
+                'min:1',
+                Rule::exists('users', 'id')->where(function ($query) {
+                    return $query->where('role_id', Role::EMPLOYEE);
+                }),
+            ],
+        ]);
+
+        if ($validator->fails()) {
+            return back()->with('error', 'Please select at least one user!');
+        }
+
+        $validated = $validator->validated();
+
+        $assignees = User::visibleTo(Auth::user())->findMany($validated['userIds']);
+
+        $trainer->assignedUsers()->attach($assignees);
+
+        return back()->with('success', 'Employeers assigned successfully!!');
     }
 
-    public function destroy(Request $request, User $trainer) {
+    public function destroy(Request $request, User $trainer)
+    {   
+        $this->authorize('delete', $trainer);
 
-        $trainer->teams()->attach($request->checked);
+        $validator = Validator::make($request->all(), [
+            'userId' => [
+                'required',
+                'min:1',
+                Rule::exists('users', 'id')->where(function ($query) {
+                    return $query->where('role_id', Role::EMPLOYEE);
+                }),
+            ],
+        ]);
 
-        return back();
+        if ($validator->fails()) {
+            return back()->with('error', 'Please select at least one user!');
+        }
+
+
+        $validated = $validator->validated();
+
+        $trainer->assignedUsers()->detach($validated['userId']);
+
+        return back()->with('success', 'Employee unassigned successfully!!');
     }
 }

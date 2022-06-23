@@ -31,7 +31,9 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        //
+        if (Gate::allows('admin') || $model->created_by === $user->id) {
+            return true;
+        }
     }
 
     /**
@@ -40,7 +42,7 @@ class UserPolicy
      * @param  \App\Models\User  $user
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function create(User $user)
+    public function create(User $user, User $model)
     {
         //
     }
@@ -83,6 +85,7 @@ class UserPolicy
     public function delete(User $user, User $model)
     {
         if (Gate::allows('admin') || $model->created_by === $user->id) {
+        
             return true;
         }
     }
