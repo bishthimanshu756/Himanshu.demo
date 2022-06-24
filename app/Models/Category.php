@@ -27,7 +27,7 @@ class Category extends Model
     }
 
     public function scopeVisibleTo($query) {
-        return $query->where('user_id', '=' ,Auth::id())->get();
+        return $query->where('user_id', '=' ,Auth::id());
     }
 
     public function sluggable(): array

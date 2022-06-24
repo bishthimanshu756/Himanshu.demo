@@ -11,7 +11,8 @@ use Illuminate\Validation\Rule;
 
 class TeamUserController extends Controller
 {
-    public function index(User $trainer) {
+    public function index(User $trainer)
+    {
         $this->authorize('view', $trainer);
 
         $employees = User::createdbyadmin()->active()->employee()
@@ -19,15 +20,16 @@ class TeamUserController extends Controller
                 $query->where('team_id', $trainer->id);
             })->get();
 
-        return view('users.users_trainer', [
-            'trainer' => $trainer,
+        return view('users._users_trainer', [
+            'user' => $trainer,
             'employees' => $employees,
             'assingedUsers' => $trainer->assignedUsers()->get(),
 
         ]);
     }
 
-    public function store(Request $request, User $trainer) {
+    public function store(Request $request, User $trainer)
+    {
         $this->authorize('edit', $trainer);
 
         $validator = Validator::make($request->all(), [
@@ -53,7 +55,8 @@ class TeamUserController extends Controller
         return back()->with('success', 'Employee assign successfully!');
     }
 
-    public function destroy(Request $request, User $trainer) {   
+    public function destroy(Request $request, User $trainer)
+    {
         $this->authorize('delete', $trainer);
 
         $validator = Validator::make($request->all(), [
@@ -69,7 +72,6 @@ class TeamUserController extends Controller
         if ($validator->fails()) {
             return back()->with('error', 'Please select valid employee.');
         }
-
 
         $validated = $validator->validated();
 

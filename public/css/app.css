@@ -708,6 +708,12 @@ select {
 .right-3 {
   right: 0.75rem;
 }
+.right-10 {
+  right: 2.5rem;
+}
+.top-2 {
+  top: 0.5rem;
+}
 .z-0 {
   z-index: 0;
 }
@@ -843,6 +849,12 @@ select {
 .h-full {
   height: 100%;
 }
+.h-64 {
+  height: 16rem;
+}
+.h-12 {
+  height: 3rem;
+}
 .max-h-80 {
   max-height: 20rem;
 }
@@ -896,6 +908,15 @@ select {
 }
 .w-32 {
   width: 8rem;
+}
+.w-64 {
+  width: 16rem;
+}
+.w-52 {
+  width: 13rem;
+}
+.w-12 {
+  width: 3rem;
 }
 .max-w-7xl {
   max-width: 80rem;
@@ -960,6 +981,9 @@ select {
 }
 .justify-between {
   justify-content: space-between;
+}
+.justify-around {
+  justify-content: space-around;
 }
 .justify-items-center {
   justify-items: center;
@@ -1246,6 +1270,15 @@ select {
 .pl-12 {
   padding-left: 3rem;
 }
+.pb-4 {
+  padding-bottom: 1rem;
+}
+.pl-4 {
+  padding-left: 1rem;
+}
+.pr-20 {
+  padding-right: 5rem;
+}
 .text-left {
   text-align: left;
 }
@@ -1298,6 +1331,9 @@ select {
 }
 .uppercase {
   text-transform: uppercase;
+}
+.italic {
+  font-style: italic;
 }
 .leading-5 {
   line-height: 1.25rem;
@@ -1786,6 +1822,16 @@ select {
 
   .sm\:rounded-lg {
     border-radius: 0.5rem;
+  }
+
+  .sm\:rounded-t-lg {
+    border-top-left-radius: 0.5rem;
+    border-top-right-radius: 0.5rem;
+  }
+
+  .sm\:rounded-b-lg {
+    border-bottom-right-radius: 0.5rem;
+    border-bottom-left-radius: 0.5rem;
   }
 
   .sm\:px-6 {

@@ -19,8 +19,7 @@ class UserTeamController extends Controller
                 $query->where('user_id', $user->id);
             })->get();
 
-
-        return view('users.team_assigned', [
+        return view('users._team_assigned', [
             'user' => $user,
             'trainers' => $trainers,
             'assignedtrainers' => $user->trainers()->get(),
@@ -46,6 +45,7 @@ class UserTeamController extends Controller
         
         $validated = $validator->validated();
         $assignees = User::visibleTo(Auth::user())->findMany($validated['trainerIds']);
+        // dd($assignees);
         $user->trainers()->attach($assignees);
 
         return back()->with('success', 'Trainer assign successfully!');
@@ -64,11 +64,13 @@ class UserTeamController extends Controller
             ],
         ]);
 
-        if($validator->fails()) {
+        if ($validator->fails()) {
             return back()->with('error', 'Please select valid trainer.');
         }
 
         $validated = $validator->validated();
+
+        dd($validated);
 
         $user->trainers()->detach($validated['trainerId']);
 

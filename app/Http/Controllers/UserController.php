@@ -15,7 +15,7 @@ class UserController extends Controller
     public function index() {
         
         return view('users.index', [
-            'users' => User::VisibleTo()->get(),
+            'users' => User::VisibleTo()->paginate(10),
         ]);
     }
 

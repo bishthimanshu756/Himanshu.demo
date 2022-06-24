@@ -22,10 +22,16 @@
     <body class="font-sans antialiased">
         <div class="min-h-screen bg-gray-100">
             @include('layouts.navigation')
-
-            
             <div class="flex">
-
+                @if(session()->has('success'))
+                    <p class="fixed bg-blue-500 text-white py-2 px-4 rounded-xl mt-4 right-10 text-sm">
+                        {{ session('success') }}
+                    </p>
+                @elseif(session()->has('error'))
+                    <p class="fixed bg-red-500 text-white py-2 px-4 rounded-xl mt-4 right-10 text-sm">
+                        {{ session('error') }}
+                    </p>
+                @endif
                 <!-- Side Bar -->
                 <nav class="font-bold h-screen text-lg text-white w-1/6 bg-sky-900">
                     <ul class="mt-14 leading-loose">
@@ -70,15 +76,5 @@
                 </main>
             </div>
         </div>
-        @if(session()->has('success'))
-            <p class="fixed bg-blue-500 text-white py-2 px-4 rounded-xl bottom-3 right-3 text-sm">
-                {{ session('success') }}
-            </p>
-        @elseif(session()->has('error'))
-            <p class="fixed bg-red-500 text-white py-2 px-4 rounded-xl bottom-3 right-3 text-sm">
-                {{ session('error') }}
-            </p>
-
-        @endif
     </body>
 </html>

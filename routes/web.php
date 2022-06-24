@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryStatusController;
+use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\TeamUserController;
@@ -34,9 +35,7 @@ require __DIR__.'/auth.php';
 
 Route::middleware('auth')->group( function() {
 
-    Route::get('/dashboard', function () {
-        return view('dashboard');
-    })->name('dashboard');
+    Route::get('/dashboard', [DashboardController::class, 'view'])->name('dashboard');
     
     //User Routes
     Route::controller(UserController::class)->group( function() {
@@ -75,13 +74,14 @@ Route::middleware('auth')->group( function() {
 
     Route::get('categories/{category:slug}/status', [CategoryStatusController::class, 'update'])->name('categories.status');
 
-    //Trainer Routes
+    //Trainer assign multiple employees Routes
     Route::controller(TeamUserController::class)->group(function() {
         Route::get('teams/{trainer:slug}/users', 'index')->name('teams.users.index');
-        Route::post('teams/{trainer}/users', 'store')->name('teams.users.store');
-        Route::post('teams/{trainer:slug}/destroy', 'destroy')->name('teams.users.destroy');
+        Route::post('teams/{trainer}/store', 'store')->name('teams.users.store');
+        Route::post('teams/{trainer:slug}/users', 'destroy')->name('teams.users.destroy');
     });
 
+    //Employee assign to multiple trainer Routes
     Route::controller(UserTeamController::class)->group(function() {
         Route::get('users/{user:slug}/teams', 'index')->name('users.teams.index');
         Route::post('users/{user}/store', 'store')->name('users.teams.store');
