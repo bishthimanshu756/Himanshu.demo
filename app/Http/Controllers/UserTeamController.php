@@ -6,13 +6,13 @@ use App\Models\Role;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Redis;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class UserTeamController extends Controller
 {
     public function index(User $user) {
+        $this->authorize('view', $user);
 
         $trainers = User::createdbyadmin()->active()->trainer()
             ->whereDoesntHave('assignedUsers', function($query) use($user) {
@@ -28,6 +28,7 @@ class UserTeamController extends Controller
     }
 
     public function store(User $user, Request $request) {
+        $this->authorize('edit', $user);
         
         $validator= Validator::make($request->all(), [
             'trainerIds' => [
@@ -40,17 +41,18 @@ class UserTeamController extends Controller
         ]);
 
         if($validator->fails()) {
-            return back()->with('error', 'Please select at least one user!');
+            return back()->with('error', 'Please select at least one trainer.');
         }
         
         $validated = $validator->validated();
         $assignees = User::visibleTo(Auth::user())->findMany($validated['trainerIds']);
         $user->trainers()->attach($assignees);
 
-        return back()->with('success', 'Trainer assigned successfully!!');
+        return back()->with('success', 'Trainer assign successfully!');
     }
 
     public function destroy(User $user, Request $request) {
+        $this->authorize('delete', $user);
     
         $validator = Validator::make($request->all(), [
             'trainerId' => [
@@ -63,14 +65,14 @@ class UserTeamController extends Controller
         ]);
 
         if($validator->fails()) {
-            return back()->with('error', 'Please select at least one user!');
+            return back()->with('error', 'Please select valid trainer.');
         }
 
         $validated = $validator->validated();
 
         $user->trainers()->detach($validated['trainerId']);
 
-        return back()->with('success', 'Trainers unassigned successfully!!');
+        return back()->with('success', 'Trainers unassign successfully!');
     }
 
 

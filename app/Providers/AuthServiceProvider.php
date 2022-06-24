@@ -43,7 +43,13 @@ class AuthServiceProvider extends ServiceProvider
             return in_array($user->role_id, [1,2,3]);
         });
 
-        
+        Gate::define('is_trainer', function(User $user) {
+            return $user->role_id == Role::TRAINER;
+        });
+
+        Gate::define('is_employee', function(User $user) {
+            return $user->role_id == Role::EMPLOYEE;
+        });
 
     }
 }

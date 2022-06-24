@@ -31,7 +31,7 @@ class UserPolicy
      */
     public function view(User $user, User $model)
     {
-        if (Gate::allows('admin') || $model->created_by === $user->id) {
+        if ($user->can('admin') || $model->created_by === $user->id) {
             return true;
         }
     }
@@ -56,7 +56,7 @@ class UserPolicy
      */
     public function edit(User $user, User $model)
     {
-        if (Gate::allows('admin') || $model->created_by === $user->id) {
+        if ($user->can('admin') || $model->created_by === $user->id) {
             return true;
         }
     }
@@ -70,7 +70,7 @@ class UserPolicy
      */
     public function update(User $user, User $model)
     {
-        if (Gate::allows('admin') || $model->created_by === $user->id) {
+        if ($user->can('admin') || $model->created_by === $user->id) {
             return true;
         }
     }
@@ -84,8 +84,7 @@ class UserPolicy
      */
     public function delete(User $user, User $model)
     {
-        if (Gate::allows('admin') || $model->created_by === $user->id) {
-        
+        if ($user->can('admin') || $model->created_by === $user->id) {
             return true;
         }
     }

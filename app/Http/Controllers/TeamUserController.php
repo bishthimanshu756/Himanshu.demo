@@ -11,8 +11,7 @@ use Illuminate\Validation\Rule;
 
 class TeamUserController extends Controller
 {
-    public function index(User $trainer)
-    {
+    public function index(User $trainer) {
         $this->authorize('view', $trainer);
 
         $employees = User::createdbyadmin()->active()->employee()
@@ -28,8 +27,7 @@ class TeamUserController extends Controller
         ]);
     }
 
-    public function store(Request $request, User $trainer)
-    {
+    public function store(Request $request, User $trainer) {
         $this->authorize('edit', $trainer);
 
         $validator = Validator::make($request->all(), [
@@ -43,7 +41,7 @@ class TeamUserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->with('error', 'Please select at least one user!');
+            return back()->with('error', 'Please select at least one employee.');
         }
 
         $validated = $validator->validated();
@@ -52,11 +50,10 @@ class TeamUserController extends Controller
 
         $trainer->assignedUsers()->attach($assignees);
 
-        return back()->with('success', 'Employeers assigned successfully!!');
+        return back()->with('success', 'Employee assign successfully!');
     }
 
-    public function destroy(Request $request, User $trainer)
-    {   
+    public function destroy(Request $request, User $trainer) {   
         $this->authorize('delete', $trainer);
 
         $validator = Validator::make($request->all(), [
@@ -70,7 +67,7 @@ class TeamUserController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->with('error', 'Please select at least one user!');
+            return back()->with('error', 'Please select valid employee.');
         }
 
 
@@ -78,6 +75,6 @@ class TeamUserController extends Controller
 
         $trainer->assignedUsers()->detach($validated['userId']);
 
-        return back()->with('success', 'Employee unassigned successfully!!');
+        return back()->with('success', 'Employee unassign successfully!');
     }
 }

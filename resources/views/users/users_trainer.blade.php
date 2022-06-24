@@ -33,16 +33,16 @@
                 <thead>
                     <tr>
                         <th class="px-24 py-2">{{ __('Name') }}</th>
-                        <th class="px-24 py-2">{{ __('Created Date') }}</th>
-                        <th class="px-24 py-2">{{ __('Action') }}</th>
+                        <th class="px-24 py-2">{{ __('E-Mail') }}</th>
+                        <th class="px-24 py-2">{{ __('Status') }}</th>
                     </tr>
                 </thead>
                 <tbody>
                     @if ($assingedUsers->count())
                         @foreach($assingedUsers as $user)
                             <tr>
-                                <td class="px-24 py-4">{{ $user->full_name }}</td>
-                                <td class="px-24 py-4">{{ $user->updated_at }}</td>
+                                <td class="pl-12 py-2 text-left">{{ $user->full_name }}</td>
+                                <td class="px-24 py-4">{{ $user->email }}</td>
                                 <td class="px-24 py-4">
                                 <form action="{{ route('teams.users.destroy', $trainer) }}" method="POST">
                                     @csrf
