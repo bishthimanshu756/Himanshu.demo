@@ -4,8 +4,13 @@ namespace App\Http\Controllers;
 
 use App\Models\Role;
 use App\Models\User;
+use App\Notifications\UserTeamEmployeeAssignNotification;
+use App\Notifications\UserTeamEmployeeUnassignNotification;
+use App\Notifications\UserTeamTeamAssignNotification;
+use App\Notifications\UserTeamTeamUnassignNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -45,8 +50,11 @@ class UserTeamController extends Controller
         
         $validated = $validator->validated();
         $assignees = User::visibleTo(Auth::user())->findMany($validated['trainerIds']);
-        // dd($assignees);
+
         $user->trainers()->attach($assignees);
+        
+        Notification::send($assignees, new UserTeamEmployeeAssignNotification(Auth::user(), $user));
+        Notification::send($user, new UserTeamTeamAssignNotification(Auth::user(), $assignees));
 
         return back()->with('success', 'Trainer assign successfully!');
     }
@@ -70,9 +78,12 @@ class UserTeamController extends Controller
 
         $validated = $validator->validated();
 
-        dd($validated);
+        $assignee = User::visibleTo()->find($validated['trainerId']);
 
         $user->trainers()->detach($validated['trainerId']);
+        
+        Notification::send($user, new UserTeamTeamUnassignNotification(Auth::user(), $assignee));   
+        Notification::send($assignee, new UserTeamEmployeeUnassignNotification(Auth::user(), $user));
 
         return back()->with('success', 'Trainers unassign successfully!');
     }

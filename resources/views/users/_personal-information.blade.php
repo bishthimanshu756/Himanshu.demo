@@ -34,16 +34,6 @@
                     <x-validation-error name="email" />
                 </div>
 
-                @if(Auth::user()->role_id == 1)
-                <!-- Password -->
-                <div class="mt-4">
-                    <label for="password" class="block font-black required">{{ __('Password') }}</label>
-                    <input type="password" name="password" required class="rounded-md w-full" placeholder="Enter Password">
-
-                    <x-validation-error name="password" />
-                </div>
-                @endif
-
                 <!-- Role -->
                 <div class="mt-4">
                     <label for="role_id" class="block font-black">{{ __('Role') }}</label>

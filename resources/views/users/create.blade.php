@@ -33,14 +33,6 @@
                     
                     <x-validation-error name="email" />
                 </div>
-
-                <!-- Password -->
-                <div class="mt-4">
-                    <label for="password" class="block font-black required">{{ __('Password') }}</label>
-                    <input type="password" id="password" name="password" required class="rounded-md w-full" placeholder="Enter Your Password">
-
-                    <x-validation-error name="password" />
-                </div>
                 
                 <!-- Role -->
                 <div class="mt-4">

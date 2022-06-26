@@ -11,6 +11,7 @@ use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Hash;
 use Laravel\Sanctum\HasApiTokens;
 use Cviebrock\EloquentSluggable\Sluggable;
+use Illuminate\Http\Request;
 
 class User extends Authenticatable
 {
@@ -122,6 +123,15 @@ class User extends Authenticatable
         $query->where('status', User::ACTIVE);
     }
 
+    public function scopeFilter($query, array $filter) {    
 
+        $query->when($filter['roleId'] ?? false, function($query, $roleId) {
+            return $query->where('role_id', $roleId);
+        });
+
+        $query->when($filter['date_filter'] ?? false, function($query, $date_filter) {
+            return $query->orderBy('created_at', $date_filter);
+        });
+    }
 
 }

@@ -20,9 +20,9 @@ return new class extends Migration
             $table->string('last_name');
             $table->string('slug')->unique();
             $table->string('email')->unique();
-            $table->string('password');
+            $table->string('password')->nullable();
             $table->boolean('email_status')->default(0);
-            $table->boolean('status')->default(0);
+            $table->boolean('status')->default(1);
             $table->integer('created_by');
             $table->timestamp('email_verified_at')->nullable();
             $table->rememberToken();

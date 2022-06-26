@@ -5,17 +5,40 @@ namespace App\Http\Controllers;
 use App\Models\Role;
 use App\Models\Team;
 use App\Models\User;
+use App\Notifications\WelcomeNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 
 class UserController extends Controller
 {
-    public function index() {
-        
+    public function index(Request $request) {
+
+        // if (!empty($request)) {
+        //     if($request->roleId) {
+        //         $validator = Validator::make($request->all(), [
+        //             'roleId' => [
+        //                 Rule::exists('roles', 'id')->where(function($query) {
+        //                     $query->where('id', '>', Auth::user()->role_id);
+        //                 }),
+        //             ],
+        //         ]);
+                
+        //         if ($validator->fails()) {
+        //             return back()->with('error', 'Please select valid role');
+        //         }
+        //     } 
+
+        // };
+
         return view('users.index', [
-            'users' => User::VisibleTo()->paginate(10),
+            'users' => User::visibleTo()->filter(request(['roleId', 'date_filter']))->paginate(10),
+            'roles' => Role::where('id', '>', Auth::user()->role_id)->get(),
+            'currentRole' => Role::find($request->roleId)
         ]);
     }
 
@@ -63,7 +86,6 @@ class UserController extends Controller
             'first_name' => ['required', 'max:255', 'min:3'],
             'last_name' => ['required'],
             'email' => ['required', 'email', 'max:255', 'unique:users,email'],
-            'password' => ['required', Password::defaults()],
             'role_id' => 'required|in:' . $ids,
         ]);
 
@@ -81,7 +103,7 @@ class UserController extends Controller
             ]);
 
         }
-        // Notification::send($user, new WelcomeNotification(Auth::user()));
+        Notification::send($user, new WelcomeNotification(Auth::user()));
 
         switch ($request->action){
             case 'create':
