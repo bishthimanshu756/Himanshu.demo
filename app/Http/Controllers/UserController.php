@@ -9,31 +9,12 @@ use App\Notifications\WelcomeNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Notification;
-use Illuminate\Support\Facades\Validator;
-use Illuminate\Validation\Rule;
 use Illuminate\Validation\Rules\Password;
 
 
 class UserController extends Controller
 {
     public function index(Request $request) {
-
-        // if (!empty($request)) {
-        //     if($request->roleId) {
-        //         $validator = Validator::make($request->all(), [
-        //             'roleId' => [
-        //                 Rule::exists('roles', 'id')->where(function($query) {
-        //                     $query->where('id', '>', Auth::user()->role_id);
-        //                 }),
-        //             ],
-        //         ]);
-                
-        //         if ($validator->fails()) {
-        //             return back()->with('error', 'Please select valid role');
-        //         }
-        //     } 
-
-        // };
 
         return view('users.index', [
             'users' => User::visibleTo()->filter(request(['roleId', 'date_filter']))->paginate(10),

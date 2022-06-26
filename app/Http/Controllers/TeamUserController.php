@@ -47,7 +47,6 @@ class TeamUserController extends Controller
             ],
         ]);
 
-        dd($validator->fails());
         if ($validator->fails()) {
             return back()->with('error', 'Please select at least one employee.');
         }
