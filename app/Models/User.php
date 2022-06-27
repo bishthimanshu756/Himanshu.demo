@@ -96,6 +96,10 @@ class User extends Authenticatable
             ->withTimestamps();
     }
 
+    public function courses() {
+        return $this->hasMany(Course::class);
+    }
+
 
     // Scopes
     public function scopeVisibleTo($query) {   
@@ -123,14 +127,23 @@ class User extends Authenticatable
         $query->where('status', User::ACTIVE);
     }
 
-    public function scopeFilter($query, array $filter) {    
+    public function scopeFilter($query, array $filter) {  
 
         $query->when($filter['roleId'] ?? false, function($query, $roleId) {
             return $query->where('role_id', $roleId);
         });
 
-        $query->when($filter['date_filter'] ?? false, function($query, $date_filter) {
-            return $query->orderBy('created_at', $date_filter);
+        $query->when($filter['orderBy'] ?? false, function($query, $orderBy) {
+                if($orderBy == 'a-z') {
+
+                    return $query->orderBy('first_name', 'asc');
+                } elseif ($orderBy == 'z-a') {
+                    
+                    return $query->orderBy('first_name', 'desc');
+                } else {
+                    
+                    return $query->orderBy('created_at', $orderBy);
+                }
         });
     }
 

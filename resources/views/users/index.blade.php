@@ -9,49 +9,61 @@
                     @endif
 
                 </div>
+                <div class="flex justify-between mt-6">
+                    <!-- Search -->
+                    <form method="get" action="{{ route('users.index') }}" class="bg-white border border-gray-200 py-1 rounded-md w-1/3">
+                        <input type="text" class= "border-0 h-8 px-4 py-4 w-11/12" placeholder="Search by Name or Email">
+                        <button type="submit">
+                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </button>
+                    </form>
 
-                <!-- Filters -->
-                <div class="flex justify-end mt-4">
-                    <div x-data="{ show:false}" @click.away="show = false" class="bg-white border-2 font-semibold inline px-4 py-2 relative text-sm">
-                        <button @click="show = !show">
-                            {{isset($currentRole) ? $currentRole->name : __('All User Type') }}
-                            <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M13.098 8H6.902c-.751 0-1.172.754-.708 1.268L9.292 12.7c.36.399 1.055.399 1.416 0l3.098-3.433C14.27 8.754 13.849 8 13.098 8z"></path>
-                            </svg>
-                        </button>
-                        <div x-show="show" class="absolute bg-white border-2 border-black-600 left-0 mt-1 p-2 w-36 z-50" style="display: none;">
-                            <a href="{{ route('users.index') }}" class="block hover:bg-gray-200 px-2 py-0.5 text-left w-full {{ isset($currentRole) ? '' : 'bg-blue-500 text-white' }}">
-                                {{ __('All') }}
-                            </a>
-                            <form action="{{ route('users.index') }}" method="get">
-                                @if(request('date_filter'))
-                                    <input type="hidden" name="date_filter" value="{{ request('date_filter') }}" class="">
-                                @endif
-                                @foreach($roles as $role)
-                                    <button type="submit" name="roleId" value="{{ $role->id }}" class="block hover:bg-gray-200 px-2 py-0.5 text-left w-full {{ isset($currentRole) && $currentRole->is($role) ? 'bg-blue-500 text-white' : ''}} ">{{ $role->name }}</button>
-                                @endforeach
-                            </form>    
+                    <!-- Filters -->
+                    <div class="mt-1">
+                        <div x-data="{ show:false}" @click.away="show = false" class="bg-white border-2 font-semibold inline px-4 py-2 relative text-sm">
+                            <button @click="show = !show">
+                                {{isset($currentRole) ? $currentRole->name : __('All User Type') }}
+                                <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M13.098 8H6.902c-.751 0-1.172.754-.708 1.268L9.292 12.7c.36.399 1.055.399 1.416 0l3.098-3.433C14.27 8.754 13.849 8 13.098 8z"></path>
+                                </svg>
+                            </button>
+                            <div x-show="show" class="absolute bg-white border-2 border-black-600 left-0 mt-1 p-2 w-36 z-50" style="display: none;">
+                                <a href="{{ route('users.index') }}" class="block hover:bg-gray-200 px-2 py-0.5 text-left w-full {{ isset($currentRole) ? '' : 'bg-blue-500 text-white' }}">
+                                    {{ __('All') }}
+                                </a>
+                                <form action="{{ route('users.index') }}" method="get">
+                                    @if(request('orderBy'))
+                                        <input type="hidden" name="orderBy" value="{{ request('orderBy') }}" class="">
+                                    @endif
+                                    @foreach($roles as $role)
+                                        <button type="submit" name="roleId" value="{{ $role->id }}" class="block hover:bg-gray-200 px-2 py-0.5 text-left w-full {{ isset($currentRole) && $currentRole->is($role) ? 'bg-blue-500 text-white' : ''}} ">{{ $role->name }}</button>
+                                    @endforeach
+                                </form>    
+                            </div>
                         </div>
-                    </div>
-                    <div x-data="{ show:false}" @click.away="show = false" class="ml-4 bg-white border-2 font-semibold inline px-4 py-2 relative text-sm">
-                        <button @click="show = !show">
-                            {{ (request('date_filter')== 'desc') ? __('Oldest Created Date') : __('Lastest Created Date') }}
-                            <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
-                                <path d="M13.098 8H6.902c-.751 0-1.172.754-.708 1.268L9.292 12.7c.36.399 1.055.399 1.416 0l3.098-3.433C14.27 8.754 13.849 8 13.098 8z"></path>
-                            </svg>
-                        </button>
-                        <div x-show="show" class="absolute bg-white border-2 left-0 mt-1 p-2 w-44 z-50" style="display: none;">
-                            <form action="{{ route('users.index') }}" method="get">
-                                @if(request('roleId'))
-                                    <input type="hidden" name="roleId" value="{{ request('roleId') }}">
-                                @endif  
-                                <button type="submit" name="date_filter" value="asc" class="hover:bg-gray-200 py-0.5 w-full {{ request('date_filter') == 'desc' ? '' : 'bg-blue-500 text-white'}}">Lastest Created Date</button>
-                                <button type="submit" name="date_filter" value="desc" class="hover:bg-gray-200 py-0.5 w-full {{ request('date_filter') == 'desc' ? 'bg-blue-500 text-white' : ''}}">Oldest Created Date</button>
-                            </form>
+                        <div x-data="{ show:false}" @click.away="show = false" class="ml-4 bg-white border-2 font-semibold inline px-4 py-2 relative text-sm">
+                            <button @click="show = !show">
+                                {{ (request('orderBy')== 'desc') ? __('Oldest Created Date') : __('Lastest Created Date') }}
+                                <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                    <path d="M13.098 8H6.902c-.751 0-1.172.754-.708 1.268L9.292 12.7c.36.399 1.055.399 1.416 0l3.098-3.433C14.27 8.754 13.849 8 13.098 8z"></path>
+                                </svg>
+                            </button>
+                            <div x-show="show" class="absolute bg-white border-2 left-0 mt-1 p-2 w-44 z-50" style="display: none;">
+                                <form action="{{ route('users.index') }}" method="get">
+                                    @if(request('roleId'))
+                                        <input type="hidden" name="roleId" value="{{ request('roleId') }}">
+                                    @endif  
+                                    <button class= "hover:bg-gray-200 py-0.5 w-full " name="orderBy" value="a-z">A TO Z</button>
+                                    <button class= "hover:bg-gray-200 py-0.5 w-full " name="orderBy" value="z-a">Z TO A</button>
+                                    <button type="submit" name="orderBy" value="asc" class="hover:bg-gray-200 py-0.5 w-full {{ request('orderBy') == 'asc' ? 'bg-blue-500 text-white' : ''}}">Lastest Created Date</button>
+                                    <button type="submit" name="orderBy" value="desc" class="hover:bg-gray-200 py-0.5 w-full {{ request('orderBy') == 'desc' ? 'bg-blue-500 text-white' : ''}}">Oldest Created Date</button>
+                                </form>
+                            </div>
                         </div>
                     </div>
                 </div>
-
                 <!-- Listing -->
                 <div class="bg-white border-b border-gray-200 mt-8 w-full">
                     <?php $no = 1 ?>

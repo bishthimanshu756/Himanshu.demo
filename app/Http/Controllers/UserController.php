@@ -16,8 +16,20 @@ class UserController extends Controller
 {
     public function index(Request $request) {
 
+        if(Auth::user()->role_id == Role::ADMIN) {
+            $roleIds = '2,3,4';
+        } elseif (Auth::user()->role_id == Role::SUB_ADMIN) {
+            $roleIds = '3,4';
+        } elseif (Auth::user()->role_id == Role::TRAINER) {
+            $roleIds = '4';
+        }
+
+        $request->validate([
+            'roleId' => 'in:'. $roleIds,
+        ]);
+
         return view('users.index', [
-            'users' => User::visibleTo()->filter(request(['roleId', 'date_filter']))->paginate(10),
+            'users' => User::visibleTo()->filter(request(['roleId', 'orderBy']))->paginate(10),
             'roles' => Role::where('id', '>', Auth::user()->role_id)->get(),
             'currentRole' => Role::find($request->roleId)
         ]);

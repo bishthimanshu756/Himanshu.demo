@@ -22,8 +22,13 @@ class Category extends Model
         'status'
     ];
 
+    //relationship
     public function user() {
         return $this->belongsTo(User::class);
+    }
+
+    public function courses() {
+        return $this->hasMany(Course::class);
     }
 
     public function scopeVisibleTo($query) {

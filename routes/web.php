@@ -2,6 +2,7 @@
 
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryStatusController;
+use App\Http\Controllers\CourseController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PasswordResetController;
@@ -9,8 +10,7 @@ use App\Http\Controllers\TeamUserController;
 use App\Http\Controllers\UserStatusController;
 use App\Http\Controllers\UserTeamController;
 use App\Http\Controllers\WelcomeController;
-use App\Models\Role;
-use GuzzleHttp\Middleware;
+use App\Models\Course;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -86,6 +86,17 @@ Route::middleware('auth')->group( function() {
         Route::get('users/{user:slug}/teams', 'index')->name('users.teams.index');
         Route::post('users/{user}/store', 'store')->name('users.teams.store');
         Route::post('users/{user:slug}/teams', 'destroy')->name('users.team.destroy');
+    });
+
+
+    //Courses
+    Route::controller(CourseController::class)->group(function() {
+        Route::get('/courses', 'index')->name('courses.index');
+        Route::get('courses/create', 'create')->name('courses.create');
+        Route::post('courses/store', 'store')->name('courses.store');
+        Route::get('courses/{course:slug}/edit', 'edit')->name('courses.edit');
+        Route::post('courses/{course:slug}/update', 'update')->name('courses.update');
+        Route::get('courses/{course:slug}/delete', 'delete')->name('courses.delete');
     });
 });
 
