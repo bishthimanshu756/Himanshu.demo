@@ -29,7 +29,7 @@ class UserController extends Controller
         ]);
 
         return view('users.index', [
-            'users' => User::visibleTo()->filter(request(['roleId', 'orderBy']))->paginate(10),
+            'users' => User::visibleTo()->filter(request(['roleId', 'orderBy','search']))->paginate(10),
             'roles' => Role::where('id', '>', Auth::user()->role_id)->get(),
             'currentRole' => Role::find($request->roleId)
         ]);

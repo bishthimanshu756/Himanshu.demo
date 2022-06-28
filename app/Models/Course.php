@@ -39,4 +39,16 @@ class Course extends Model
     public function category() {
         return $this->belongsTo(Category::class);
     }
+
+    public function level() {
+        return $this->belongsTo(Level::class);
+    }
+
+    //Scopes
+    public function scopeFilter($query, array $filter) {
+        $query->when($filter['search'] ?? false, function ($query, $search) {
+                return $query->where('title', 'like', '%'.$search.'%')
+                        ->orWhere('description', 'like', '%'.$search.'%');
+        });
+    }
 }

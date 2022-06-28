@@ -145,6 +145,12 @@ class User extends Authenticatable
                     return $query->orderBy('created_at', $orderBy);
                 }
         });
+
+        $query->when($filter['search'] ?? false, function($query, $search) {
+            return $query->where('first_name', 'like', '%' .$search. '%')
+                        ->orWhere('last_name', 'like', '%' . $search. '%')
+                        ->orWhere('email', 'like', '%'.$search. '%');
+        });
     }
 
 }

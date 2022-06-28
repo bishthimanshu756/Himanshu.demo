@@ -89,7 +89,7 @@ Route::middleware('auth')->group( function() {
     });
 
 
-    //Courses
+    //Courses Routes
     Route::controller(CourseController::class)->group(function() {
         Route::get('/courses', 'index')->name('courses.index');
         Route::get('courses/create', 'create')->name('courses.create');

@@ -18,15 +18,15 @@
                 </div>
 
                 <!-- Description -->
-                <div class="mt-4">
+                <div class="mt-4 mb-4 h-40">
                     <label for="description" class="block font-black required">{{ __('Provide A Brief Description For What The Course Is About.') }}</label>
-                    <textarea name="description" class="border-gray-200 rounded-md w-full" placeholder="Description"> {{ $course->description }} </textarea>
+                    <textarea name="description" class="h-full border-gray-200 rounded-md w-full" placeholder="Description"> {{ $course->description }} </textarea>
 
                     <x-validation-error name="description" />
                 </div>
 
                 <!-- Category Dropdown-->
-                <div class="mt-4">
+                <div class="mt-10">
                     <label for="category_id" class="block font-black">{{ __('What Category Should The Course Be In?') }}</label>
                     <select name="category_id" id="category_id" class="font-semibold border-gray-200 rounded-md w-full">
                         @foreach($categories as $category)
