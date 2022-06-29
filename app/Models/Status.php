@@ -10,6 +10,10 @@ class Status extends Model
 {
     use HasFactory, SoftDeletes;
 
+    const PUBLISHED = 1;
+    const DRAFT = 2;
+    const ARCHIVED = 3;
+
     protected $fillable = ['name'];
 
 }

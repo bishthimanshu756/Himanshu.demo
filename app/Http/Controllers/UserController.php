@@ -16,6 +16,7 @@ class UserController extends Controller
 {
     public function index(Request $request) {
 
+        /* Validation for Role Filter in User listing */
         if(Auth::user()->role_id == Role::ADMIN) {
             $roleIds = '2,3,4';
         } elseif (Auth::user()->role_id == Role::SUB_ADMIN) {
@@ -29,7 +30,7 @@ class UserController extends Controller
         ]);
 
         return view('users.index', [
-            'users' => User::visibleTo()->filter(request(['roleId', 'orderBy','search']))->paginate(10),
+            'users' => User::latest()->visibleTo()->filter(request(['roleId', 'orderBy','search']))->paginate(10),
             'roles' => Role::where('id', '>', Auth::user()->role_id)->get(),
             'currentRole' => Role::find($request->roleId)
         ]);

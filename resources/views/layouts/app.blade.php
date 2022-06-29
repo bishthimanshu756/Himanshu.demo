@@ -71,7 +71,7 @@
                 </nav>
 
                 <!-- Page Content -->
-                <main class="bg-gray-100 h-screen w-full">
+                <main class="bg-gray-100 overflow-y-scroll w-full">
                     {{ $slot }}
                 </main>
             </div>

@@ -3,6 +3,9 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryStatusController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CourseImageController;
+use App\Http\Controllers\CourseUnitController;
+use App\Http\Controllers\CourseUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PasswordResetController;
@@ -97,6 +100,23 @@ Route::middleware('auth')->group( function() {
         Route::get('courses/{course:slug}/edit', 'edit')->name('courses.edit');
         Route::post('courses/{course:slug}/update', 'update')->name('courses.update');
         Route::get('courses/{course:slug}/delete', 'delete')->name('courses.delete');
+        Route::get('courses/{course:slug}/show', 'show')->name('courses.show');
+    });
+
+    Route::get('images/{image}', [CourseImageController::class, 'index'])->name('images.index');
+
+    Route::controller(CourseUserController::class)->group(function() {
+        Route::get('courses/{course:slug}/users', 'index')->name('courses.users.index');
+        Route::post('courses/{course:slug}/store', 'store')->name('courses.users.store');
+        Route::post('courses/{course}/users', 'delete')->name('courses.users.delete');
+    });
+
+    Route::controller(CourseUnitController::class)->group(function() {
+        Route::get('courses/{course:slug}/units', 'create')->name('courses.units.create');
+        Route::post('courses/{course:slug}/store', 'store')->name('courses.units.store');
+        Route::get('courses/{course:slug}/units/{unit}/edit', 'edit')->name('courses.units.edit');
+        Route::post('courses/{course:slug}/units/{unit}/update', 'update')->name('courses.units.update');
+        Route::get('courses/{course:slug}/units/{unit}', 'delete')->name('courses.units.delete');
     });
 });
 

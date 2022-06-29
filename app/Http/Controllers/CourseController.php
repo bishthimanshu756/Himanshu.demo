@@ -4,20 +4,34 @@ namespace App\Http\Controllers;
 
 use App\Models\Category;
 use App\Models\Course;
+use App\Models\Image;
 use App\Models\Level;
+use App\Models\Unit;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class CourseController extends Controller
 {
-    public function index() {
+    public function index(Category $category, Level $level) {
 
         return view('courses.index', [
-            'courses' => Course::filter(request(['search']))->paginate(10),
+            'courses' => Course::filter(request(['search', 'category', 'orderBy', 'level']))->paginate(10),
+            'categories' => $category->get(),
+            'currentCategory' => $category->find(request()->category),
+            'levels' => $level->get(),
+            'currentLevel' => $level->find(request()->level),
+        ]);
+    }
+
+    public function show(Course $course) {
+        return view('courses.units.index', [
+            'course' => $course,
+            'units' => Unit::get(),
         ]);
     }
     
     public function create() {
+
         return view('courses.create', [
             'categories' => Category::get(),
             'levels' => Level::get(),
@@ -74,6 +88,14 @@ class CourseController extends Controller
         ($request->certificate == 1)? $attributes += ['certificate' => 1] : $attributes += ['certificate' => 0];
         
         $course->update($attributes);
+        
+        if(request()->file('image')) {
+            $path = $request->image->store('public/images');
+            Image::create([
+                'image_path' => $path,
+                'course_id' => $course->id
+            ]);
+        }
 
         return redirect()->route('courses.index')->with('success', 'Course updated successfully.');
     }

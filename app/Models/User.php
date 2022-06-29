@@ -97,7 +97,7 @@ class User extends Authenticatable
     }
 
     public function courses() {
-        return $this->hasMany(Course::class);
+        return $this->belongsToMany(User::class, 'course_user', 'user_id', 'course_id');
     }
 
 
@@ -111,8 +111,8 @@ class User extends Authenticatable
         }
     }
 
-    public function scopeCreatedByAdmin($query) {
-        $query->where('created_by', Role::ADMIN);
+    public function scopeOwner($query) {
+        $query->where('created_by', Auth::id());
     }
 
     public function scopeTrainer($query) {
