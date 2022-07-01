@@ -16,7 +16,8 @@ use Illuminate\Validation\Rule;
 
 class CourseUserController extends Controller
 {
-    public function index(Course $course) {
+    public function index(Course $course)
+    {
         $this->authorize('view', $course);
 
         $users = User::owner()->active()->employee()
@@ -25,15 +26,15 @@ class CourseUserController extends Controller
             })->get();
 
 
-        return view('courses.users_enroll', [
+        return view('courses._users_enroll', [
             'users' => $users,
             'course' => $course,
             'enrolledUsers'=> $course->enrollUsers()->get()
         ]);
     }
 
-    public function store(Course $course, Request $request) {
-        // dd($request->all());
+    public function store(Course $course, Request $request)
+    {
         $this->authorize('edit', $course);
 
         $validator = Validator::make($request->all(), [
@@ -58,13 +59,14 @@ class CourseUserController extends Controller
             'assigned_by' => Auth::id(),
             'status' => Status::DRAFT,
         ]);
-        
+
         Notification::send($users, new CourseUserEnrollNotification(Auth::user(), $course));
-        
+
         return back()->with('success', 'User enrolled successfully.');
     }
 
-    public function delete(Course $course, Request $request ) {
+    public function delete(Course $course, Request $request )
+    {
         $this->authorize('delete', $course);
 
         $validator = Validator::make($request->all(), [
@@ -83,7 +85,7 @@ class CourseUserController extends Controller
         $validated = $validator->validated();
 
         $user = User::visibleTo()->find($validated['userId']);
-        
+
         $course->enrollUsers()->detach(request()->userId);
 
         Notification::send($user, new CourseUserUnenrollNotification(Auth::user(), $course));

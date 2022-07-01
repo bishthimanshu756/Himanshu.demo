@@ -16,4 +16,10 @@ class Unit extends Model
         'duration',
         'lesson_count',
     ];
+
+    /** Relationships */
+    public function courses() {
+        return $this->belongsToMany(Course::class, 'course_unit', 'unit_id', 'course_id')
+            ->withPivot('sort_order')->withTimestamps();
+    }
 }

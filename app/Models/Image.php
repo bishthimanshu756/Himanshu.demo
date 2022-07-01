@@ -13,4 +13,8 @@ class Image extends Model
         'course_id',
         'image_path',
     ];
+
+    public function course() {
+        return $this->belongsTo(Course::class);
+    }
 }

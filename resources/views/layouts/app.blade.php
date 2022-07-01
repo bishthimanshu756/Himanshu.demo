@@ -33,7 +33,7 @@
                     </p>
                 @endif
                 <!-- Side Bar -->
-                <nav class="font-bold h-screen text-lg text-white w-1/6 bg-sky-900">
+                <nav class="font-bold text-lg text-white w-1/6 bg-sky-900 min-h-screen">
                     <ul class="mt-14 leading-loose">
                         <div>    
                             <li class=" pl-6 active:bg-white active:text-blue-400 hover:bg-white hover:text-blue-900 p-2.5 rounded-xl">

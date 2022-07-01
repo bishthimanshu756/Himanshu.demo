@@ -33,7 +33,7 @@
             </div>
         </div>
         <div class="bg-white border-b border-gray-200 pb-4">
-            <x-tab :user=$user/>
+            <x-_user_tab :user=$user/>
             <table class="w-full border-b-2">
                 <thead>
                     <tr class="bg-blue-50 border-b-2 w-full">

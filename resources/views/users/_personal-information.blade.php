@@ -7,7 +7,7 @@
             </h3>
         </div>
         <div class="bg-white border-b border-gray-200">
-            <x-tab :user=$user :trainer=$user/>
+            <x-_user_tab :user=$user :trainer=$user/>
             <form method="POST" action="{{ route('users.update', $user) }}" class=" px-12 py-6 w-3/5">
                 @csrf
                 <!-- First Name -->

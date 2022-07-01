@@ -10,7 +10,7 @@ class CategoryController extends Controller
 {
     public function index() {
         return view('categories.index', [
-            'categories'=> Category::VisibleTo()->paginate(10),
+            'categories'=> Category::VisibleTo()->paginate(),
         ]);
     }
 
@@ -18,14 +18,15 @@ class CategoryController extends Controller
         return view('categories.create');
     }
 
-    public function store(Request $request) {
-        
+    public function store(Request $request) 
+    {        
         $request->validate([
             'name' => ['required', 'max:50'],
         ]);
 
         $category= Category::where('name', $request->name)->onlyTrashed()->first();
-        if($category) {
+
+        if ($category) {
             $category->restore();
             return redirect()->route('categories.index')
                 ->with('success', 'Category restore successfully');
@@ -48,7 +49,8 @@ class CategoryController extends Controller
         }
     }
 
-    public function edit(Category $category) {
+    public function edit(Category $category) 
+    {
         $this->authorize('edit', $category);
 
         return view('categories.edit', [
@@ -56,7 +58,8 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function update(Category $category, Request $request) {
+    public function update(Category $category, Request $request) 
+    {
         $this->authorize('update', $category);
 
         $attributes= $request->validate([
@@ -69,7 +72,8 @@ class CategoryController extends Controller
             ->with('success', __('Category updated successfully'));
     }
 
-    public function delete(Category $category) {
+    public function delete(Category $category) 
+    {
         $this->authorize('delete', $category);
         
         $category->delete();

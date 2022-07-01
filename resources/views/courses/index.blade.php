@@ -1,5 +1,5 @@
 <x-app-layout>
-    <div class="h-screen overflow-x-auto py-12">
+    <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="px-4 py-4 ">
                 <div class="flex items-center justify-between ">
@@ -101,7 +101,7 @@
                             <div class="bg-white border-b rounded-md border-gray-200 mt-6 w-full max-h-54 overflow-hidden">
                                 <div class="flex mt-0.5 px-4 py-1">
                                     <div class="p-3 w-1/5 bg-gray-200">
-                                        <img src="#" alt="image" class="inline">
+                                        <img src="{{'app/storage/app/' . $course->image->image_path }}" alt="">
                                     </div>
                                     <div class="inline w-4/5 ml-8 p-4">
                                         <div class="flex justify-between">

@@ -15,13 +15,13 @@
                 </button>
                 <div x-show="show" class="absolute bg-gray-500 border-2 border-black-600 font-bold max-h-80 py-4 rounded-md text-white w-52">
                     @if($users->count())
-                    <form action="{{ route('courses.users.store', $course) }}" method="POST">
+                    <form method="POST" action="{{ route('courses.users.store', $course) }}">
                         @csrf
                         @foreach($users as $user)
-                        <div class="block p-2 text-sm">
-                            <input type="checkbox" name="usersIds[]" id="{{ $user->slug }}" value="{{ $user->id }}">
-                            <label for="{{ $user->slug }}">{{ $user->full_name }}</label>
-                        </div>
+                            <div class="block p-2 text-sm">
+                                <input type="checkbox" name="usersIds[]" id="{{ $user->slug }}" value="{{ $user->id }}">
+                                <label for="{{ $user->slug }}">{{ $user->full_name }}</label>
+                            </div>
                         @endforeach
                         <button type="submit" class="border-2 ml-10 px-4 py-1">{{ __('Add') }}</button>
                     </form>
@@ -32,11 +32,10 @@
             </div>
         </div>
         <div class="bg-white border-b border-gray-200 pb-4">
-            <div class="w-full bg-blue-100 px-2 py-4 font-semibold">
-                <a href="{{ route('courses.edit', $course) }}" class="ml-14">{{ __('Course Information') }}</a>
-                <a href="#" class="ml-14">{{ __('Trainers') }}</a>
-                <a href="{{ route('courses.users.index', $course) }}" class="ml-14">{{ __('Users') }}</a>
-            </div>
+
+            <!-- Tabs -->
+            <x-_course_tab :course=$course />
+        
             <table class="w-full border-b-2">
                 <thead>
                     <tr class="bg-blue-50 border-b-2 w-full">

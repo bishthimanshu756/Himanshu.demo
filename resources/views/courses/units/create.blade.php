@@ -2,15 +2,19 @@
     <div class="mx-24 my-6 py-12">
         <div class="flex items-center justify-between mb-8">
             <h3 class="font-extrabold text-blue-900 text-xl">
-                <a href="{{ route('courses.index') }}">{{ __('Courses') }}</a>
+                <a href="{{ route('courses.index') }}">
+                    {{ __('Courses') }}
+                </a>
                 <svg class="w-4 h-4 inline" viewBox="0 0 358 512" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                     <title>right</title><path d="M98 460L64 426 227 262 64 98 98 64 294 262 98 460Z"></path>
                 </svg>
-                <a href="{{ route('courses.show', $course) }}">{{ $course->title }}</a>
+                <a href="{{ route('courses.show', $course) }}">
+                    {{ $course->title }}
+                </a>
                 <span class="text-black">
                     <svg class="w-4 h-4 inline" viewBox="0 0 358 512" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
                         <title>right</title><path d="M98 460L64 426 227 262 64 98 98 64 294 262 98 460Z"></path>
-                    </svg>  
+                    </svg>
                     {{ __('Add New Unit') }}
                 </span>
             </h3>

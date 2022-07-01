@@ -61,6 +61,20 @@ class CoursePolicy
     }
 
     /**
+     * Determine whether the user can show the model.
+     *
+     * @param  \App\Models\User  $user
+     * @param  \App\Models\Course  $course
+     * @return \Illuminate\Auth\Access\Response|bool
+     */
+    public function show(User $user, Course $course)
+    {
+        if($user->can('admin') || $course->user_id === $user->id) {
+            return true;
+        }
+    }
+
+    /**
      * Determine whether the user can update the model.
      *
      * @param  \App\Models\User  $user
@@ -69,7 +83,9 @@ class CoursePolicy
      */
     public function update(User $user, Course $course)
     {
-        //
+        if($user->can('admin') || $course->user_id === $user->id) {
+            return true;
+        }
     }
 
     /**

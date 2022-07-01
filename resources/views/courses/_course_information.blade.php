@@ -15,11 +15,7 @@
         </div>
 
         <!-- Tabs -->
-        <div class="w-full bg-blue-100 px-2 py-4 font-semibold">
-            <a href="{{ route('courses.edit', $course) }}" class="ml-14">{{ __('Course Information') }}</a>
-            <a href="#" class="ml-14">{{ __('Trainers') }}</a>
-            <a href="{{ route('courses.users.index', $course) }}" class="ml-14">{{ __('Users') }}</a>
-        </div>
+        <x-_course_tab :course=$course />
 
         <!-- Edit Form -->
         <div class="p-6 bg-white">
@@ -75,8 +71,13 @@
                         </div>
                     </div>
                     <!-- Form Right Div-->
-                    <div class="5/12">
-                        <input type="file" name="image" placeholder="Choose Image">
+                    <div class="ml-40 mt-48 w-1/4">
+                        <input type="file" name="image" placeholder="Upload">
+                        <div>
+                            <span class="font-bold text-xs">
+                                {{ __('Upload Course Cover Image') }}
+                            </span>
+                        </div>
                     </div>
                 </div>
                 <!-- Buttons -->

@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Role;
+use App\Models\Team;
 use App\Models\User;
 use App\Notifications\TeamUserEmployeeAssignNotification;
 use App\Notifications\TeamUserEmployeeUnassignNotification;
@@ -20,7 +21,7 @@ class TeamUserController extends Controller
     {
         $this->authorize('view', $trainer);
 
-        $employees = User::createdbyadmin()->active()->employee()
+        $employees = User::owner()->active()->employee()
             ->whereDoesnthave('trainers', function ($query) use ($trainer) {
                 $query->where('team_id', $trainer->id);
             })->get();
@@ -52,6 +53,14 @@ class TeamUserController extends Controller
         }
 
         $validated = $validator->validated();
+
+        //Validation for Employees already assigned to Trainer in teams table
+        $teamExists = Team::where('user_id', $validated['userIds'])
+                    ->where('team_id', $trainer->id)->get();
+        
+        if ($teamExists->isNotEmpty()) {
+            return back()->with('error', 'Employee already assigned to Trainer.');
+        }
 
         $assignees = User::visibleTo(Auth::user())->findMany($validated['userIds']);
 

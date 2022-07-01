@@ -14,7 +14,8 @@ use Illuminate\Validation\Rules\Password;
 
 class UserController extends Controller
 {
-    public function index(Request $request) {
+    public function index(Request $request)
+    {
 
         /* Validation for Role Filter in User listing */
         if(Auth::user()->role_id == Role::ADMIN) {
@@ -30,20 +31,22 @@ class UserController extends Controller
         ]);
 
         return view('users.index', [
-            'users' => User::latest()->visibleTo()->filter(request(['roleId', 'orderBy','search']))->paginate(10),
+            'users' => User::visibleTo()->filter(request(['roleId', 'orderBy','search']))->paginate(10),
             'roles' => Role::where('id', '>', Auth::user()->role_id)->get(),
             'currentRole' => Role::find($request->roleId)
         ]);
     }
 
-    public function create() {
+    public function create()
+    {
 
         return view('users.create', [
             'roles' => Role::get(),
         ]);
     }
 
-    public function store(Request $request, User $user) {
+    public function store(Request $request, User $user)
+    {
 
         if (Auth::user()->role_id == Role::TRAINER) {
             $ids = '4';
@@ -75,7 +78,7 @@ class UserController extends Controller
             }
         }
 
-        //create a user 
+        //create a user
         $attributes = request()->validate([
             'first_name' => ['required', 'max:255', 'min:3'],
             'last_name' => ['required'],
@@ -104,14 +107,15 @@ class UserController extends Controller
                 return redirect()->route('users.index')
                     ->with('success', 'User created successfully');
                     break;
-            case 'create_another': 
+            case 'create_another':
                 return back()->with('success', __('User added successfully.'));
         }
 
     }
 
-    public function edit(User $user) {
-       
+    public function edit(User $user)
+    {
+
         $this->authorize('edit', $user);
 
         return view('users._personal-information', [
@@ -120,8 +124,9 @@ class UserController extends Controller
         ]);
     }
 
-    public function update(User $user, Request $request) {
-        
+    public function update(User $user, Request $request)
+    {
+
         $this->authorize('update', $user);
         $attributes = request()->validate([
             'first_name' => ['required', 'max:255', 'min:3', 'string'],
@@ -138,7 +143,7 @@ class UserController extends Controller
 
         return redirect()->route('users.index')
             ->with('success', __('User updated successfully'));
-    
+
     }
 
     //* Delete a user //
@@ -150,5 +155,5 @@ class UserController extends Controller
         return redirect()->route('users.index')
             ->with('success', __('User deleted successfully'));
     }
-    
+
 }

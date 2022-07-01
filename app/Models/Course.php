@@ -6,6 +6,7 @@ use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
 use Illuminate\Database\Eloquent\SoftDeletes;
+use Illuminate\Support\Facades\Auth;
 
 class Course extends Model
 {
@@ -49,7 +50,16 @@ class Course extends Model
         return $this->hasOne(Image::class);
     }
 
+    public function units() {
+        return $this->belongsToMany(Unit::class, 'course_unit', 'course_id', 'unit_id');
+    }
+
     //Scopes
+
+    public function scopeCourseOwner($query) {
+        return $query->where('user_id', Auth::id());
+    }
+
     public function scopeFilter($query, array $filter) {
         $query->when($filter['search'] ?? false, function ($query, $search) {
                 return $query->where('title', 'like', '%'.$search.'%')
