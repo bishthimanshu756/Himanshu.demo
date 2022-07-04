@@ -1,4 +1,7 @@
 <x-app-layout>
+    @php
+        $roles = App\Models\Role::where('id', '>', Auth::user()->role_id)->get();
+    @endphp
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="px-4 py-4 ">
@@ -24,7 +27,7 @@
                     <div class="mt-1">
                         <div x-data="{ show:false}" @click.away="show = false" class="bg-white border-2 font-semibold inline px-4 py-2 relative text-sm">
                             <button @click="show = !show">
-                                {{isset($currentRole) ? $currentRole->name : __('All User Type') }}
+                                {{ (request('roleId')) ? $roles->find(request('roleId'))->name :'All' }}
                                 <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                                     <path d="M13.098 8H6.902c-.751 0-1.172.754-.708 1.268L9.292 12.7c.36.399 1.055.399 1.416 0l3.098-3.433C14.27 8.754 13.849 8 13.098 8z"></path>
                                 </svg>
@@ -40,7 +43,7 @@
                                     @foreach($roles as $role)
                                         <button type="submit" name="roleId" value="{{ $role->id }}" class="block hover:bg-gray-200 px-2 py-0.5 text-left w-full {{ isset($currentRole) && $currentRole->is($role) ? 'bg-blue-500 text-white' : ''}} ">{{ $role->name }}</button>
                                     @endforeach
-                                </form>    
+                                </form>
                             </div>
                         </div>
                         <div x-data="{ show:false}" @click.away="show = false" class="ml-4 bg-white border-2 font-semibold inline px-4 py-2 relative text-sm">

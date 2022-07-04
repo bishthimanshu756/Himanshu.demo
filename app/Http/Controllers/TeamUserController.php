@@ -57,7 +57,7 @@ class TeamUserController extends Controller
         //Validation for Employees already assigned to Trainer in teams table
         $teamExists = Team::where('user_id', $validated['userIds'])
                     ->where('team_id', $trainer->id)->get();
-        
+
         if ($teamExists->isNotEmpty()) {
             return back()->with('error', 'Employee already assigned to Trainer.');
         }

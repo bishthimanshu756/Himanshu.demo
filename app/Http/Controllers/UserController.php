@@ -16,7 +16,6 @@ class UserController extends Controller
 {
     public function index(Request $request)
     {
-
         /* Validation for Role Filter in User listing */
         if(Auth::user()->role_id == Role::ADMIN) {
             $roleIds = '2,3,4';
@@ -31,15 +30,12 @@ class UserController extends Controller
         ]);
 
         return view('users.index', [
-            'users' => User::visibleTo()->filter(request(['roleId', 'orderBy','search']))->paginate(10),
-            'roles' => Role::where('id', '>', Auth::user()->role_id)->get(),
-            'currentRole' => Role::find($request->roleId)
+            'users' => User::visibleTo()->filter(request(['roleId', 'orderBy','search']))->paginate(),
         ]);
     }
 
     public function create()
     {
-
         return view('users.create', [
             'roles' => Role::get(),
         ]);
@@ -47,7 +43,6 @@ class UserController extends Controller
 
     public function store(Request $request, User $user)
     {
-
         if (Auth::user()->role_id == Role::TRAINER) {
             $ids = '4';
         } elseif (Auth::user()->role_id == Role::SUB_ADMIN) {
@@ -115,18 +110,15 @@ class UserController extends Controller
 
     public function edit(User $user)
     {
-
         $this->authorize('edit', $user);
 
         return view('users._personal-information', [
-            'roles' => Role::get(),
             'user' => $user,
         ]);
     }
 
     public function update(User $user, Request $request)
     {
-
         $this->authorize('update', $user);
         $attributes = request()->validate([
             'first_name' => ['required', 'max:255', 'min:3', 'string'],

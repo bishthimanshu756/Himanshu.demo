@@ -8,18 +8,18 @@ use App\Models\Image;
 use App\Models\Level;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Validator;
+use Illuminate\Validation\Rule;
 
 class CourseController extends Controller
 {
     public function index(Category $category, Level $level)
     {
         return view('courses.index', [
-            'courses' => Course::courseOwner()
-                ->filter(request(['search', 'category', 'orderBy', 'level']))
-                ->paginate(),
-            'categories' => $category->get(),
+            'courses' => Course::visibleTo()
+                    ->filter(request(['search', 'category', 'orderBy', 'level']))
+                    ->paginate(),
             'currentCategory' => $category->find(request()->category),
-            'levels' => $level->get(),
             'currentLevel' => $level->find(request()->level),
         ]);
     }
@@ -34,24 +34,43 @@ class CourseController extends Controller
 
     public function store(Request $request)
     {
-        $attributes = $request->validate([
-            'title' => ['required','min:3', 'max:50'],
-            'description' => ['required', 'min:5', 'max:255'],
+        $validator = Validator::make($request->all(), [
             'category_id' => [
                 'required',
-                'exists:App\Models\Category,id',
+                Rule::exists('categories','id'),
             ],
             'level_id' => [
                 'required',
-                'exists:App\Models\Level,id'
+                Rule::exists('levels', 'id'),
             ],
         ]);
 
+        if ($validator->fails()) {
+            return back()->with('error', 'Please select valid Category and Level.');
+        };
+
+        $validated = $validator->validated();
+
+        $attributes = $request->validate([
+            'title' => ['required','min:3', 'max:50'],
+            'description' => ['required', 'min:5', 'max:255'],
+        ]);
+
         $attributes += [
-            'user_id' => Auth::id()
+            'user_id' => Auth::id(),
+            'category_id' => $validated['category_id'],
+            'level_id' => $validated['level_id'],
         ];
 
-        Course::create($attributes);
+        $course = Course::create($attributes);
+
+        if($request->file('image')) {
+            $path = $request->image->store('images');
+            Image::create([
+                'image_path' => $path,
+                'course_id' => $course->id
+            ]);
+        }
 
         return back()->with('success', 'Course created successfully.');
     }
@@ -74,7 +93,6 @@ class CourseController extends Controller
 
         return view('courses.units.index', [
             'course' => $course,
-            'units' => $course->units()->get(),
         ]);
     }
 
@@ -82,25 +100,38 @@ class CourseController extends Controller
     {
         $this->authorize('update', $course);
 
-        $attributes = $request->validate([
-            'title' => ['required', 'min:3', 'max:50'],
-            'description' => ['required', 'min:5', 'max:255'],
-            'category_id' => [
-                'required',
-                'exists:App\Models\Category,id',
+        $validator = Validator::make($request->all(), [
+            'category_id' => ['required',
+                Rule::exists('categories', 'id'),
             ],
             'level_id' => [
                 'required',
-                'exists:App\Models\Level,id'
+                Rule::exists('levels', 'id'),
             ],
         ]);
 
-        ($request->certificate == 1)? $attributes += ['certificate' => 1] : $attributes += ['certificate' => 0];
+        if($validator->fails()) {
+            return back()->with('error', 'Please select valid Category and Level.');
+        }
+
+        $validated = $validator->validated();
+
+        $attributes = $request->validate([
+            'title' => ['required', 'min:3', 'max:50'],
+            'description' => ['required', 'min:5', 'max:255'],
+        ]);
+
+        $attributes += [
+            'category_id' => $validated['category_id'],
+            'level_id' => $validated['level_id'],
+            'certificate' => ($request->certificate == 1)? 1 : 0,
+        ];
+
 
         $course->update($attributes);
 
         if(request()->file('image')) {
-            $path = $request->image->store('images');
+            $path = $request->image->store('public/images');
             Image::create([
                 'image_path' => $path,
                 'course_id' => $course->id

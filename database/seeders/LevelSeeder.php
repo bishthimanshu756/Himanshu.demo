@@ -22,7 +22,7 @@ class LevelSeeder extends Seeder
         Level::create([
             'name' => 'Level 2'
         ]);
-        
+
         Level::create([
             'name' => 'Level 3'
         ]);
@@ -33,6 +33,10 @@ class LevelSeeder extends Seeder
 
         Level::create([
             'name' => 'Level 5'
+        ]);
+
+        Level::create([
+            'name' => 'Level 6'
         ]);
 
         Level::create([

@@ -7,7 +7,7 @@
             </h3>
             <div x-data="{ show:false}" @click.away="show = false">
                 <button @click="show = !show" class="bg-gray-500 font-bold px-8 py-2 rounded-md text-white">
-                    {{ _('Add Employers') }}
+                    {{ _('Add Trainers') }}
                     <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
                         <path d="M13.098 8H6.902c-.751 0-1.172.754-.708 1.268L9.292 12.7c.36.399 1.055.399 1.416 0l3.098-3.433C14.27 8.754 13.849 8 13.098 8z">
                         </path>
@@ -32,7 +32,7 @@
             </div>
         </div>
         <div class="bg-white border-b border-gray-200 pb-4">
-            <x-user_tab :user=$user :trainer=$user />
+            <x-_user_tab :user=$user :trainer=$user />
             <table class="w-full border-b-2">
                 <thead>
                     <tr class="bg-blue-50 border-b-2 w-full">

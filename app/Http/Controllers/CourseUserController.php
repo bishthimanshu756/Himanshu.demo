@@ -20,7 +20,7 @@ class CourseUserController extends Controller
     {
         $this->authorize('view', $course);
 
-        $users = User::owner()->active()->employee()
+        $users = User::owner()->active()->user()
             ->whereDoesnthave('courses', function ($query) use ($course) {
                 $query->where('course_id', $course->id);
             })->get();
@@ -29,13 +29,12 @@ class CourseUserController extends Controller
         return view('courses._users_enroll', [
             'users' => $users,
             'course' => $course,
-            'enrolledUsers'=> $course->enrollUsers()->get()
         ]);
     }
 
     public function store(Course $course, Request $request)
     {
-        $this->authorize('edit', $course);
+        $this->authorize('store', $course);
 
         $validator = Validator::make($request->all(), [
             'usersIds' => [

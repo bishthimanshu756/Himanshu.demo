@@ -33,9 +33,9 @@ class UserTeamController extends Controller
     }
 
     public function store(User $user, Request $request) {
-        
+
         $this->authorize('edit', $user);
-        
+
         $validator= Validator::make($request->all(), [
             'trainerIds' => [
                 'required',
@@ -49,22 +49,22 @@ class UserTeamController extends Controller
         if($validator->fails()) {
             return back()->with('error', 'Please select at least one trainer.');
         }
-        
+
         $validated = $validator->validated();
-        
+
         //Validation for Trainers already assigned to Employee in team table
         $teamExists = Team::where('team_id',$validated['trainerIds'])
         ->where('user_id', $user->id)->get();
-        
-        
+
+
         if($teamExists->isNotEmpty()) {
             return back()->with('error', 'Trainer already assigned to the employee.');
         }
 
         $assignees = User::visibleTo(Auth::user())->findMany($validated['trainerIds']);
-        
+
         $user->trainers()->attach($assignees);
-        
+
         Notification::send($assignees, new UserTeamEmployeeAssignNotification(Auth::user(), $user));
         Notification::send($user, new UserTeamTeamAssignNotification(Auth::user(), $assignees));
 
@@ -73,7 +73,7 @@ class UserTeamController extends Controller
 
     public function destroy(User $user, Request $request) {
         $this->authorize('delete', $user);
-    
+
         $validator = Validator::make($request->all(), [
             'trainerId' => [
                 'required',
@@ -93,8 +93,8 @@ class UserTeamController extends Controller
         $assignee = User::visibleTo()->find($validated['trainerId']);
 
         $user->trainers()->detach($validated['trainerId']);
-        
-        Notification::send($user, new UserTeamTeamUnassignNotification(Auth::user(), $assignee));   
+
+        Notification::send($user, new UserTeamTeamUnassignNotification(Auth::user(), $assignee));
         Notification::send($assignee, new UserTeamEmployeeUnassignNotification(Auth::user(), $user));
 
         return back()->with('success', 'Trainers unassign successfully!');

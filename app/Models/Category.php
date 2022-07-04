@@ -43,4 +43,22 @@ class Category extends Model
             ]
         ];
     }
+
+    public function scopeFilter($query, array $filter) {
+        $query->when($filter['search']??false, function($query, $search) {
+            $query->where('name', 'like', '%'. "$search".'%');
+        });
+
+        $query->when($filter['orderBy']??false, function($query, $orderBy){
+            if($orderBy == 'a-z') {
+                return $query->orderby('name', 'asc');
+            } elseif ($orderBy == 'z-a') {
+                return $query->orderby('name', 'desc');
+            } elseif($orderBy == 'desc') {
+                return $query->orderby('created_at', 'desc');
+            } else {
+                return $query->orderby('created_at', 'asc');
+            }
+        });
+    }
 }

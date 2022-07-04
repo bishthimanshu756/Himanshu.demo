@@ -1,4 +1,8 @@
 <x-app-layout>
+    @php
+        $categories = App\Models\Category::get();
+        $levels = App\Models\Level::get();
+    @endphp
     <div class="py-12">
         <div class="max-w-7xl mx-auto sm:px-6 lg:px-8">
             <div class="px-4 py-4 ">
@@ -6,10 +10,10 @@
                     <h3 class="font-extrabold text-blue-900 text-xl">
                         Courses
                     </h3>
-                    @if (auth()->user()->role_id != 4)
-                    <a href="{{ route( 'courses.create' ) }}" class="bg-blue-400 border font-bold hover:bg-white hover:text-blue-900 p-2 rounded-md text-center text-sm text-white">
-                        {{ __('Create New Course') }}
-                    </a>
+                    @if (auth()->user()->role_id != App\Models\Role::EMPLOYEE)
+                        <a href="{{ route( 'courses.create' ) }}" class="bg-blue-400 border font-bold hover:bg-white hover:text-blue-900 p-2 rounded-md text-center text-sm text-white">
+                            {{ __('Create New Course') }}
+                        </a>
                     @endif
                 </div>
                 <!-- Filters and Search Div -->
@@ -84,12 +88,12 @@
                                 </svg>
                             </button>
                             <div x-show="show" class="absolute bg-white border-2 left-0 mt-1 p-2 w-44 z-50" style="display: none;">
-                                <form action="{{ route('courses.index') }}" method="get">                                    
+                                <form action="{{ route('courses.index') }}" method="get">
                                     <button name="orderBy" value="a-z" class="hover:bg-gray-200 py-0.5 w-full text-left">{{ __('Name A To Z') }}</button>
                                     <button name="orderBy" value="z-a" class="hover:bg-gray-200 py-0.5 w-full text-left">{{ __('Name Z To A') }}</button>
                                     <button name="orderBy" value="asc" class="hover:bg-gray-200 py-0.5 w-full text-left">{{ __('Latest Created Date') }}</button>
-                                    <button name="orderBy" value="desc" class="hover:bg-gray-200 py-0.5 w-full text-left">{{ __('Oldest Created Date') }}</button>                                   
-                                </form>    
+                                    <button name="orderBy" value="desc" class="hover:bg-gray-200 py-0.5 w-full text-left">{{ __('Oldest Created Date') }}</button>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -101,7 +105,7 @@
                             <div class="bg-white border-b rounded-md border-gray-200 mt-6 w-full max-h-54 overflow-hidden">
                                 <div class="flex mt-0.5 px-4 py-1">
                                     <div class="p-3 w-1/5 bg-gray-200">
-                                        <img src="{{'app/storage/app/' . $course->image->image_path }}" alt="">
+                                        <img src="{{ url('storage/'.$course->image->image_path) }}" alt="images"  class="h-full object-fill w-full">
                                     </div>
                                     <div class="inline w-4/5 ml-8 p-4">
                                         <div class="flex justify-between">
@@ -116,10 +120,10 @@
                                                 </button>
                                                 <div x-show="show" class="absolute border-2 border-black-600 w-50 z-50 right-0" style="display:none;">
                                                     <a href="{{ route('courses.edit', $course) }}" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7">{{ __('Edit') }}</a>
+                                                    <a href="{{ route('courses.users.index', $course) }}" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7">{{ __('Users') }}</a>
                                                     <a href="{{ route('courses.delete', $course) }}" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7">{{__('Delete')}}</a>
                                                 </div>
                                             </div>
-
                                         </div>
                                         <div class="text-2xl mt-2">
                                             <a href="{{ route('courses.edit', $course) }}">
@@ -128,7 +132,7 @@
                                         </div>
                                         <div class="text-sm mt-2">
                                             <span class="font-serif text-gray-400">{{ __('Created By: ') }}</span>
-                                            <span class="font-bold">{{ $course->user_id }}</span>
+                                            <span class="font-bold">{{ $course->user->full_name }}</span>
                                             |
                                             <span class="font-serif text-gray-400">{{ __('Created On: ') }} </span>
                                             <span class="font-bold">{{ $course->created_at->format('M-d-Y') }}</span>

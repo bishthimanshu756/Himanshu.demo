@@ -8,9 +8,10 @@ use Illuminate\Support\Facades\Auth;
 
 class CategoryController extends Controller
 {
-    public function index() {
+    public function index()
+    {
         return view('categories.index', [
-            'categories'=> Category::VisibleTo()->paginate(),
+            'categories'=> Category::VisibleTo()->filter(request(['orderBy', 'search']))->paginate(),
         ]);
     }
 
@@ -18,8 +19,8 @@ class CategoryController extends Controller
         return view('categories.create');
     }
 
-    public function store(Request $request) 
-    {        
+    public function store(Request $request)
+    {
         $request->validate([
             'name' => ['required', 'max:50'],
         ]);
@@ -36,7 +37,7 @@ class CategoryController extends Controller
             'name' => $request->name,
             'user_id' => Auth::id(),
         ]);
-        
+
         switch($request->action) {
             case 'create':
                 return redirect()->route('categories.index')
@@ -49,7 +50,7 @@ class CategoryController extends Controller
         }
     }
 
-    public function edit(Category $category) 
+    public function edit(Category $category)
     {
         $this->authorize('edit', $category);
 
@@ -58,7 +59,7 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function update(Category $category, Request $request) 
+    public function update(Category $category, Request $request)
     {
         $this->authorize('update', $category);
 
@@ -72,10 +73,10 @@ class CategoryController extends Controller
             ->with('success', __('Category updated successfully'));
     }
 
-    public function delete(Category $category) 
+    public function delete(Category $category)
     {
         $this->authorize('delete', $category);
-        
+
         $category->delete();
 
         return redirect()->route('categories.index')

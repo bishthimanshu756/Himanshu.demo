@@ -22,9 +22,9 @@ class User extends Authenticatable
      *
      * @var array<int, string>
      */
-    
+
     // protected $guarded=[];
-    
+
     protected $fillable = [
         'first_name',
         'last_name',
@@ -35,10 +35,10 @@ class User extends Authenticatable
         'status',
         'email_status'
     ];
-    
+
     const INACTIVE = 0;
     const ACTIVE = 1;
-    
+
     public function sluggable(): array
     {
         return [
@@ -71,20 +71,20 @@ class User extends Authenticatable
     public function setPasswordAttribute($password){
         $this->attributes['password']= Hash::make($password);
     }
-    
+
     public function getFullNameAttribute() {
         return $this->first_name . ' ' . $this->last_name;
     }
 
-    // Relationships 
+    // Relationships
     public function role() {
         return $this->belongsTo(Role::class);
     }
-    
+
     public function categories() {
         return $this->hasMany(Category::class);
     }
-    
+
     public function trainers() {
         return $this->belongsToMany(User::class, 'teams', 'user_id' , 'team_id')
             ->withTimestamps();
@@ -100,15 +100,17 @@ class User extends Authenticatable
         return $this->belongsToMany(User::class, 'course_user', 'user_id', 'course_id');
     }
 
+    public function courseAssign()
+    {
+        return $this->belongsToMany(User::class, 'team_course', 'team_id', 'course_id')
+            ->withTimestamps();
+    }
+
 
     // Scopes
-    public function scopeVisibleTo($query) {   
-        if (Auth::id()== Role::ADMIN) {
-            return $query->Where('role_id', '>', Auth::user()->role_id);
-        } else {
-            return $query->Where('role_id', '>', Auth::user()->role_id)
+    public function scopeVisibleTo($query) {
+        return $query->Where('role_id', '>', Auth::user()->role_id)
                 ->Where('created_by', Auth::id());
-        }
     }
 
     public function scopeOwner($query) {
@@ -119,15 +121,19 @@ class User extends Authenticatable
         $query->where('role_id', Role::TRAINER);
     }
 
-    public function scopeEmployee($query) {   
+    public function scopeEmployee($query) {
        $query->where('role_id', Role::EMPLOYEE);
     }
 
-    public function scopeActive($query) {   
+    public function scopeUser($query) {
+        $query->where('role_id', '>=', Role::TRAINER);
+    }
+
+    public function scopeActive($query) {
         $query->where('status', User::ACTIVE);
     }
 
-    public function scopeFilter($query, array $filter) {  
+    public function scopeFilter($query, array $filter) {
 
         $query->when($filter['roleId'] ?? false, function($query, $roleId) {
             return $query->where('role_id', $roleId);
@@ -138,10 +144,10 @@ class User extends Authenticatable
 
                     return $query->orderBy('first_name', 'asc');
                 } elseif ($orderBy == 'z-a') {
-                    
+
                     return $query->orderBy('first_name', 'desc');
                 } else {
-                    
+
                     return $query->orderBy('created_at', $orderBy);
                 }
         });

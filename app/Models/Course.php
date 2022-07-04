@@ -33,6 +33,10 @@ class Course extends Model
     }
 
     //relationships
+    public function user() {
+        return $this->belongsTo(User::class);
+    }
+
     public function enrollUsers() {
         return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id')
                 ->withTimestamps();
@@ -52,6 +56,12 @@ class Course extends Model
 
     public function units() {
         return $this->belongsToMany(Unit::class, 'course_unit', 'course_id', 'unit_id');
+    }
+
+    public function assignedTrainers()
+    {
+        return $this->belongsToMany(User::class, 'team_course', 'course_id', 'team_id')
+            ->withTimestamps();
     }
 
     //Scopes
@@ -85,5 +95,19 @@ class Course extends Model
                     return $query->orderBy('created_at', 'asc');
                 }
         });
+    }
+
+    public function scopeVisibleTo($query)
+    {
+        if(Auth::user()->role_id == Role::TRAINER){
+            $query->where('user_id', Auth::id())
+                ->orWherehas('assignedTrainers', function($query) {
+                return $query->where('team_id', Auth::id());
+            });
+        } elseif(Auth::user()->role_id == Role::EMPLOYEE){
+            $query->wherehas('enrollUsers', function($query) {
+                return $query->where('user_id', Auth::id());
+            });
+        }
     }
 }

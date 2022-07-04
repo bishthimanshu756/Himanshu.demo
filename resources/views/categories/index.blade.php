@@ -6,7 +6,52 @@
                     <h3 class="font-extrabold text-blue-900 text-xl">Categories</h3>
                     <a href="{{ route('categories.create') }}" class="bg-blue-400 border font-bold hover:bg-white hover:text-blue-900 p-2 rounded-md text-center text-sm text-white w-32">{{ __('Create Category') }}</a>
                 </div>
-                <div class="bg-white border-b border-gray-200 mt-8 w-full"">
+                <div class="flex justify-between mt-6">
+                    <!-- Search -->
+                    <form method="get" action="{{ route('categories.index') }}" class="bg-white border border-gray-200 py-1 rounded-md w-1/3">
+                        @if(request('orderBy'))
+                            <input type="hidden" name="orderBy" value="{{ request('orderBy') }}">
+                        @endif
+                        <input type="text" name="search" value="{{ request()->input('search') }}" class="border-0 h-8 ml-4 px-4 py-4 w-10/12" placeholder="Search by Name or Email">
+                        <button type="submit">
+                            <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
+                                <path stroke-linecap="round" stroke-linejoin="round" d="M21 21l-6-6m2-5a7 7 0 11-14 0 7 7 0 0114 0z"></path>
+                            </svg>
+                        </button>
+                    </form>
+                    <!-- Filter -->
+                    <div x-data="{ show:false}" @click.away="show = false" class="bg-white border-2 font-semibold inline px-4 py-2 relative text-sm">
+                        <button @click="show = !show">
+                            @if(request('orderBy') == 'a-z')
+                                {{ __('Name A To Z') }}
+                            @elseif(request('orderBy') == 'z-a')
+                                {{ __('Name Z To A') }}
+                            @elseif(request('orderBy') == 'desc')
+                                {{ __('Oldest Created Date') }}
+                            @else
+                                {{ __('Latest Created Date') }}
+                            @endif
+                            <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20" fill="currentColor">
+                                <path d="M13.098 8H6.902c-.751 0-1.172.754-.708 1.268L9.292 12.7c.36.399 1.055.399 1.416 0l3.098-3.433C14.27 8.754 13.849 8 13.098 8z"></path>
+                            </svg>
+                        </button>
+                        <div x-show="show" class="absolute bg-white border-2 border-black-600 left-0 mt-1 p-2 w-36 z-50" style="display: none;">
+                            <a href="{{ route('categories.index') .'?orderBy=a-z' }}" class="block hover:bg-gray-200 px-2 py-0.5 text-left w-full {{ request('orderBy')=='a-z' ? 'bg-blue-500 text-white': '' }}">
+                                {{ __('Name A To Z') }}
+                            </a>
+                            <a href="{{ route('categories.index') .'?orderBy=z-a' }}" class="block hover:bg-gray-200 px-2 py-0.5 text-left w-full {{ request('orderBy')=='z-a' ? 'bg-blue-500 text-white': '' }}">
+                                {{ __('Name Z To A') }}
+                            </a>
+                            <a href="{{ route('categories.index') .'?orderBy=asc' }}" class="block hover:bg-gray-200 px-2 py-0.5 text-left w-full {{ request('orderBy')=='asc' ? 'bg-blue-500 text-white':'' }}">
+                                {{ __('Latest Created Date') }}
+                            </a>
+                            <a href="{{ route('categories.index') .'?orderBy=desc' }}" class="block hover:bg-gray-200 px-2 py-0.5 text-left w-full {{ request('orderBy')=='desc' ? 'bg-blue-500 text-white':'' }}">
+                                {{ __('Oldest Created Date') }}
+                            </a>
+                        </div>
+                    </div>
+                </div>
+                <div class="bg-white border-b border-gray-200 mt-8 w-full">
                     <?php $no=1?>
                     <table class="border-2 border-gray-200 h-full w-full" >
                         <thead class="bg-gray-200">

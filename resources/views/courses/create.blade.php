@@ -55,7 +55,7 @@
                         <!-- Certificate checkbox -->
                         <div class="mt-4">
                             <input type="checkbox" name="certificate" value="1" >
-                            <label for="certificate" class="align-middle">Certificate?</label>
+                            <label for="certificate" class="align-middle">{{ __('Certificate?') }}</label>
                         </div>
                     </div>
                     <!-- Form Right Div-->
@@ -74,7 +74,7 @@
                         Create Course
                     </button>
                     <div class="bg-blue-100 border-2 font-bold hover:bg-blue-600 hover:border-blue-700 hover:text-white inline ml-4 px-4 py-1.5 rounded-md text-gray-700">
-                        <a href="{{ route('courses.index') }}">Cancel</a>
+                        <a href="{{ route('courses.index') }}"> {{ __('Cancel') }} </a>
                     </div>
                 </div>
             </form>

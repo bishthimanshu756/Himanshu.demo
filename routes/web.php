@@ -9,6 +9,7 @@ use App\Http\Controllers\CourseUserController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PasswordResetController;
+use App\Http\Controllers\TeamCourseController;
 use App\Http\Controllers\TeamUserController;
 use App\Http\Controllers\UserStatusController;
 use App\Http\Controllers\UserTeamController;
@@ -103,6 +104,9 @@ Route::middleware('auth')->group( function() {
         Route::get('courses/{course:slug}/show', 'show')->name('courses.show');
     });
 
+    Route::get('courses/{course:slug}/teams', [TeamCourseController::class, 'index'])->name('courses.teams.index');
+    Route::post('courses/{course}/teams', [TeamCourseController::class, 'store'])->name('courses.teams.store');
+    Route::post('courses/{course:slug}', [TeamCourseController::class, 'delete'])->name('courses.teams.delete');
 
     //Course assign Multiples User Enrolled Routes
     Route::controller(CourseUserController::class)->group(function() {

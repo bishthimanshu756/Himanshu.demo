@@ -1,8 +1,11 @@
 <x-app-layout>
+    @php
+        $roles = App\Models\Role::get();
+    @endphp
     <div class="h-screen py-12 h-screen mx-24 my-6">
         <div class="flex items-center justify-between mb-8">
             <h3 class="font-extrabold text-blue-900 text-xl">
-                <a href="{{ route('users.index') }}">Users</a> 
+                <a href="{{ route('users.index') }}">Users</a>
                 <span class="text-black"> > {{ $user->full_name }}</span>
             </h3>
         </div>
@@ -14,7 +17,7 @@
                 <div>
                     <label for="first_name" class="block font-black required">{{ __('First name') }}</label>
                     <input type="text" name="first_name" value="{{ $user->first_name }}" required class="rounded-md w-full" placeholder="Enter First Name">
-                    
+
                     <x-validation-error name="first_name" />
                 </div>
 

@@ -47,13 +47,13 @@ class CoursePolicy
     }
 
     /**
-     * Determine whether the user can edit the model.
+     * Determine whether the user can store the model.
      *
      * @param  \App\Models\User  $user
      * @param  \App\Models\Course  $course
      * @return \Illuminate\Auth\Access\Response|bool
      */
-    public function edit(User $user, Course $course)
+    public function store(User $user, Course $course)
     {
         if($user->can('admin') || $course->user_id === $user->id) {
             return true;
