@@ -757,6 +757,9 @@ select {
 .mt-1 {
   margin-top: 0.25rem;
 }
+.mb-4 {
+  margin-bottom: 1rem;
+}
 .mt-0\.5 {
   margin-top: 0.125rem;
 }
@@ -774,9 +777,6 @@ select {
 }
 .ml-10 {
   margin-left: 2.5rem;
-}
-.mb-4 {
-  margin-bottom: 1rem;
 }
 .mt-10 {
   margin-top: 2.5rem;

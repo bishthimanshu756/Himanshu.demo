@@ -95,6 +95,7 @@ class UserController extends Controller
             ]);
 
         }
+        dd($request->all());
         Notification::send($user, new WelcomeNotification(Auth::user()));
 
         switch ($request->action){

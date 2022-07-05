@@ -125,7 +125,7 @@ class User extends Authenticatable
        $query->where('role_id', Role::EMPLOYEE);
     }
 
-    public function scopeUser($query) {
+    public function scopeEnrolledUsers($query) {
         $query->where('role_id', '>=', Role::TRAINER);
     }
 

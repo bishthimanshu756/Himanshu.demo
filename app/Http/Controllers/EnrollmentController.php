@@ -14,13 +14,13 @@ use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
-class CourseUserController extends Controller
+class EnrollmentController extends Controller
 {
     public function index(Course $course)
     {
         $this->authorize('view', $course);
 
-        $users = User::owner()->active()->user()
+        $users = User::owner()->active()->enrolledUsers()
             ->whereDoesnthave('courses', function ($query) use ($course) {
                 $query->where('course_id', $course->id);
             })->get();

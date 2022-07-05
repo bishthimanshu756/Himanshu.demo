@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Category;
+use App\Models\Course;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
@@ -25,7 +26,7 @@ class CategoryController extends Controller
             'name' => ['required', 'max:50'],
         ]);
 
-        $category= Category::where('name', $request->name)->onlyTrashed()->first();
+        $category = Category::where('name', $request->name)->onlyTrashed()->first();
 
         if ($category) {
             $category->restore();
@@ -33,21 +34,18 @@ class CategoryController extends Controller
                 ->with('success', 'Category restore successfully');
         }
 
-        Category::create([
+        $category = Category::create([
             'name' => $request->name,
             'user_id' => Auth::id(),
         ]);
 
-        switch($request->action) {
-            case 'create':
-                return redirect()->route('categories.index')
-                    ->with('success', __('Category created successfully'));
-                break;
-            case 'create_another':
-                return back()
-                    ->with('success', __('Category created successfully'));
-                break;
+        if($request->input('action') === 'save') {
+            return redirect()
+                ->route('categories.edit', $category)
+                ->with('success', __('Category created successfully'));
         }
+
+        return back()->with('success', __('Category created successfully'));
     }
 
     public function edit(Category $category)

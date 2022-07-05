@@ -57,7 +57,7 @@
 
                 <!-- Buttons -->
                 <div class="mt-4">
-                    <button type="submit" name="action" value="create" class="bg-gray-500 text-white border-0.5 border-2 border-gray-500 font-bold hover: hover:bg-gray-600 hover:border-gray-900 hover:text-white mx-auto px-4 py-1.5 rounded-md">
+                    <button type="submit" action="save" class="bg-gray-500 text-white border-0.5 border-2 border-gray-500 font-bold hover: hover:bg-gray-600 hover:border-gray-900 hover:text-white mx-auto px-4 py-1.5 rounded-md">
                         Create User
                     </button>
                     <button type="submit"name="action" value="create_another" class="bg-gray-500 text-white border-0.5 border-2 border-gray-500 font-bold hover: hover:bg-gray-600 hover:border-gray-900 hover:text-white ml-4 px-4 py-1.5 rounded-md">

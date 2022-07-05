@@ -4,8 +4,8 @@ use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryStatusController;
 use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseUnitController;
-use App\Http\Controllers\CourseUserController;
 use App\Http\Controllers\DashboardController;
+use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\TeamCourseController;
@@ -113,7 +113,7 @@ Route::middleware('auth')->group( function() {
     });
 
     /**Course enrolled to multiple users */
-    Route::controller(CourseUserController::class)->group(function() {
+    Route::controller(EnrollmentController::class)->group(function() {
         Route::get('courses/{course:slug}/users', 'index')->name('courses.users.index');
         Route::post('courses/{course}/store', 'store')->name('courses.users.store');
         Route::post('courses/{course}/users', 'delete')->name('courses.users.delete');
