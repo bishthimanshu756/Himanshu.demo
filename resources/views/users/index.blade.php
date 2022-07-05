@@ -65,7 +65,7 @@
                                 <form action="{{ route('users.index') }}" method="get">
                                     @if(request('roleId'))
                                         <input type="hidden" name="roleId" value="{{ request('roleId') }}">
-                                    @endif  
+                                    @endif
                                     <button class= "hover:bg-gray-200 py-0.5 w-full text-left" name="orderBy" value="a-z">Name A To Z</button>
                                     <button class= "hover:bg-gray-200 py-0.5 w-full text-left" name="orderBy" value="z-a">Name Z To A</button>
                                     <button type="submit" name="orderBy" value="asc" class="hover:bg-gray-200 py-0.5 w-full text-left {{ request('orderBy') == 'asc' ? 'bg-blue-500 text-white' : ''}}">Lastest Created Date</button>

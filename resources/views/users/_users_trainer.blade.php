@@ -3,9 +3,13 @@
         <div class="flex items-center justify-between mb-8">
             <h3 class="font-extrabold text-blue-900 text-xl">
                 <a href="{{ route('users.index') }}">Users</a>
-                <span class="text-black"> > {{ $user->full_name }}</span>
+                <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <line x1="13" y1="18" x2="19" y2="12"></line>
+                    <line x1="13" y1="6" x2="19" y2="12"></line>
+                </svg>
+                <span class="text-black"> {{ $user->full_name }}</span>
             </h3>
-            
             <div x-data="{ show:false}" @click.away="show = false">
                 <button @click="show = !show" class="bg-gray-500 font-bold px-8 py-2 rounded-md text-white">
                     {{ __('Add Employers') }}
@@ -52,7 +56,7 @@
                                 <form action="{{ route('teams.users.destroy', $user) }}" method="POST">
                                     @csrf
                                     <button type="submit" name="userId" value="{{ $assingeduser->id }}" class="bg-gray-500 font-bold border-2 border-gray-500 hover:bg-gray-700 hover:border-gray-800 hover:text-white px-4 py-1 rounded-md text-white">{{ __('Unassigned') }}</button>
-                                        
+
                                 </form>
                                 </td>
                             </tr>

@@ -120,7 +120,9 @@
                                                 </button>
                                                 <div x-show="show" class="absolute border-2 border-black-600 w-50 z-50 right-0" style="display:none;">
                                                     <a href="{{ route('courses.edit', $course) }}" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7">{{ __('Edit') }}</a>
-                                                    <a href="{{ route('courses.users.index', $course) }}" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7">{{ __('Users') }}</a>
+                                                    @can('trainer')
+                                                        <a href="{{ route('courses.users.index', $course) }}" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7">{{ __('Users') }}</a>
+                                                    @endcan
                                                     <a href="{{ route('courses.delete', $course) }}" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7">{{__('Delete')}}</a>
                                                 </div>
                                             </div>

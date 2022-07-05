@@ -3,7 +3,6 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryStatusController;
 use App\Http\Controllers\CourseController;
-use App\Http\Controllers\CourseImageController;
 use App\Http\Controllers\CourseUnitController;
 use App\Http\Controllers\CourseUserController;
 use App\Http\Controllers\DashboardController;

@@ -1,18 +1,21 @@
 <x-app-layout>
     <div class="mx-24 my-6 py-12">
-
         <!-- BreadCrum Bar -->
         <div class="flex items-center justify-between mb-8">
             <h3 class="font-extrabold text-blue-900 text-xl">
                 <a href="{{ route('courses.index') }}">{{ __('Courses') }}</a>
-                <svg class="w-4 h-4 inline" viewBox="0 0 358 512" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                    <title>right</title><path d="M98 460L64 426 227 262 64 98 98 64 294 262 98 460Z"></path>
+                <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <line x1="13" y1="18" x2="19" y2="12"></line>
+                    <line x1="13" y1="6" x2="19" y2="12"></line>
                 </svg>
                 <a href="{{ route('courses.show', $course) }}">{{ $course->title }}</a>
+                <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <line x1="13" y1="18" x2="19" y2="12"></line>
+                    <line x1="13" y1="6" x2="19" y2="12"></line>
+                </svg>
                 <span class="text-black">
-                    <svg class="w-4 h-4 inline" viewBox="0 0 358 512" xmlns="http://www.w3.org/2000/svg" fill="currentColor">
-                        <title>right</title><path d="M98 460L64 426 227 262 64 98 98 64 294 262 98 460Z"></path>
-                    </svg>
                     <span>{{$unit->title}}</span>
                 </span>
             </h3>

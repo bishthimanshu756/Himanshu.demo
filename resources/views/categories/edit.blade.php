@@ -2,8 +2,13 @@
     <div class="h-screen overflow-x-auto py-12 h-screen mx-24 my-6 w-3/5">
         <div class="flex items-center justify-between mb-8">
             <h3 class="font-extrabold text-blue-900 text-xl">
-                <a href="{{ route('categories.index') }}">Categories</a> 
-                <span class="text-black"> > {{ $category->name }}</span>
+                <a href="{{ route('categories.index') }}">Categories</a>
+                <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
+                    <line x1="5" y1="12" x2="19" y2="12"></line>
+                    <line x1="13" y1="18" x2="19" y2="12"></line>
+                    <line x1="13" y1="6" x2="19" y2="12"></line>
+                </svg>
+                <span class="text-black"> {{ $category->name }}</span>
             </h3>
         </div>
         <div class="p-6 bg-white border-b border-gray-200 w-4/5">
