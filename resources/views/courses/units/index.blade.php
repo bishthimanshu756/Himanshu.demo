@@ -14,7 +14,7 @@
                         <line x1="13" y1="18" x2="19" y2="12"></line>
                         <line x1="13" y1="6" x2="19" y2="12"></line>
                     </svg>
-                    <span class="text-black"> {{ $course->title }}</span>
+                    <a href="{{ route('courses.edit', $course) }}"> {{ $course->title }}</a>
                 </h3>
             </div>
             <div class="inline">
@@ -38,9 +38,7 @@
                     </a>
                     <div class="mt-8">
                         <h2 class="font-bold text-2xl text-gray-700">
-                            <a href="{{ route('courses.edit', $course) }}">
-                                {{ $course->title }}
-                            </a>
+                            {{ $course->title }}
                         </h2>
                     </div>
                     <span class="font-semibold text-gray-500">

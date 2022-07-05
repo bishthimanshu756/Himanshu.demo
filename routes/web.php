@@ -10,6 +10,7 @@ use App\Http\Controllers\UserController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\TeamCourseController;
 use App\Http\Controllers\TeamUserController;
+use App\Http\Controllers\TestController;
 use App\Http\Controllers\UserStatusController;
 use App\Http\Controllers\UserTeamController;
 use App\Http\Controllers\WelcomeController;
@@ -127,6 +128,8 @@ Route::middleware('auth')->group( function() {
         Route::post('courses/{course}/units/{unit}/update', 'update')->name('courses.units.update');
         Route::get('courses/{course:slug}/units/{unit}', 'delete')->name('courses.units.delete');
     });
+    Route::get('courses/{course}/units/{unit}/test', [TestController::class, 'index'])->name('courses.units.test');
+    Route::get('courses/{course}/units/{unit}/test/question', [TestController::class, 'create'])->name('courses.units.tests.questions');
 });
 
     /** Set Password */

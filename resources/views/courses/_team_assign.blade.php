@@ -8,7 +8,7 @@
                     <line x1="13" y1="18" x2="19" y2="12"></line>
                     <line x1="13" y1="6" x2="19" y2="12"></line>
                 </svg>
-                <span class="text-black"> {{ $course->title }}</span>
+                <a href="{{ route('courses.edit', $course) }}"> {{ $course->title }}</a>
             </h3>
             <div x-data="{ show:false}" @click.away="show = false">
                 <button @click="show = !show" class="bg-gray-500 font-bold px-8 py-2 rounded-md text-white">
