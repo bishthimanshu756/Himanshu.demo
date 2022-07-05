@@ -5,7 +5,11 @@ namespace App\Http\Controllers;
 use App\Models\Course;
 use App\Models\Role;
 use App\Models\User;
+use App\Notifications\TeamCourseAssignNotification;
+use App\Notifications\TeamCourseUnassignNotification;
 use Illuminate\Http\Request;
+use Illuminate\Support\Facades\Auth;
+use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
@@ -52,6 +56,8 @@ class TeamCourseController extends Controller
 
         $course->assignedTrainers()->attach($trainers);
 
+        Notification::send($trainers, new TeamCourseAssignNotification(Auth::user(), $course));
+
         return back()->with('success', 'Trainers assigned successfully.');
     }
 
@@ -76,6 +82,8 @@ class TeamCourseController extends Controller
         $trainer = User::visibleTo()->find($validated['userId']);
 
         $course->assignedTrainers()->detach($trainer);
+
+        Notification::send($trainer, new TeamCourseUnassignNotification(Auth::user(), $course));
 
         return back()->with('success', 'Trainer unassigned successfully.');
     }

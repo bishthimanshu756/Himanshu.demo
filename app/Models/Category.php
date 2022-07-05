@@ -32,7 +32,12 @@ class Category extends Model
     }
 
     public function scopeVisibleTo($query) {
-        return $query->where('user_id', '=' ,Auth::id());
+        if(Auth::user()->role_id == Role::ADMIN) {
+            return $query->where('user_id', Auth::id());
+        } elseif(Auth::user()->role_id == Role::TRAINER) {
+            return $query->where('user_id', Auth::id())
+                ->orWhere('user_id', Auth::user()->created_by);
+        }
     }
 
     public function sluggable(): array

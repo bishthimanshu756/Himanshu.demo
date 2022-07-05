@@ -26,10 +26,7 @@ class CourseController extends Controller
 
     public function create()
     {
-        return view('courses.create', [
-            'categories' => Category::get(),
-            'levels' => Level::get(),
-        ]);
+        return view('courses.create');
     }
 
     public function store(Request $request)
@@ -81,9 +78,6 @@ class CourseController extends Controller
 
         return view('courses._course_information', [
             'course' => $course,
-            'categories' => Category::get(),
-            'levels' => Level::get(),
-
         ]);
     }
 

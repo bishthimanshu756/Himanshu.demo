@@ -99,7 +99,10 @@ class Course extends Model
 
     public function scopeVisibleTo($query)
     {
-        if(Auth::user()->role_id == Role::TRAINER){
+        if(Auth::user()->role_id == Role::ADMIN) {
+            $query->where('user_id', Auth::id());
+        }
+        elseif(Auth::user()->role_id == Role::TRAINER){
             $query->where('user_id', Auth::id())
                 ->orWherehas('assignedTrainers', function($query) {
                 return $query->where('team_id', Auth::id());
