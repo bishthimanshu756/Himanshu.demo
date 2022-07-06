@@ -10,7 +10,7 @@ class CourseUnitController extends Controller
 {
     public function create(Course $course)
     {
-        return view('courses.units.create', [
+        return view('units.create', [
             'course' => $course,
         ]);
     }
@@ -34,7 +34,7 @@ class CourseUnitController extends Controller
 
     public function edit(Course $course, Unit $unit)
     {
-        return view('courses.units.edit', [
+        return view('units.edit', [
             'unit' => $unit,
             'course' => $course,
         ]);

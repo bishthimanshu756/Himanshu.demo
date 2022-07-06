@@ -128,8 +128,8 @@ Route::middleware('auth')->group( function() {
         Route::post('courses/{course}/units/{unit}/update', 'update')->name('courses.units.update');
         Route::get('courses/{course:slug}/units/{unit}', 'delete')->name('courses.units.delete');
     });
-    Route::get('courses/{course}/units/{unit}/test', [TestController::class, 'index'])->name('courses.units.test');
-    Route::get('courses/{course}/units/{unit}/test/question', [TestController::class, 'create'])->name('courses.units.tests.questions');
+    Route::get('courses/{course:slug}/units/{unit}/test/create', [TestController::class, 'create'])->name('courses.units.tests.create');
+    Route::post('courses/{course}/units/{unit}/tests/store', [TestController::class, 'store'])->name('courses.units.tests.store');
 });
 
     /** Set Password */

@@ -85,7 +85,7 @@ class CourseController extends Controller
     {
         $this->authorize('show', $course);
 
-        return view('courses.units.index', [
+        return view('courses.show', [
             'course' => $course,
         ]);
     }
