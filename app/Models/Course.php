@@ -37,7 +37,7 @@ class Course extends Model
         return $this->belongsTo(User::class);
     }
 
-    public function enrollUsers() {
+    public function enrolledUsers() {
         return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id')
                 ->withTimestamps();
     }
@@ -62,6 +62,16 @@ class Course extends Model
     {
         return $this->belongsToMany(User::class, 'team_course', 'course_id', 'team_id')
             ->withTimestamps();
+    }
+
+    public function assignedCourses()
+    {
+        return $this->belongsToMany(User::class, 'team_course', 'course_id', 'team_id');
+    }
+
+    public function enrolledCourses()
+    {
+        return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id');
     }
 
     //Scopes
@@ -108,7 +118,7 @@ class Course extends Model
                 return $query->where('team_id', Auth::id());
             });
         } elseif(Auth::user()->role_id == Role::EMPLOYEE){
-            $query->wherehas('enrollUsers', function($query) {
+            $query->wherehas('', function($query) {
                 return $query->where('user_id', Auth::id());
             });
         }

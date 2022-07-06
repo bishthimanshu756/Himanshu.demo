@@ -29,6 +29,7 @@ class EnrollmentController extends Controller
         return view('courses._users_enroll', [
             'users' => $users,
             'course' => $course,
+            'enrolledUsers' => $course->enrolledUsers()->get(),
         ]);
     }
 
@@ -54,7 +55,7 @@ class EnrollmentController extends Controller
 
         $users = User::visibleTo()->findMany($validated['usersIds']);
 
-        $course->enrollUsers()->attach($users, [
+        $course->enrolledUsers()->attach($users, [
             'assigned_by' => Auth::id(),
             'status' => Status::DRAFT,
         ]);
@@ -85,7 +86,7 @@ class EnrollmentController extends Controller
 
         $user = User::visibleTo()->find($validated['userId']);
 
-        $course->enrollUsers()->detach(request()->userId);
+        $course->enrolledUsers()->detach(request()->userId);
 
         Notification::send($user, new CourseUserUnenrollNotification(Auth::user(), $course));
 

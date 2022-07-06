@@ -4,8 +4,11 @@
     @can('admin')
         @if($user->can('is_trainer'))
             <a class="px-10" href="{{ route('teams.users.index', $user) }}">Employers</a>
+            <a class="px-10" href="{{ route('teams.courses.index', $user) }}">{{ __('Manage Courses') }}</a>
+            <a class="px-10" href="{{ route('users.courses.index', $user) }}">{{ __('Courses') }}</a>
         @elseif($user->can('is_employee'))
             <a class="px-10" href="{{ route('users.teams.index', $user) }}">Trainers</a>
+            <a class="px-10" href="{{ route('users.courses.index', $user) }}">{{ __('Courses') }}</a>
         @endif
     @endcan
 </div>

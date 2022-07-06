@@ -3,88 +3,81 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
-use App\Models\Role;
 use App\Models\User;
-use App\Notifications\TeamCourseAssignNotification;
-use App\Notifications\TeamCourseUnassignNotification;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
-use Illuminate\Support\Facades\Notification;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Validation\Rule;
 
 class TeamCourseController extends Controller
 {
-    public function index(Course $course)
+    /**
+     * 1 Trainer assigned to multiple Courses.
+     */
+    public function index(User $trainer)
     {
-        $this->authorize('view', $course);
-        $user = User::owner()->active()->trainer()->
-            whereDoesntHave('courseAssign', function($query) use($course) {
-                return $query->where('course_id', $course->id);
+        $course = Course::visibleTo()
+            ->whereDoesntHave('assignedCourses', function ($query) use($trainer) {
+                return $query->where('team_id', $trainer->id);
             })->get();
 
-        return view('courses._team_assign', [
-            'course' => $course,
-            'users' => $user,
-            'assignedUsers' => $course->assignedTrainers()->get(),
+
+        return view('users._course_assigned', [
+            'user' => $trainer,
+            'unassignedCourses' => $course,
+            'assignedCourses' => $trainer->assignedCourses()->get(),
         ]);
     }
 
-    public function store(Course $course, Request $request)
+    public function store(User $trainer, Request $request)
     {
-        $this->authorize('store', $course);
-        $validator = Validator::make($request->all(), [
-            'userIds' => [
+        $validator = Validator::make($request->all(),[
+            'courseIds' => [
                 'required',
                 'min:1',
-                Rule::exists('users', 'id')->where(function($query) {
-                    return $query->where('role_id', Role::TRAINER);
+                Rule::exists('courses', 'id')->where(function($query) {
+                    return $query->where('user_id', Auth::id());
                 }),
             ],
         ]);
 
-        if ($validator->fails()) {
-            return back()->with('error', 'Please select at least one Trainer');
-        };
-        $validated = $validator->validated();
-
-        $trainers = User::visibleTo()->findMany($validated['userIds']);
-
-        if ($trainers->count() == 0) {
-            return back()->with('error', 'Please select at least one valid Trainer.');
+        if ($validator->fails())
+        {
+            return back()->with('error', __('Please select at least one valid courses') );
         }
 
-        $course->assignedTrainers()->attach($trainers);
+        $validated = $validator->validated();
 
-        Notification::send($trainers, new TeamCourseAssignNotification(Auth::user(), $course));
+        $courses = Course::courseOwner()->findMany($validated['courseIds']);
 
-        return back()->with('success', 'Trainers assigned successfully.');
+        $trainer->assignedCourses()->attach($courses);
+
+        return back()->with('success', __('Course assigned successfully.') );
     }
 
-    public function delete(Request $request, Course $course)
+    public function delete(Request $request, User $trainer)
     {
-        $this->authorize('delete', $course);
         $validator = Validator::make($request->all(), [
-            'userId' => [
+            'courseId' => [
                 'required',
-                Rule::exists('users', 'id')->where(function($query) {
-                    return $query->where('role_id', Role::TRAINER);
+                'min:1',
+                Rule::exists('courses', 'id')->where(function ($query) {
+                    return $query->where('user_id', Auth::id());
                 }),
             ],
         ]);
 
-        if($validator->fails()) {
-            return back()-> with('error', 'Please select valid Trainer.');
+        if($validator->fails())
+        {
+            return back()->with('error', __('Please select valid Course.') );
         }
 
         $validated = $validator->validated();
 
-        $trainer = User::visibleTo()->find($validated['userId']);
+        $course = Course::courseOwner()->find($validated['courseId']);
 
-        $course->assignedTrainers()->detach($trainer);
+        $trainer->assignedCourses()->detach($course);
 
-        Notification::send($trainer, new TeamCourseUnassignNotification(Auth::user(), $course));
-
-        return back()->with('success', 'Trainer unassigned successfully.');
+        return back()->with('success', __('Course unassigned successfully.') );
     }
 }

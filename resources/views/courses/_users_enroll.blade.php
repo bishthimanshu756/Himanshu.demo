@@ -1,7 +1,4 @@
 <x-app-layout>
-    @php
-        $enrolledUsers = $course->enrollUsers()->get();
-    @endphp
     <div class="h-screen py-12 h-screen mx-24 my-6">
         <div class="flex items-center justify-between mb-8">
             <h3 class="font-extrabold text-blue-900 text-xl">

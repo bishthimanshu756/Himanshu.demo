@@ -103,7 +103,7 @@
                     @if($courses->count())
                         @foreach($courses as $course)
                         @php
-                            $enrolledUsers = $course->enrollUsers()->get();
+                            $enrolledUsers = $course->enrolledUsers()->get();
                         @endphp
                         <div class="bg-white border-b rounded-md border-gray-200 mt-6 w-full max-h-54 overflow-hidden">
                             <div class="flex mt-0.5 px-4 py-1">

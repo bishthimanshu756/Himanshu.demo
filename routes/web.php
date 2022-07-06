@@ -3,6 +3,7 @@
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryStatusController;
 use App\Http\Controllers\CourseController;
+use App\Http\Controllers\CourseTeamController;
 use App\Http\Controllers\CourseUnitController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EnrollmentController;
@@ -11,9 +12,11 @@ use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\TeamCourseController;
 use App\Http\Controllers\TeamUserController;
 use App\Http\Controllers\TestController;
+use App\Http\Controllers\UserEnrollmentController;
 use App\Http\Controllers\UserStatusController;
 use App\Http\Controllers\UserTeamController;
 use App\Http\Controllers\WelcomeController;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -28,6 +31,14 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
+    if (Auth::check()) {
+        if (Auth::user()->is_employee) {
+            return redirect()->route('my-courses');
+        }
+
+        return redirect()->route('dashboard');
+    }
+
     return view('welcome');
 });
 
@@ -53,13 +64,27 @@ Route::middleware('auth')->group( function() {
         Route::get('users/{user:slug}/delete', 'delete')->name('users.delete');
     });
 
+    /** 1 User/Trainer enrolled to multiple Courses */
+    Route::controller(UserEnrollmentController::class)->group(function() {
+        Route::get('users/{user:slug}/courses', 'index')->name('users.courses.index');
+        Route::post('users/{user}/courses/store','store')->name('users.courses.store');
+        Route::post('users/{user}/courses/delete', 'delete')->name('users.courses.delete');
+    });
+
+    /**1 Trainer assigned to multiple Courses */
+    Route::controller(TeamCourseController::class)->group(function() {
+        Route::get('teams/{trainer:slug}/courses', 'index')->name('teams.courses.index');
+        Route::post('teams/{trainer}/courses/store', 'store')->name('teams.courses.store');
+        Route::post('teams/{trainer}/courses/delete', 'delete')->name('teams.courses.delete');
+    });
+
     /**Changing the status of a User */
     Route::get('users/{user:slug}/status', [UserStatusController::class , 'update'])->name('users.status');
 
     /**Password Reset Routes */
     Route::controller(PasswordResetController::class)->group(function(){
         Route::get('users/{user:slug}/reset-password', 'showResetForm')->name('users.reset-password');
-        Route::post('users/{user:slug}/reset-password', 'resetPassword')->name('users.reset-password');
+        Route::post('users/{user}/reset-password', 'resetPassword')->name('users.reset-password');
     });
 
 
@@ -107,7 +132,7 @@ Route::middleware('auth')->group( function() {
     });
 
     /**Course assign to Trainers */
-    Route::controller(TeamCourseController::class)->group(function() {
+    Route::controller(CourseTeamController::class)->group(function() {
         Route::get('courses/{course:slug}/teams', 'index')->name('courses.teams.index');
         Route::post('courses/{course}/teams', 'store')->name('courses.teams.store');
         Route::post('courses/{course:slug}', 'delete')->name('courses.teams.delete');

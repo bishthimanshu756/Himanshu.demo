@@ -97,12 +97,25 @@ class User extends Authenticatable
     }
 
     public function courses() {
-        return $this->belongsToMany(User::class, 'course_user', 'user_id', 'course_id');
+        return $this->belongsToMany(User::class, 'course_user', 'user_id', 'course_id')
+            ->withTimestamps();
     }
 
-    public function courseAssign()
+    public function trainerAssign()
     {
         return $this->belongsToMany(User::class, 'team_course', 'team_id', 'course_id')
+            ->withTimestamps();
+    }
+
+    public function assignedCourses()
+    {
+        return $this->belongsToMany(Course::class, 'team_course', 'team_id', 'course_id')
+            ->withTimestamps();
+    }
+
+    public function enrolledCourses()
+    {
+        return $this->belongsToMany(Course::class, 'course_user', 'user_id', 'course_id')
             ->withTimestamps();
     }
 

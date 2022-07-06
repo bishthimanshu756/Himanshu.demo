@@ -27,9 +27,9 @@ class CourseUnitController extends Controller
         $course->units()->attach($unit->id);
 
         if($request->has('create_another')) {
-            return back()->with('success', 'Unit created successfully.');
+            return back()->with('success', __('Unit created successfully.'));
         }
-        return redirect()->route('courses.show', $course)->with('success', 'Unit created successfully.');
+        return redirect()->route('courses.show', $course)->with('success', __('Unit created successfully.'));
     }
 
     public function edit(Course $course, Unit $unit)
