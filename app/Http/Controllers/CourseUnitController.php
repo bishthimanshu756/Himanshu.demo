@@ -26,10 +26,12 @@ class CourseUnitController extends Controller
 
         $course->units()->attach($unit->id);
 
-        if($request->has('create_another')) {
+        if($request->has('create_another'))
+        {
             return back()->with('success', __('Unit created successfully.'));
         }
-        return redirect()->route('courses.show', $course)->with('success', __('Unit created successfully.'));
+        return redirect()->route('courses.show', $course)
+            ->with('success', __('Unit created successfully.'));
     }
 
     public function edit(Course $course, Unit $unit)
@@ -42,7 +44,6 @@ class CourseUnitController extends Controller
 
     public function update(Course $course,Unit $unit, Request $request)
     {
-
         $attributes = $request->validate([
             'title' => ['required', 'min:3', 'max:50'],
             'description' => ['required', 'min:5', 'max:255'],
@@ -50,14 +51,14 @@ class CourseUnitController extends Controller
 
         $unit->update($attributes);
 
-        return redirect()->route('courses.show', $course)->with('success', 'Unit updated successfully.');
+        return redirect()->route('courses.show', $course)
+            ->with('success', __('Unit updated successfully.'));
     }
 
     public function delete(Course $course, Unit $unit)
     {
-
         $unit->delete();
 
-        return back()->with('success', 'Unit deleted successfully.');
+        return back()->with('success', __('Unit deleted successfully.'));
     }
 }

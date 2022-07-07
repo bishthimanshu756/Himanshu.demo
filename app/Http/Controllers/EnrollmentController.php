@@ -16,6 +16,9 @@ use Illuminate\Validation\Rule;
 
 class EnrollmentController extends Controller
 {
+    /**
+     * Multiple Users/Trainers are enrolled to a single Course.
+     */
     public function index(Course $course)
     {
         $this->authorize('view', $course);
@@ -47,8 +50,9 @@ class EnrollmentController extends Controller
             ],
         ]);
 
-        if ($validator->fails()) {
-            return back()->with('error', 'Please select at least one user.');
+        if ($validator->fails())
+        {
+            return back()->with('error', __('Please select at least one user.'));
         }
 
         $validated = $validator->validated();
@@ -62,7 +66,7 @@ class EnrollmentController extends Controller
 
         Notification::send($users, new CourseUserEnrollNotification(Auth::user(), $course));
 
-        return back()->with('success', 'User enrolled successfully.');
+        return back()->with('success', __('User enrolled successfully.'));
     }
 
     public function delete(Course $course, Request $request )
@@ -78,8 +82,9 @@ class EnrollmentController extends Controller
             ],
         ]);
 
-        if ($validator->fails()) {
-            return back()->with('error', 'Please select valid user.');
+        if ($validator->fails())
+        {
+            return back()->with('error', __('Please select valid user.'));
         }
 
         $validated = $validator->validated();
@@ -90,6 +95,6 @@ class EnrollmentController extends Controller
 
         Notification::send($user, new CourseUserUnenrollNotification(Auth::user(), $course));
 
-        return back()->with('success', 'User unenrolled successfully.');
+        return back()->with('success', __('User unenrolled successfully.'));
     }
 }

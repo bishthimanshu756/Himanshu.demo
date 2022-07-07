@@ -17,6 +17,9 @@ use Illuminate\Validation\Rule;
 
 class TeamUserController extends Controller
 {
+    /**
+     * Multiple User are assigned to a single Trainer to manage.
+     */
     public function index(User $trainer)
     {
         $this->authorize('view', $trainer);
@@ -30,7 +33,6 @@ class TeamUserController extends Controller
             'user' => $trainer,
             'employees' => $employees,
             'assingedUsers' => $trainer->assignedUsers()->get(),
-
         ]);
     }
 
@@ -48,7 +50,8 @@ class TeamUserController extends Controller
             ],
         ]);
 
-        if ($validator->fails()) {
+        if ($validator->fails())
+        {
             return back()->with('error', 'Please select at least one employee.');
         }
 
@@ -59,7 +62,7 @@ class TeamUserController extends Controller
                     ->where('team_id', $trainer->id)->get();
 
         if ($teamExists->isNotEmpty()) {
-            return back()->with('error', 'Employee already assigned to Trainer.');
+            return back()->with('error', __('Employee already assigned to Trainer.'));
         }
 
         $assignees = User::visibleTo(Auth::user())->findMany($validated['userIds']);
@@ -86,8 +89,9 @@ class TeamUserController extends Controller
             ],
         ]);
 
-        if ($validator->fails()) {
-            return back()->with('error', 'Please select valid employee.');
+        if ($validator->fails())
+        {
+            return back()->with('error', __('Please select valid employee.'));
         }
 
         $validated = $validator->validated();
@@ -99,6 +103,6 @@ class TeamUserController extends Controller
         Notification::send($trainer, new TeamUserEmployeeUnassignNotification(Auth::user(), $employee));
         Notification::send($employee, new TeamUserTeamUnassignNotification(Auth::user(), $trainer));
 
-        return back()->with('success', 'Employee unassign successfully!');
+        return back()->with('success', __('Employee unassign successfully!'));
     }
 }

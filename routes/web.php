@@ -54,13 +54,10 @@ Route::middleware('auth')->group( function() {
     /**User Routes */
     Route::controller(UserController::class)->group( function() {
         Route::get('/users', 'index')->name('users.index');
-
         Route::get('users/create', 'create')->name('users.create');
         Route::post('users/store', 'store')->name('users.store');
-
         Route::get('users/{user:slug}/edit', 'edit')->name('users.edit');
         Route::post('users/{user:slug}/update', 'update')->name('users.update');
-
         Route::get('users/{user:slug}/delete', 'delete')->name('users.delete');
     });
 
@@ -78,41 +75,37 @@ Route::middleware('auth')->group( function() {
         Route::post('teams/{trainer}/courses/delete', 'delete')->name('teams.courses.delete');
     });
 
-    /**Changing the status of a User */
+    /** Changing the status of a User */
     Route::get('users/{user:slug}/status', [UserStatusController::class , 'update'])->name('users.status');
 
-    /**Password Reset Routes */
+    /** Password Reset Routes */
     Route::controller(PasswordResetController::class)->group(function(){
         Route::get('users/{user:slug}/reset-password', 'showResetForm')->name('users.reset-password');
         Route::post('users/{user}/reset-password', 'resetPassword')->name('users.reset-password');
     });
 
 
-    //Category Routes
+    /** Category Routes */
     Route::controller(CategoryController::class)->group(function() {
-
         Route::get('/categories', 'index')->name('categories.index');
-
         Route::get('categories/create', 'create')->name('categories.create');
         Route::post('categories/store', 'store')->name('categories.store');
-
         Route::get('categories/{category:slug}/edit', 'edit')->name('categories.edit');
         Route::post('categories/{category:slug}/update', 'update')->name('categories.update');
-
         Route::get('categories/{category:slug}/delete', 'delete')->name('categories.delete');
     });
 
-    /**Changing the status of a Category */
+    /** Changing the status of a Category */
     Route::get('categories/{category:slug}/status', [CategoryStatusController::class, 'update'])->name('categories.status');
 
-    /**Trainer assign multiple Employees Routes */
+    /**1 Trainer assign multiple Employees Routes */
     Route::controller(TeamUserController::class)->group(function() {
         Route::get('teams/{trainer:slug}/users', 'index')->name('teams.users.index');
         Route::post('teams/{trainer}/store', 'store')->name('teams.users.store');
         Route::post('teams/{trainer:slug}/users', 'destroy')->name('teams.users.destroy');
     });
 
-    /**Employee assign multiple Trainer Routes */
+    /** 1 Employee assign multiple Trainer Routes */
     Route::controller(UserTeamController::class)->group(function() {
         Route::get('users/{user:slug}/teams', 'index')->name('users.teams.index');
         Route::post('users/{user}/store', 'store')->name('users.teams.store');
@@ -120,7 +113,7 @@ Route::middleware('auth')->group( function() {
     });
 
 
-    /**Courses Routes */
+    /** Courses Routes */
     Route::controller(CourseController::class)->group(function() {
         Route::get('/courses', 'index')->name('courses.index');
         Route::get('courses/create', 'create')->name('courses.create');
@@ -131,21 +124,21 @@ Route::middleware('auth')->group( function() {
         Route::get('courses/{course:slug}/show', 'show')->name('courses.show');
     });
 
-    /**Course assign to Trainers */
+    /** 1 Course assign to multiple Trainers */
     Route::controller(CourseTeamController::class)->group(function() {
         Route::get('courses/{course:slug}/teams', 'index')->name('courses.teams.index');
         Route::post('courses/{course}/teams', 'store')->name('courses.teams.store');
         Route::post('courses/{course:slug}', 'delete')->name('courses.teams.delete');
     });
 
-    /**Course enrolled to multiple users */
+    /** 1 Course enrolled to multiple Users/Trainers */
     Route::controller(EnrollmentController::class)->group(function() {
         Route::get('courses/{course:slug}/users', 'index')->name('courses.users.index');
         Route::post('courses/{course}/store', 'store')->name('courses.users.store');
         Route::post('courses/{course}/users', 'delete')->name('courses.users.delete');
     });
 
-    /**Course Unit Controller */
+    /** Course Unit Controller */
     Route::controller(CourseUnitController::class)->group(function() {
         Route::get('courses/{course:slug}/units', 'create')->name('courses.units.create');
         Route::post('courses/{course}/units/store', 'store')->name('courses.units.store');
@@ -153,8 +146,12 @@ Route::middleware('auth')->group( function() {
         Route::post('courses/{course}/units/{unit}/update', 'update')->name('courses.units.update');
         Route::get('courses/{course:slug}/units/{unit}', 'delete')->name('courses.units.delete');
     });
-    Route::get('courses/{course:slug}/units/{unit}/test/create', [TestController::class, 'create'])->name('courses.units.tests.create');
-    Route::post('courses/{course}/units/{unit}/tests/store', [TestController::class, 'store'])->name('courses.units.tests.store');
+
+    /** Unit Test Controller */
+    Route::controller(TestController::class)->group(function() {
+        Route::get('courses/{course:slug}/units/{unit}/test/create', 'create')->name('courses.units.tests.create');
+        Route::post('courses/{course}/units/{unit}/tests/store', 'store')->name('courses.units.tests.store');
+    });
 });
 
     /** Set Password */

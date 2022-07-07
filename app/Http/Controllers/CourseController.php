@@ -15,10 +15,12 @@ class CourseController extends Controller
 {
     public function index(Category $category, Level $level)
     {
+        $course = Course::visibleTo()
+                ->filter(request(['search', 'category', 'orderBy', 'level']))
+                ->paginate();
+
         return view('courses.index', [
-            'courses' => Course::visibleTo()
-                    ->filter(request(['search', 'category', 'orderBy', 'level']))
-                    ->paginate(),
+            'courses' => $course,
             'currentCategory' => $category->find(request()->category),
             'currentLevel' => $level->find(request()->level),
         ]);
@@ -43,7 +45,7 @@ class CourseController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->with('error', 'Please select valid Category and Level.');
+            return back()->with('error', __('Please select valid Category and Level.'));
         };
 
         $validated = $validator->validated();
@@ -69,7 +71,7 @@ class CourseController extends Controller
             ]);
         }
 
-        return back()->with('success', 'Course created successfully.');
+        return back()->with('success', __('Course created successfully.') );
     }
 
     public function edit(Course $course)
@@ -121,7 +123,6 @@ class CourseController extends Controller
             'certificate' => ($request->certificate == 1)? 1 : 0,
         ];
 
-
         $course->update($attributes);
 
         if(request()->file('image')) {
@@ -132,14 +133,15 @@ class CourseController extends Controller
             ]);
         }
 
-        return back()->with('success', 'Course updated successfully.');
+        return back()->with('success', __('Course updated successfully.') );
     }
 
     public function delete(Course $course)
     {
         $this->authorize('delete', $course);
+
         $course->delete();
 
-        return back()->with('success', 'Course deleted successfully.');
+        return back()->with('success', __('Course deleted successfully.') );
     }
 }

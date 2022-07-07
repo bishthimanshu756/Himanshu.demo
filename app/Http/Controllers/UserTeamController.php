@@ -17,7 +17,11 @@ use Illuminate\Validation\Rule;
 
 class UserTeamController extends Controller
 {
-    public function index(User $user) {
+    /**
+     * Multiple Trainers are assigned to a single User.
+     */
+    public function index(User $user)
+    {
         $this->authorize('view', $user);
 
         $trainers = User::owner()->active()->trainer()
@@ -32,8 +36,8 @@ class UserTeamController extends Controller
         ]);
     }
 
-    public function store(User $user, Request $request) {
-
+    public function store(User $user, Request $request)
+    {
         $this->authorize('edit', $user);
 
         $validator= Validator::make($request->all(), [
@@ -46,7 +50,8 @@ class UserTeamController extends Controller
             ],
         ]);
 
-        if($validator->fails()) {
+        if($validator->fails())
+        {
             return back()->with('error', 'Please select at least one trainer.');
         }
 
@@ -54,11 +59,12 @@ class UserTeamController extends Controller
 
         //Validation for Trainers already assigned to Employee in team table
         $teamExists = Team::where('team_id',$validated['trainerIds'])
-        ->where('user_id', $user->id)->get();
+                ->where('user_id', $user->id)->get();
 
 
-        if($teamExists->isNotEmpty()) {
-            return back()->with('error', 'Trainer already assigned to the employee.');
+        if($teamExists->isNotEmpty())
+        {
+            return back()->with('error', __('Trainer already assigned to the employee.'));
         }
 
         $assignees = User::visibleTo(Auth::user())->findMany($validated['trainerIds']);
@@ -68,7 +74,7 @@ class UserTeamController extends Controller
         Notification::send($assignees, new UserTeamEmployeeAssignNotification(Auth::user(), $user));
         Notification::send($user, new UserTeamTeamAssignNotification(Auth::user(), $assignees));
 
-        return back()->with('success', 'Trainer assign successfully!');
+        return back()->with('success', __('Trainer assign successfully!'));
     }
 
     public function destroy(User $user, Request $request) {
@@ -85,7 +91,7 @@ class UserTeamController extends Controller
         ]);
 
         if ($validator->fails()) {
-            return back()->with('error', 'Please select valid trainer.');
+            return back()->with('error', __('Please select valid trainer.'));
         }
 
         $validated = $validator->validated();
@@ -97,7 +103,7 @@ class UserTeamController extends Controller
         Notification::send($user, new UserTeamTeamUnassignNotification(Auth::user(), $assignee));
         Notification::send($assignee, new UserTeamEmployeeUnassignNotification(Auth::user(), $user));
 
-        return back()->with('success', 'Trainers unassign successfully!');
+        return back()->with('success', __('Trainers unassign successfully!'));
     }
 
 

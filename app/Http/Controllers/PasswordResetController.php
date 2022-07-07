@@ -8,14 +8,15 @@ use Illuminate\Validation\Rules\Password;
 
 class PasswordResetController extends Controller
 {
-    public function showResetForm(User $user) {
-        
+    public function showResetForm(User $user)
+    {
         return view('mails.reset',[
-            'user' => $user, 
+            'user' => $user,
         ]);
     }
 
-    public function resetPassword(User $user, Request $request) {
+    public function resetPassword(User $user, Request $request)
+    {
         $request->validate([
             'password' => ['required', Password::defaults()],
             'confirm_password' => ['required', 'same:password', Password::defaults()]
@@ -25,7 +26,7 @@ class PasswordResetController extends Controller
             'password' => $request->password,
         ]);
 
-        return redirect()->route('users.index');
-        
+        return redirect()->route('users.index')
+            ->with('success', __('Password reset successfully.'));
     }
 }

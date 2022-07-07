@@ -43,26 +43,33 @@ class UserController extends Controller
 
     public function store(Request $request, User $user)
     {
-        if (Auth::user()->role_id == Role::TRAINER) {
+        if (Auth::user()->role_id == Role::TRAINER)
+        {
             $ids = '4';
-        } elseif (Auth::user()->role_id == Role::SUB_ADMIN) {
+        } elseif (Auth::user()->role_id == Role::SUB_ADMIN)
+        {
             $ids = '3,4';
-        } else {
+        } else
+        {
             $ids = '2,3,4';
         }
 
         $roles = Role::where('slug', '!=', 'admin')->pluck('id')->toArray();
 
-        if (!in_array($request->role_id, $roles)) {
+        if (!in_array($request->role_id, $roles))
+        {
             return redirect()->route('users.index')
                 ->with('error', __('Role does not exists'));
         }
 
         $user = User::where('email', $request->email)->withTrashed()->first();
-        if ($user) {
-            if (!$user->deleted_at) {
+        if ($user)
+        {
+            if (!$user->deleted_at)
+            {
                 return back()->with('error', __('Email already exists'));
-            } else {
+            } else
+            {
                 $user->restore();
                 $user->update([
                     'first_name' => $request->first_name,
@@ -73,7 +80,6 @@ class UserController extends Controller
             }
         }
 
-        //create a user
         $attributes = request()->validate([
             'first_name' => ['required', 'max:255', 'min:3'],
             'last_name' => ['required'],
@@ -82,30 +88,27 @@ class UserController extends Controller
         ]);
 
         // we need to store auth id into created_by column when user created.
-
         $attributes += ['created_by' => Auth::id()];
 
         $user = User::create($attributes);
 
-        if ( $user->role_id != Role::SUB_ADMIN) {
-
+        if ($user->role_id != Role::SUB_ADMIN)
+        {
             Team::create([
                 'team_id' => Auth::id(),
                 'user_id' => $user->id,
             ]);
-
         }
-        dd($request->all());
+
         Notification::send($user, new WelcomeNotification(Auth::user()));
 
-        switch ($request->action){
-            case 'create':
-                return redirect()->route('users.index')
-                    ->with('success', 'User created successfully');
-                    break;
-            case 'create_another':
-                return back()->with('success', __('User added successfully.'));
+        if ($request->action == 'save')
+        {
+            return redirect()->route('users.edit', $user)
+                ->with('success', 'User created successfully');
         }
+
+        return back()->with('success', __('User added successfully.'));
 
     }
 
@@ -121,6 +124,7 @@ class UserController extends Controller
     public function update(User $user, Request $request)
     {
         $this->authorize('update', $user);
+
         $attributes = request()->validate([
             'first_name' => ['required', 'max:255', 'min:3', 'string'],
             'last_name' => ['required'],
@@ -143,6 +147,7 @@ class UserController extends Controller
     public function delete(User $user)
     {
         $this->authorize('delete', $user);
+
         $user->delete();
 
         return redirect()->route('users.index')

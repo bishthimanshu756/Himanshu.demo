@@ -11,11 +11,15 @@ use Illuminate\Validation\Rule;
 
 class UserEnrollmentController extends Controller
 {
+    /**
+     * Multiple Courses are enrolled to a single Trainer/User.
+     */
     public function index(User $user)
     {
         $this->authorize('view', $user);
 
-        $course = Course::courseOwner()->whereDoesntHave('enrolledCourses', function($query) use($user) {
+        $course = Course::courseOwner()
+            ->whereDoesntHave('enrolledCourses', function($query) use($user) {
                 return $query->where('user_id', $user->id);
             })->get();
 
@@ -42,7 +46,7 @@ class UserEnrollmentController extends Controller
 
         if ($validator->fails())
         {
-            return back()->with('error', 'Please select at least one course.');
+            return back()->with('error', __('Please select at least one course.'));
         }
 
         $validated = $validator->validated();
@@ -51,7 +55,7 @@ class UserEnrollmentController extends Controller
 
         $user->enrolledCourses()->attach($courses);
 
-        return back()->with('success', 'Course enrolled successfully.');
+        return back()->with('success', __('Course enrolled successfully.'));
     }
 
     public function delete(User $user, Request $request)
@@ -70,7 +74,7 @@ class UserEnrollmentController extends Controller
 
         if ($validator->fails())
         {
-            return back()->with('error', 'Please select valid Course.');
+            return back()->with('error', __('Please select valid Course.'));
         }
 
         $validated = $validator->validated();
@@ -79,6 +83,6 @@ class UserEnrollmentController extends Controller
 
         $user->enrolledCourses()->detach($course);
 
-        return back()->with('success', 'Course unenrolled successfully.');
+        return back()->with('success', __('Course unenrolled successfully.'));
     }
 }

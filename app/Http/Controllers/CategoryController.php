@@ -16,14 +16,15 @@ class CategoryController extends Controller
         ]);
     }
 
-    public function create() {
+    public function create()
+    {
         return view('categories.create');
     }
 
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'max:50'],
+            'name' => ['required', 'max:50', 'unique:categories'],
         ]);
 
         $category = Category::where('name', $request->name)->onlyTrashed()->first();
@@ -31,7 +32,7 @@ class CategoryController extends Controller
         if ($category) {
             $category->restore();
             return redirect()->route('categories.index')
-                ->with('success', 'Category restore successfully');
+                ->with('success', __('Category restore successfully') );
         }
 
         $category = Category::create([

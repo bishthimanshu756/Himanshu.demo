@@ -6,7 +6,12 @@ use App\Models\Category;
 
 class CategoryStatusController extends Controller
 {
-    public function update(Category $category) {
+    /**
+     * Changing the status of a category.
+     */
+    public function update(Category $category)
+    {
+        $this->authorize('update', $category);
 
         if($category->status == Category::ACTIVE) {
             $attributes['status'] = Category::INACTIVE;
@@ -16,6 +21,6 @@ class CategoryStatusController extends Controller
 
         $category->update($attributes);
 
-        return back()->with('success', 'Category status changed successfully!!');
+        return back()->with('success', __('Category status changed successfully!'));
     }
 }

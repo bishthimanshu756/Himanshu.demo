@@ -9,8 +9,8 @@ use Illuminate\Support\Facades\Auth;
 
 class DashboardController extends Controller
 {
-    public function view(User $user, Category $category) {
-        
+    public function view()
+    {
         return view('dashboard', [
             'user' =>Auth::user(),
             'users' => User::where('created_by', Auth::id()),

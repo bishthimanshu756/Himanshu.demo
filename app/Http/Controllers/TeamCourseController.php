@@ -12,7 +12,7 @@ use Illuminate\Validation\Rule;
 class TeamCourseController extends Controller
 {
     /**
-     * 1 Trainer assigned to multiple Courses.
+     * Multiple Courses are assigned to a single Trainer to manage.
      */
     public function index(User $trainer)
     {
