@@ -30,9 +30,10 @@ class CourseController extends Controller
     {
         return view('courses.create');
     }
-
+    
     public function store(Request $request)
     {
+        // dd(request()->file('image')->getClientOriginalName());
         $validator = Validator::make($request->all(), [
             'category_id' => [
                 'required',
@@ -64,7 +65,8 @@ class CourseController extends Controller
         $course = Course::create($attributes);
 
         if($request->file('image')) {
-            $path = $request->image->store('images');
+            $filename = $request->file('image')->getClientOriginalName();
+            $path = $request->image->storeAs('images', $filename);
             Image::create([
                 'image_path' => $path,
                 'course_id' => $course->id

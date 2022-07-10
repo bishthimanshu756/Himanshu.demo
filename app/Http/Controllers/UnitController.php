@@ -2,11 +2,11 @@
 
 namespace App\Http\Controllers;
 
+use Illuminate\Http\Request;
 use App\Models\Course;
 use App\Models\Unit;
-use Illuminate\Http\Request;
 
-class CourseUnitController extends Controller
+class UnitController extends Controller
 {
     public function create(Course $course)
     {
@@ -39,6 +39,7 @@ class CourseUnitController extends Controller
         return view('units.edit', [
             'unit' => $unit,
             'course' => $course,
+            'lessons' => $unit->lessons()->get(),
         ]);
     }
 

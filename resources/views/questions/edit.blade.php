@@ -27,12 +27,12 @@
 
         <!-- Form Div -->
         <div class="bg-white p-6 w-full">
-            <form method="POST" action="{{ route('courses.tests.questions.store', [$course, $test]) }}" class="px-5 pt-6" enctype="multipart/form-data">
+            <form method="POST" action="{{ route('courses.tests.questions.update', [$course, $test, $question]) }}" class="px-5 pt-6" enctype="multipart/form-data">
                 @csrf
                 <!-- Question -->
                 <div class="h-24 w-full">
                     <label for="name" class="block font-black required">{{ __('Type Your Question') }}</label>
-                    <textarea name="name" placeholder="Enter your question" class="w-full h-full"></textarea>
+                    <textarea name="name" placeholder="Enter your question" class="w-full h-full">{{ $question->name }}</textarea>
 
                     <x-validation-error name="name" />
                 </div>
@@ -70,26 +70,13 @@
                 <!-- Buttons -->
                 <div class="mt-10">
                     <button type="submit" class="bg-gray-500 text-white border-0.5 border-2 border-gray-500 font-bold hover: hover:bg-gray-600 hover:border-gray-900 hover:text-white mx-auto px-8 py-1.5 rounded-md">
-                        {{ __('Save') }}
-                    </button>
-                    <button type="submit" class="bg-gray-500 text-white border-0.5 border-2 border-gray-500 font-bold hover: hover:bg-gray-600 hover:border-gray-900 hover:text-white mx-auto px-8 py-1.5 rounded-md">
-                        {{ __('Save & Add Another') }}
+                        {{ __('Update') }}
                     </button>
                     <div class="bg-blue-100 border-2 font-bold hover:bg-blue-600 hover:border-blue-700 hover:text-white inline ml-4 px-4 py-1.5 rounded-md text-gray-700">
                         <a href="{{ route('courses.index') }}">Cancel</a>
                     </div>
                 </div>
             </form>
-        </div>
-        <h3 class="font-bold text-lg mt-10">
-            <span>
-                {{ __('Questions') }}
-            </span>
-        </h3>
-
-        <!-- Lessons Listing -->
-        <div class="bg-white p-4">
-            <span class="italic text-gray-300"> {{ __('No Questions found...') }} </span>
         </div>
     </div>
 </x-app-layout>

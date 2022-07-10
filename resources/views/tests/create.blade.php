@@ -38,14 +38,21 @@
                     <!-- Score and Duration wrapper -->
                     <div class="flex justify-between mb-4 mt-4">
                         <div class="w-2/5">
-                            <label for="pass_score" class="block font-black required whitespace-nowrap">{{ __('Pass Score') }}</label>
-                            <input type="number" name="pass_score" class="border-gray-200 rounded-md w-full">
+                            <label for="pass_percentage" class="block font-black required whitespace-nowrap">{{ __('Pass Score') }}</label>
+                            <div class="border border-gray-200 rounded-md w-full">
+                                <input type="number" name="pass_percentage" class="border-0 rounded-md w-4/5" placeholder="Passing Score">
+                                <svg class="w-4 h-4 inline" width="24" height="24" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
+                                    <path d="M17 19C15.8954 19 15 18.1046 15 17C15 15.8954 15.8954 15 17 15C18.1046 15 19 15.8954 19 17C19 18.1046 18.1046 19 17 19Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M7 9C5.89543 9 5 8.10457 5 7C5 5.89543 5.89543 5 7 5C8.10457 5 9 5.89543 9 7C9 8.10457 8.10457 9 7 9Z" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                    <path d="M19 5L5 19" stroke="currentColor" stroke-linecap="round" stroke-linejoin="round"></path>
+                                </svg>
+                            </div>
 
-                            <x-validation-error name="pass_score" />
+                            <x-validation-error name="pass_percentage" />
                         </div>
                         <div class="w-2/5">
                             <label for="duration" class="block font-black required">{{ __('Duration') }}</label>
-                            <input type="number" name="duration" class="border-gray-200 rounded-md w-full">
+                            <input type="number" name="duration" placeholder="Duration" class="border-gray-200 rounded-md w-full">
 
                             <x-validation-error name="duration" />
                         </div>

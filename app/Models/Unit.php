@@ -18,8 +18,14 @@ class Unit extends Model
     ];
 
     /** Relationships */
-    public function courses() {
+    public function courses()
+    {
         return $this->belongsToMany(Course::class, 'course_unit', 'unit_id', 'course_id')
             ->withPivot('sort_order')->withTimestamps();
+    }
+
+    public function lessons()
+    {
+        return $this->hasMany(Lesson::class);
     }
 }

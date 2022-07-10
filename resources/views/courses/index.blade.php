@@ -108,7 +108,7 @@
                         <div class="bg-white border-b rounded-md border-gray-200 mt-6 w-full max-h-54 overflow-hidden">
                             <div class="flex mt-0.5 px-4 py-1">
                                 <div class="p-3 w-1/5 bg-gray-200">
-                                    <img src="{{ storage_path('app/'.$course->image->image_path) }}" alt="images"  class="h-full object-fill w-full">
+                                    <img src="{{ asset('/storage/'.$course->image->image_path) }}" alt="images"  class="h-full object-fill w-full">
                                 </div>
                                 <div class="inline w-4/5 ml-8 p-4">
                                     <div class="flex justify-between">
