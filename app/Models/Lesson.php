@@ -5,6 +5,7 @@ namespace App\Models;
 use Cviebrock\EloquentSluggable\Sluggable;
 use Illuminate\Database\Eloquent\Factories\HasFactory;
 use Illuminate\Database\Eloquent\Model;
+use Illuminate\Database\Eloquent\SoftDeletes;
 
 class Lesson extends Model
 {
@@ -45,6 +46,6 @@ class Lesson extends Model
 
     public function tests()
     {
-        return $this->hasMany(Test::class, 'lessons', 'lessonable_id');
+        return $this->hasMany(Test::class);
     }
 }

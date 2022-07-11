@@ -1,6 +1,5 @@
 <?php
 
-use App\Http\Controllers\Auth\AuthenticatedSessionController;
 use App\Http\Controllers\CategoryController;
 use App\Http\Controllers\CategoryStatusController;
 use App\Http\Controllers\CourseController;
@@ -8,6 +7,7 @@ use App\Http\Controllers\CourseTeamController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EnrollmentController;
 use App\Http\Controllers\LearnableController;
+use App\Http\Controllers\LessonController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PasswordResetController;
 use App\Http\Controllers\QuestionController;
@@ -19,8 +19,6 @@ use App\Http\Controllers\UserEnrollmentController;
 use App\Http\Controllers\UserStatusController;
 use App\Http\Controllers\UserTeamController;
 use App\Http\Controllers\WelcomeController;
-use App\Models\Role;
-use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -155,8 +153,8 @@ Route::middleware('auth')->group( function() {
         Route::post('courses/{course}/units/{unit}/tests/store', 'store')->name('courses.units.tests.store');
         Route::get('courses/{course:slug}/units/{unit}/tests/{test}/edit', 'edit')->name('courses.units.tests.edit');
         Route::post('courses/{course:slug}/units/{unit}/tests/{test}/update', 'update')->name('courses.units.tests.update');
-        Route::get('courses/{course:slug}/units/{unit}/tests/{test}/delete', 'delete')->name('courses.units.tests.delete');
     });
+    Route::get('courses/{course:slug}/units/{unit}/lessons/{lesson}/delete', [LessonController::class, 'delete'])->name('courses.units.lessons.delete');
 
     Route::controller(QuestionController::class)->group(function() {
         Route::get('courses/{course:slug}/tests/{test}/questions/create', 'create')
@@ -170,6 +168,7 @@ Route::middleware('auth')->group( function() {
         Route::get('courses/{course:slug}/tests/{test}/questions/{question}/delete', 'delete')
             ->name('courses.tests.questions.delete');
     });
+
 
     Route::controller(LearnableController::class)->group(function() {
         Route::get('/mycourses', 'index')->name('my-courses');

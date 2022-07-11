@@ -29,7 +29,7 @@ class Test extends Model
 
     public function lesson()
     {
-        return $this->belongsTo(Lesson::class);
+        return $this->belongsTo(Lesson::class, 'id', 'lessonable_id');
     }
 
     public function questions()

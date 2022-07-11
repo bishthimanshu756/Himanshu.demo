@@ -110,7 +110,7 @@
                     </div>
                 @endforeach
             @else
-            <span class="italic text-gray-300"> {{ __('No Questions found...') }} </span>
+                <span class="italic text-gray-300"> {{ __('No Questions found...') }} </span>
             @endif
         </div>
     </div>

@@ -11,7 +11,7 @@
                     <line x1="13" y1="18" x2="19" y2="12"></line>
                     <line x1="13" y1="6" x2="19" y2="12"></line>
                 </svg>
-                <a href="{{ route('courses.show', $course) }}">
+                <a href="{{ route('courses.units.tests.edit', [$course, $unit, $test]) }}">
                     {{ $test->name }}
                 </a>
                 <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -32,7 +32,7 @@
                 <!-- Question -->
                 <div class="h-24 w-full">
                     <label for="name" class="block font-black required">{{ __('Type Your Question') }}</label>
-                    <textarea name="name" placeholder="Enter your question" class="w-full h-full"></textarea>
+                    <textarea name="name" placeholder="Enter your question" value="{{ old('name') }}" class="w-full h-full"></textarea>
 
                     <x-validation-error name="name" />
                 </div>
@@ -54,42 +54,46 @@
                     </h4>
                     <div>
                         <div class="h-11 mt-4">
-                            <input type="radio" id="radio1" name="answer" value="option1" class="mb-11">
+                            <input type="radio" id="radio1" name="answer" value="1" class="mb-11">
                             <label for="radio1">
-                                <textarea type="text" id="option1" name="option1" class="h-full w-11/12" placeholder="Enter the answer here..." class="block"></textarea>
+                                <textarea type="text" id="option1" name="options[]" class="h-full w-11/12" placeholder="Enter the answer here..." class="block">{{ old('option1') }}</textarea>
                             </label>
                         </div>
                         <div class="h-11 mt-4">
-                            <input type="radio" id="radio2" name="answer" value="option2" class="mb-11">
+                            <input type="radio" id="radio2" name="answer" value="2" class="mb-11">
                             <label for="radio2">
-                                <textarea type="text" id="option2" name="option2" class="h-full w-11/12" placeholder="Enter the answer here..." class="block"></textarea>
+                                <textarea type="text" id="option2" name="options[]" class="h-full w-11/12" placeholder="Enter the answer here..." class="block">{{ old('option2') }}</textarea>
                             </label>
                         </div>
+                        <div class="h-11 mt-4">
+                            <input type="radio" id="radio3" name="answer" value="3" class="mb-11">
+                            <label for="radio3">
+                                <textarea type="text" id="option3" name="options[]" class="h-full w-11/12" placeholder="Enter the answer here..." class="block">{{ old('option3') }}</textarea>
+                            </label>
+                        </div>
+                        <div class="h-11 mt-4">
+                            <input type="radio" id="radio4" name="answer" value="4" class="mb-11">
+                            <label for="radio4">
+                                <textarea type="text" id="option4" name="options[]" class="h-full w-11/12" placeholder="Enter the answer here..." class="block">{{ old('option4') }}</textarea>
+                            </label>
+                        </div>
+                        <x-validation-error name=answer />
+                        <x-validation-error name=options* />
                     </div>
                 </div>
                 <!-- Buttons -->
                 <div class="mt-10">
-                    <button type="submit" class="bg-gray-500 text-white border-0.5 border-2 border-gray-500 font-bold hover: hover:bg-gray-600 hover:border-gray-900 hover:text-white mx-auto px-8 py-1.5 rounded-md">
+                    <button type="submit" name="action" value="save" class="bg-gray-500 text-white border-0.5 border-2 border-gray-500 font-bold hover: hover:bg-gray-600 hover:border-gray-900 hover:text-white mx-auto px-8 py-1.5 rounded-md">
                         {{ __('Save') }}
                     </button>
-                    <button type="submit" class="bg-gray-500 text-white border-0.5 border-2 border-gray-500 font-bold hover: hover:bg-gray-600 hover:border-gray-900 hover:text-white mx-auto px-8 py-1.5 rounded-md">
+                    <button type="submit" name="action" value="saveNxt" class="bg-gray-500 text-white border-0.5 border-2 border-gray-500 font-bold hover: hover:bg-gray-600 hover:border-gray-900 hover:text-white mx-auto px-8 py-1.5 rounded-md">
                         {{ __('Save & Add Another') }}
                     </button>
                     <div class="bg-blue-100 border-2 font-bold hover:bg-blue-600 hover:border-blue-700 hover:text-white inline ml-4 px-4 py-1.5 rounded-md text-gray-700">
-                        <a href="{{ route('courses.index') }}">Cancel</a>
+                        <a href="{{ route('courses.units.tests.edit', [$course, $unit, $test]) }}">Cancel</a>
                     </div>
                 </div>
             </form>
-        </div>
-        <h3 class="font-bold text-lg mt-10">
-            <span>
-                {{ __('Questions') }}
-            </span>
-        </h3>
-
-        <!-- Lessons Listing -->
-        <div class="bg-white p-4">
-            <span class="italic text-gray-300"> {{ __('No Questions found...') }} </span>
         </div>
     </div>
 </x-app-layout>

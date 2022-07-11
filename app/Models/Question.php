@@ -23,13 +23,13 @@ class Question extends Model
         ];
     }
 
-    public function questions()
+    public function tests()
     {
         return $this->belongsToMany(Test::class, 'test_question', 'question_id', 'test_id');
     }
 
     public function options()
     {
-        return $this->belongsToMany(Question::class, 'question_option', 'question_id');
+        return $this->hasMany(Option::class);
     }
 }

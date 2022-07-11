@@ -37,12 +37,18 @@ class TestController extends Controller
 
         $lesson->save();
 
-        return redirect()->route('courses.units.tests.edit', [$course, $unit, $test])
-                ->with('success', __('Test created successfully.'));
+        if($request->action == 'save'){
+            return redirect()->route('courses.units.tests.edit', [$course, $unit, $test])
+                    ->with('success', __('Test created successfully.'));
+        }
+
+        return back()->with('success', __('Test created successfully.'));
+
     }
 
-    public function edit(Course $course, Unit $unit, Test $test)
+    public function edit(Course $course, Unit $unit, Test $test, Lesson $lesson)
     {
+
         return view('tests.edit',[
             'course' => $course,
             'unit' => $unit,
@@ -51,7 +57,7 @@ class TestController extends Controller
         ]);
     }
 
-    public function update(Course $course, Unit $unit, Test $test, Lesson $lesson ,Request $request)
+    public function update(Course $course, Unit $unit, Test $test, Request $request)
     {
         $request->validate([
             'name' => ['required', 'max:20'],
@@ -65,10 +71,10 @@ class TestController extends Controller
             'duration' => $request->duration,
         ]);
 
-        $lesson->name = $test->name;
-        $lesson->save();
+        $test->lesson->update([
+            'name' => $test->name,
+        ]);
 
-        return redirect()->route('courses.units.edit', [$course, $unit, $test])
-            ->with('success', __('Test updated successfully.'));
+        return back()->with('success', __('Test updated successfully.'));
     }
 }
