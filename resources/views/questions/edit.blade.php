@@ -11,7 +11,7 @@
                     <line x1="13" y1="18" x2="19" y2="12"></line>
                     <line x1="13" y1="6" x2="19" y2="12"></line>
                 </svg>
-                <a href="{{ route('courses.units.tests.edit', [$course, $unit, $test]) }}">
+                <a href="{{ route('courses.units.tests.edit', [$course, $lesson->unit, $test]) }}">
                     {{ $test->name }}
                 </a>
                 <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -20,7 +20,7 @@
                     <line x1="13" y1="6" x2="19" y2="12"></line>
                 </svg>
                 <span class="text-black">
-                    <span>{{$question->name }}</span>
+                    <span>{{__('Edit ') .$question->name }}</span>
                 </span>
             </h3>
         </div>

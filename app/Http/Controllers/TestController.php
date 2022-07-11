@@ -71,9 +71,8 @@ class TestController extends Controller
             'duration' => $request->duration,
         ]);
 
-        $test->lesson->update([
-            'name' => $test->name,
-        ]);
+        $test->lesson->name =  $test->name;
+        $test->lesson->save();
 
         return back()->with('success', __('Test updated successfully.'));
     }

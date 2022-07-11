@@ -16,7 +16,7 @@
                     <line x1="13" y1="6" x2="19" y2="12"></line>
                 </svg>
                 <span class="text-black">
-                    <span>{{ __('Edit Test') }}</span>
+                    <span>{{ __('Edit '). $test->name }}</span>
                 </span>
             </h3>
         </div>

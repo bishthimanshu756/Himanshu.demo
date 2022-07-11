@@ -169,7 +169,6 @@ Route::middleware('auth')->group( function() {
             ->name('courses.tests.questions.delete');
     });
 
-
     Route::controller(LearnableController::class)->group(function() {
         Route::get('/mycourses', 'index')->name('my-courses');
     });

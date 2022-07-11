@@ -6,7 +6,6 @@ use App\Models\Course;
 use App\Models\Option;
 use App\Models\Question;
 use App\Models\Test;
-use App\Models\Unit;
 use Illuminate\Http\Request;
 
 class QuestionController extends Controller
@@ -15,7 +14,7 @@ class QuestionController extends Controller
     {
         return view('questions.create', [
             'course' => $course,
-            'unit' => $test->lesson->unit,
+            'lesson' => $test->lesson->load('unit'),
             'test' => $test,
         ]);
     }
@@ -55,7 +54,7 @@ class QuestionController extends Controller
     {
         return view('questions.edit', [
             'course' => $course,
-            'unit' => $test->lesson->unit,
+            'lesson' => $test->lesson->load('unit'),
             'test' => $test,
             'question' => $question,
             'options' => Option::where('question_id', $question->id)->get()
@@ -65,7 +64,7 @@ class QuestionController extends Controller
 
     public function update(Request $request, Course $course, Test $test, Question $question)
     {   /**For routes */
-        $unit = $test->lesson->unit;
+        $lesson = $test->lesson->load('unit');
 
         $request->validate([
             'name' => ['required','min:3','max:255',],
@@ -89,7 +88,7 @@ class QuestionController extends Controller
             $i++;
         }
 
-        return redirect()->route('courses.units.tests.edit', [$course, $unit, $test])
+        return redirect()->route('courses.units.tests.edit', [$course, $lesson->unit, $test])
             ->with('success', __('Question updated successfully'));
     }
 
