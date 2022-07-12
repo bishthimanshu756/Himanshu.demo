@@ -108,7 +108,7 @@
             @if($questions->count())
                 @foreach($questions as $question)
                     <div class="flex justify-between my-6">
-                        <span>{{$question->name}}</span>
+                        <span>{{ $question->name }}</span>
                         <div class="inline">
                             <a href="{{ route('courses.tests.questions.edit', [$course, $test, $question]) }}">
                                 <svg class="w-6 h-6 inline mr-6" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 576 512">
