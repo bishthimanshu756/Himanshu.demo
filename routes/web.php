@@ -149,14 +149,15 @@ Route::middleware('auth')->group( function() {
 
     /** Test Controller */
     Route::controller(TestController::class)->group(function() {
-        Route::get('courses/{course:slug}/units/{unit}/tests/create', 'create')->name('courses.units.tests.create');
+        Route::get('courses/{course:slug}/units/{unit:slug}/tests/create', 'create')->name('courses.units.tests.create');
         Route::post('courses/{course}/units/{unit}/tests/store', 'store')->name('courses.units.tests.store');
         Route::get('courses/{course:slug}/tests/{test}/edit', 'edit')->name('courses.tests.edit');
         Route::post('courses/{course:slug}/tests/{test}/update', 'update')->name('courses.tests.update');
     });
 
     /**Lesson Controller for lesson delete */
-    Route::get('courses/{course:slug}/lessons/{lesson}/delete', [LessonController::class, 'delete'])->name('courses.lessons.delete');
+    Route::get('courses/{course:slug}/lessons/{lesson}/delete', [LessonController::class, 'delete'])
+        ->name('courses.lessons.delete');
 
     Route::controller(QuestionController::class)->group(function() {
         Route::get('courses/{course:slug}/tests/{test}/questions/create', 'create')

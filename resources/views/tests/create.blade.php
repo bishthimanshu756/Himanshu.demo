@@ -3,20 +3,24 @@
         <!-- BreadCrum Bar -->
         <div class="flex items-center justify-between mb-8">
             <h3 class="font-extrabold text-blue-900 text-xl">
-                <a href="{{ route('courses.show', $course) }}">{{ $course->title }}</a>
+                <a href="{{ route('courses.show', $course) }}">
+                    {{ $course->title }}
+                </a>
                 <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <line x1="13" y1="18" x2="19" y2="12"></line>
                     <line x1="13" y1="6" x2="19" y2="12"></line>
                 </svg>
-                <a href="{{ route('courses.units.edit', [$course, $unit]) }}">{{ $unit->title }}</a>
+                <a href="{{ route('courses.units.edit', [$course, $unit]) }}">
+                    {{ $unit->title }}
+                </a>
                 <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <line x1="13" y1="18" x2="19" y2="12"></line>
                     <line x1="13" y1="6" x2="19" y2="12"></line>
                 </svg>
                 <span class="text-black">
-                    <span>{{ __('Create Test') }}</span>
+                    {{ __('Create Test') }}
                 </span>
             </h3>
         </div>
@@ -25,11 +29,13 @@
         <div class="flex bg-white">
             <!-- Left Div Edit Form -->
             <div class="p-6">
-                <form method="POST" action="{{ route('courses.units.tests.store', [$course,$unit]) }}" class="px-5 pt-6" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('courses.units.tests.store', [$course, $unit]) }}" class="px-5 pt-6" enctype="multipart/form-data">
                     @csrf
                     <!-- Test Name -->
                     <div>
-                        <label for="name" class="block font-black required">{{ __('Test Name') }}</label>
+                        <label for="name" class="block font-black required">
+                            {{ __('Test Name') }}
+                        </label>
                         <input type="text" name="name"  required class="border-gray-200 rounded-md w-full" placeholder="Enter Test Name">
 
                         <x-validation-error name="name" />
@@ -38,7 +44,9 @@
                     <!-- Score and Duration wrapper -->
                     <div class="flex justify-between mb-4 mt-4">
                         <div class="w-2/5">
-                            <label for="pass_percentage" class="block font-black required whitespace-nowrap">{{ __('Pass Score') }}</label>
+                            <label for="pass_percentage" class="block font-black required whitespace-nowrap">
+                                {{ __('Pass Score') }}
+                            </label>
                             <div class="border border-gray-200 rounded-md w-full">
                                 <input type="number" name="pass_percentage" class="border-0 rounded-md w-4/5" placeholder="Passing Score">
                                 <svg class="w-4 h-4 inline" width="24" height="24" stroke-width="1.5" viewBox="0 0 24 24" fill="none" xmlns="http://www.w3.org/2000/svg">
@@ -51,7 +59,9 @@
                             <x-validation-error name="pass_percentage" />
                         </div>
                         <div class="w-2/5">
-                            <label for="duration" class="block font-black required">{{ __('Duration') }}</label>
+                            <label for="duration" class="block font-black required">
+                                {{ __('Duration') }}
+                            </label>
                             <input type="number" name="duration" placeholder="Duration" class="border-gray-200 rounded-md w-full">
 
                             <x-validation-error name="duration" />
@@ -66,7 +76,9 @@
                             {{ __('Save & Add Another') }}
                         </button>
                         <div class="bg-blue-100 border-2 font-bold hover:bg-blue-600 hover:border-blue-700 hover:text-white inline ml-4 px-4 py-1.5 rounded-md text-gray-700">
-                            <a href="{{ route('courses.index') }}"> {{ __('Cancel') }}</a>
+                            <a href="{{ route('courses.units.edit', [$course, $unit]) }}">
+                                {{ __('Cancel') }}
+                            </a>
                         </div>
                     </div>
                 </form>

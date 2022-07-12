@@ -20,7 +20,7 @@
                     <line x1="13" y1="6" x2="19" y2="12"></line>
                 </svg>
                 <span class="text-black">
-                    {{$unit->title}}
+                    {{ __('Edit ').$unit->title}}
                 </span>
             </h3>
         </div>

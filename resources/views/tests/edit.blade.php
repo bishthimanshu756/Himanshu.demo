@@ -3,20 +3,24 @@
         <!-- BreadCrum Bar -->
         <div class="flex items-center justify-between mb-8">
             <h3 class="font-extrabold text-blue-900 text-xl">
-                <a href="{{ route('courses.show', $course) }}">{{ $course->title }}</a>
+                <a href="{{ route('courses.show', $course) }}">
+                    {{ $course->title }}
+                </a>
                 <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <line x1="13" y1="18" x2="19" y2="12"></line>
                     <line x1="13" y1="6" x2="19" y2="12"></line>
                 </svg>
-                <a href="{{ route('courses.units.edit', [$course, $lesson->unit]) }}">{{ $lesson->unit->title }}</a>
+                <a href="{{ route('courses.units.edit', [$course, $lesson->unit]) }}">
+                    {{ $lesson->unit->title }}
+                </a>
                 <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <line x1="13" y1="18" x2="19" y2="12"></line>
                     <line x1="13" y1="6" x2="19" y2="12"></line>
                 </svg>
                 <span class="text-black">
-                    <span>{{ __('Edit '). $test->name }}</span>
+                    {{ __('Edit '). $test->name }}
                 </span>
             </h3>
         </div>
@@ -29,7 +33,9 @@
                     @csrf
                     <!-- Test Name -->
                     <div>
-                        <label for="name" class="block font-black required">{{ __('Test Name') }}</label>
+                        <label for="name" class="block font-black required">
+                            {{ __('Test Name') }}
+                        </label>
                         <input type="text" name="name"  required class="border-gray-200 rounded-md w-full" value="{{ $test->name }}" placeholder="Enter Test Name">
 
                         <x-validation-error name="name" />
@@ -51,7 +57,9 @@
                             <x-validation-error name="pass_percentage" />
                         </div>
                         <div class="w-2/5">
-                            <label for="duration"  class="block font-black required">{{ __('Duration') }}</label>
+                            <label for="duration"  class="block font-black required">
+                                {{ __('Duration') }}
+                            </label>
                             <input type="number" name="duration" value="{{ $test->duration }}">
 
                             <x-validation-error name="duration" />
@@ -63,14 +71,20 @@
                             {{ __('Update') }}
                         </button>
                         <div class="bg-blue-100 border-2 font-bold hover:bg-blue-600 hover:border-blue-700 hover:text-white inline ml-4 px-4 py-1.5 rounded-md text-gray-700">
-                            <a href="{{ route('courses.units.edit', [$course, $lesson->unit]) }}"> {{ __('Cancel') }}</a>
+                            <a href="{{ route('courses.units.edit', [$course, $lesson->unit]) }}">
+                                {{ __('Cancel') }}
+                            </a>
                         </div>
                     </div>
                 </form>
             </div>
             <!-- Right Div Files -->
             <div class="mt-8 pl-24 w-1/2">
-                <h3><span class="font-semibold whitespace-nowrapp">{{ __('Add Question Type') }}</span></h3>
+                <h3>
+                    <span class="font-semibold whitespace-nowrapp">
+                        {{ __('Add Question Type') }}
+                    </span>
+                </h3>
                 <div class="border mt-2 rounded-md text-center w-2/5">
                     <a href="{{ route('courses.tests.questions.create', [$course, $test]) }}">
                         <svg class="w-20 h-20 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 24 24" fill="currentColor" stroke="none">
@@ -110,7 +124,9 @@
                     </div>
                 @endforeach
             @else
-                <span class="italic text-gray-300"> {{ __('No Questions found...') }} </span>
+                <span class="italic text-gray-300">
+                    {{ __('No Questions found...') }}
+                </span>
             @endif
         </div>
     </div>

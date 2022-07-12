@@ -22,7 +22,7 @@ class TestController extends Controller
     {
         $attributes = $request->validate([
             'name' => ['required','min:3' ,'max:50'],
-            'pass_percentage' => ['required', 'numeric', 'min:0', 'max:100'],
+            'pass_percentage' => ['required', 'numeric', 'min:1', 'max:100'],
             'duration' => ['required', 'numeric', 'min:0'],
         ]);
 
@@ -31,14 +31,16 @@ class TestController extends Controller
         $lesson = Lesson::make([
             'name' => $test->name,
             'unit_id' => $unit->id,
+            'duration' => $test->duration,
         ]);
 
         $lesson->lessonable()->associate($test);
 
         $lesson->save();
 
-        if($request->action == 'save'){
-            return redirect()->route('courses.units.tests.edit', [$course, $unit, $test])
+        if($request->action == 'save')
+        {
+            return redirect()->route('courses.tests.edit', [$course, $test])
                     ->with('success', __('Test created successfully.'));
         }
 
@@ -48,6 +50,8 @@ class TestController extends Controller
 
     public function edit(Course $course, Test $test)
     {
+        $this->authorize('edit', $course);
+
         return view('tests.edit',[
             'course' => $course,
             'lesson' => $test->lesson->load('unit'),
@@ -56,11 +60,13 @@ class TestController extends Controller
         ]);
     }
 
-    public function update(Course $course, Test $test, Request $request)
+    public function update(Request $request, Course $course, Test $test)
     {
+        $this->authorize('update', $course);
+
         $request->validate([
-            'name' => ['required', 'max:20'],
-            'pass_percentage' => ['required', 'numeric', 'min:0', 'max:100'],
+            'name' => ['required', 'min:3', 'max:50'],
+            'pass_percentage' => ['required', 'numeric', 'min:1', 'max:100'],
             'duration' => ['required', 'numeric', 'min:0'],
         ]);
 
@@ -71,6 +77,7 @@ class TestController extends Controller
         ]);
 
         $test->lesson->name =  $test->name;
+        $test->lesson->duration = $test->duration;
         $test->lesson->save();
 
         return back()->with('success', __('Test updated successfully.'));

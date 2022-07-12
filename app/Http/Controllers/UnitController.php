@@ -19,7 +19,7 @@ class UnitController extends Controller
     {
         $attributes = $request->validate([
             'title' => ['required','min:3', 'max:50'],
-            'description' => ['required', 'min:5', 'max:255'],
+            'description' => ['required', 'min:5'],
         ]);
 
         $unit = Unit::create($attributes);
@@ -52,7 +52,7 @@ class UnitController extends Controller
 
         $attributes = $request->validate([
             'title' => ['required', 'min:3', 'max:50'],
-            'description' => ['required', 'min:5', 'max:255'],
+            'description' => ['required', 'min:5'],
         ]);
 
         $unit->update($attributes);
