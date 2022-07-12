@@ -186,3 +186,8 @@ Route::middleware('guest')->group(function() {
         Route::post('users/{user:slug}/set-password', 'setPassword')->name('users.set-password');
     });
 });
+
+// <form action="post">
+//                             @csrf
+//                             @method('DELETE')
+//                         </form>

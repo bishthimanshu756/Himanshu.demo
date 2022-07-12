@@ -46,7 +46,7 @@ class UnitController extends Controller
         ]);
     }
 
-    public function update( Request $request, Course $course,Unit $unit)
+    public function update(Request $request, Course $course, Unit $unit)
     {
         $this->authorize('update', $course);
 

@@ -7,6 +7,7 @@ use App\Models\Option;
 use App\Models\Question;
 use App\Models\Test;
 use Illuminate\Http\Request;
+use Illuminate\Support\Collection;
 
 class QuestionController extends Controller
 {
@@ -19,7 +20,7 @@ class QuestionController extends Controller
         ]);
     }
 
-    public function store(Course $course, Test $test, Request $request)
+    public function store(Request $request, Course $course, Test $test)
     {
         $request->validate([
             'name' => ['required','min:3','max:255',],
@@ -33,13 +34,16 @@ class QuestionController extends Controller
 
         $test->questions()->attach($question);
 
-        foreach($request->options as $key=>$option){
-            Option::create([
+        $collection = new Collection($request->options);
+
+        $collection->each(function($value, $key) use($question, $request){
+            $option = Option::make([
                 'question_id' => $question->id,
-                'name' => $option,
+                'name' => $value,
                 'is_answer' => $request->answer == $key ? '1':'0',
             ]);
-        }
+            $option->save();
+        });
 
         if($request->action == 'save'){
             return redirect()->route('courses.tests.questions.edit', [$course, $test, $question])
@@ -63,9 +67,7 @@ class QuestionController extends Controller
     }
 
     public function update(Request $request, Course $course, Test $test, Question $question)
-    {   /**For routes */
-        $lesson = $test->lesson->load('unit');
-
+    {
         $request->validate([
             'name' => ['required','min:3','max:255',],
             'answer' => ['required','min:1','regex:/[1-4]/'],
@@ -76,19 +78,13 @@ class QuestionController extends Controller
             'name' => $request->name
         ]);
 
-        /**Updating the options */
-        $i=0;
-        $options = $question->options;
-        foreach ($options as $option)
-        {
-            $option->update([
-                'name' => $request->options[$i],
-                'is_answer' => $request->answer == $option->id ? '1': '0',
-            ]);
-            $i++;
-        }
+        $question->options->each(function($option, $key) use($request) {
+            $option->name = $request->options[$key];
+            $option->is_answer = $request->answer == $option->id? '1':'0';
+            $option->save();
+        });
 
-        return redirect()->route('courses.units.tests.edit', [$course, $lesson->unit, $test])
+        return redirect()->route('courses.tests.edit', [$course, $test])
             ->with('success', __('Question updated successfully'));
     }
 

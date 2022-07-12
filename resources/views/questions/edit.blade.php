@@ -11,7 +11,7 @@
                     <line x1="13" y1="18" x2="19" y2="12"></line>
                     <line x1="13" y1="6" x2="19" y2="12"></line>
                 </svg>
-                <a href="{{ route('courses.units.tests.edit', [$course, $lesson->unit, $test]) }}">
+                <a href="{{ route('courses.tests.edit', [$course, $lesson->unit, $test]) }}">
                     {{ $test->name }}
                 </a>
                 <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -71,7 +71,7 @@
                         {{ __('Update') }}
                     </button>
                     <div class="bg-blue-100 border-2 font-bold hover:bg-blue-600 hover:border-blue-700 hover:text-white inline ml-4 px-4 py-1.5 rounded-md text-gray-700">
-                        <a href="{{ route('courses.units.tests.edit', [$course, $unit, $test]) }}">Cancel</a>
+                        <a href="{{ route('courses.tests.edit', [$course, $lesson->unit, $test]) }}">Cancel</a>
                     </div>
                 </div>
             </form>

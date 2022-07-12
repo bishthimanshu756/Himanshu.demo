@@ -38,8 +38,7 @@ class TestController extends Controller
 
         $lesson->save();
 
-        if($request->action == 'save')
-        {
+        if($request->action == 'save') {
             return redirect()->route('courses.tests.edit', [$course, $test])
                     ->with('success', __('Test created successfully.'));
         }
