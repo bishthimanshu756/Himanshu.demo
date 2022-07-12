@@ -9,7 +9,7 @@
                     <line x1="13" y1="18" x2="19" y2="12"></line>
                     <line x1="13" y1="6" x2="19" y2="12"></line>
                 </svg>
-                <a href="{{ route('courses.units.edit', [$course, $unit]) }}">{{ $unit->title }}</a>
+                <a href="{{ route('courses.units.edit', [$course, $lesson->unit]) }}">{{ $lesson->unit->title }}</a>
                 <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <line x1="13" y1="18" x2="19" y2="12"></line>
@@ -25,7 +25,7 @@
         <div class="flex bg-white">
             <!-- Left Div Edit Form -->
             <div class="p-6">
-                <form method="POST" action="{{ route('courses.units.tests.update', [$course, $unit,  $test]) }}" class="px-5 pt-6" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('courses.tests.update', [$course, $test]) }}" class="px-5 pt-6" enctype="multipart/form-data">
                     @csrf
                     <!-- Test Name -->
                     <div>
@@ -63,7 +63,7 @@
                             {{ __('Update') }}
                         </button>
                         <div class="bg-blue-100 border-2 font-bold hover:bg-blue-600 hover:border-blue-700 hover:text-white inline ml-4 px-4 py-1.5 rounded-md text-gray-700">
-                            <a href="{{ route('courses.units.edit', [$course, $unit]) }}"> {{ __('Cancel') }}</a>
+                            <a href="{{ route('courses.units.edit', [$course, $lesson->unit]) }}"> {{ __('Cancel') }}</a>
                         </div>
                     </div>
                 </form>

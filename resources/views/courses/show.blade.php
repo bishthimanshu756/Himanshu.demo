@@ -1,7 +1,4 @@
 <x-app-layout>
-    @php
-        $units = $course->units()->get();
-    @endphp
     <div class="mx-24 my-6 py-12">
 
         <!-- BreadCrum Bar -->
@@ -92,7 +89,7 @@
             </div>
         </div>
 
-        <h3 class="font-bold mt-8 text-2xl">Course content</h3>
+        <h3 class="font-bold mt-8 text-2xl">{{ __('Course content') }}</h3>
 
         <!-- Unit Listing -->
         <div class="">

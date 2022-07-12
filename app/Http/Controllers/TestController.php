@@ -21,7 +21,7 @@ class TestController extends Controller
     public function store(Request $request, Course $course, Unit $unit)
     {
         $attributes = $request->validate([
-            'name' => ['required', 'max:20'],
+            'name' => ['required','min:3' ,'max:50'],
             'pass_percentage' => ['required', 'numeric', 'min:0', 'max:100'],
             'duration' => ['required', 'numeric', 'min:0'],
         ]);
@@ -46,18 +46,17 @@ class TestController extends Controller
 
     }
 
-    public function edit(Course $course, Unit $unit, Test $test, Lesson $lesson)
+    public function edit(Course $course, Test $test)
     {
-
         return view('tests.edit',[
             'course' => $course,
-            'unit' => $unit,
+            'lesson' => $test->lesson->load('unit'),
             'test' => $test,
             'questions' => $test->questions()->get(),
         ]);
     }
 
-    public function update(Course $course, Unit $unit, Test $test, Request $request)
+    public function update(Course $course, Test $test, Request $request)
     {
         $request->validate([
             'name' => ['required', 'max:20'],

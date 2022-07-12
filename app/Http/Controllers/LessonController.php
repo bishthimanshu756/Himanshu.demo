@@ -9,7 +9,7 @@ use Illuminate\Http\Request;
 
 class LessonController extends Controller
 {
-    public function delete(Course $course, Unit $unit, Lesson $lesson)
+    public function delete(Course $course, Lesson $lesson)
     {
         $lesson->delete();
         return back()->with('success', __('Tests successfully deleted.'));

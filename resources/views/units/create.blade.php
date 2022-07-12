@@ -29,7 +29,9 @@
                 @csrf
                 <!-- Title -->
                 <div>
-                    <label for="title" class="block font-black required">{{ __('Title') }}</label>
+                    <label for="title" class="block font-black required">
+                        {{ __('Title') }}
+                    </label>
                     <input type="text" name="title" value="{{ old('title') }}" required class="border-gray-200 rounded-md w-full" placeholder="Enter Unit Name">
 
                     <x-validation-error name="title" />
@@ -37,7 +39,9 @@
 
                 <!-- Description -->
                 <div class="mt-4">
-                    <label for="description" class="block font-black required">{{ __('Description') }}</label>
+                    <label for="description" class="block font-black required">
+                        {{ __('Description') }}
+                    </label>
                     <textarea name="description" value="{{ old('description') }}" class="border-gray-200 rounded-md w-full" placeholder="Description"></textarea>
 
                     <x-validation-error name="description" />
@@ -45,14 +49,16 @@
 
                 <!-- Buttons -->
                 <div class="mt-4">
-                    <button type="submit" class="bg-gray-500 text-white border-0.5 border-2 border-gray-500 font-bold hover: hover:bg-gray-600 hover:border-gray-900 hover:text-white mx-auto px-8 py-1.5 rounded-md">
+                    <button type="submit" name="action" value="save" class="bg-gray-500 text-white border-0.5 border-2 border-gray-500 font-bold hover: hover:bg-gray-600 hover:border-gray-900 hover:text-white mx-auto px-8 py-1.5 rounded-md">
                         {{ __('Save') }}
                     </button>
-                    <button type="submit" name="create_another" class="bg-gray-500 text-white border-0.5 border-2 border-gray-500 font-bold hover: hover:bg-gray-600 hover:border-gray-900 hover:text-white mx-auto px-8 py-1.5 rounded-md">
+                    <button type="submit" name="action" value="saveNxt" class="bg-gray-500 text-white border-0.5 border-2 border-gray-500 font-bold hover: hover:bg-gray-600 hover:border-gray-900 hover:text-white mx-auto px-8 py-1.5 rounded-md">
                         {{ __('Save & Add Another') }}
                     </button>
                     <div class="bg-blue-100 border-2 font-bold hover:bg-blue-600 hover:border-blue-700 hover:text-white inline ml-4 px-4 py-1.5 rounded-md text-gray-700">
-                        <a href="{{ route('courses.show', $course) }}">Cancel</a>
+                        <a href="{{ route('courses.show', $course) }}">
+                            {{ __('Cancel') }}
+                        </a>
                     </div>
                 </div>
             </form>

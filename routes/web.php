@@ -33,7 +33,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    
+
 
     return view('welcome');
 });
@@ -138,23 +138,25 @@ Route::middleware('auth')->group( function() {
         Route::post('courses/{course}/users', 'delete')->name('courses.users.delete');
     });
 
-    /** Course Unit Controller */
+    /** Unit Controller */
     Route::controller(UnitController::class)->group(function() {
-        Route::get('courses/{course:slug}/units', 'create')->name('courses.units.create');
+        Route::get('courses/{course:slug}/units/create', 'create')->name('courses.units.create');
         Route::post('courses/{course}/units/store', 'store')->name('courses.units.store');
-        Route::get('courses/{course:slug}/units/{unit}/edit', 'edit')->name('courses.units.edit');
+        Route::get('courses/{course:slug}/units/{unit:slug}/edit', 'edit')->name('courses.units.edit');
         Route::post('courses/{course}/units/{unit}/update', 'update')->name('courses.units.update');
-        Route::get('courses/{course:slug}/units/{unit}', 'delete')->name('courses.units.delete');
+        Route::get('courses/{course:slug}/units/{unit:slug}/delete', 'delete')->name('courses.units.delete');
     });
 
-    /** Unit Test Controller */
+    /** Test Controller */
     Route::controller(TestController::class)->group(function() {
         Route::get('courses/{course:slug}/units/{unit}/tests/create', 'create')->name('courses.units.tests.create');
         Route::post('courses/{course}/units/{unit}/tests/store', 'store')->name('courses.units.tests.store');
-        Route::get('courses/{course:slug}/units/{unit}/tests/{test}/edit', 'edit')->name('courses.units.tests.edit');
-        Route::post('courses/{course:slug}/units/{unit}/tests/{test}/update', 'update')->name('courses.units.tests.update');
+        Route::get('courses/{course:slug}/tests/{test}/edit', 'edit')->name('courses.tests.edit');
+        Route::post('courses/{course:slug}/tests/{test}/update', 'update')->name('courses.tests.update');
     });
-    Route::get('courses/{course:slug}/units/{unit}/lessons/{lesson}/delete', [LessonController::class, 'delete'])->name('courses.units.lessons.delete');
+
+    /**Lesson Controller for lesson delete */
+    Route::get('courses/{course:slug}/lessons/{lesson}/delete', [LessonController::class, 'delete'])->name('courses.lessons.delete');
 
     Route::controller(QuestionController::class)->group(function() {
         Route::get('courses/{course:slug}/tests/{test}/questions/create', 'create')

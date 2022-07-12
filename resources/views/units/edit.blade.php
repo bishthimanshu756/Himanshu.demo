@@ -3,20 +3,24 @@
         <!-- BreadCrum Bar -->
         <div class="flex items-center justify-between mb-8">
             <h3 class="font-extrabold text-blue-900 text-xl">
-                <a href="{{ route('courses.index') }}">{{ __('Courses') }}</a>
+                <a href="{{ route('courses.index') }}">
+                    {{ __('Courses') }}
+                </a>
                 <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <line x1="13" y1="18" x2="19" y2="12"></line>
                     <line x1="13" y1="6" x2="19" y2="12"></line>
                 </svg>
-                <a href="{{ route('courses.show', $course) }}">{{ $course->title }}</a>
+                <a href="{{ route('courses.show', $course) }}">
+                    {{ $course->title }}
+                </a>
                 <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
                     <line x1="5" y1="12" x2="19" y2="12"></line>
                     <line x1="13" y1="18" x2="19" y2="12"></line>
                     <line x1="13" y1="6" x2="19" y2="12"></line>
                 </svg>
                 <span class="text-black">
-                    <span>{{$unit->title}}</span>
+                    {{$unit->title}}
                 </span>
             </h3>
         </div>
@@ -24,11 +28,13 @@
         <div class="flex bg-white">
             <!-- Left Div Edit Form -->
             <div class="p-6 w-1/2">
-                <form method="POST" action="{{ route('courses.units.update', [$course,$unit]) }}" class="px-5 pt-6" enctype="multipart/form-data">
+                <form method="POST" action="{{ route('courses.units.update', [$course, $unit]) }}" class="px-5 pt-6" enctype="multipart/form-data">
                     @csrf
                     <!-- Title -->
                     <div>
-                        <label for="title" class="block font-black required">{{ __('Title') }}</label>
+                        <label for="title" class="block font-black required">
+                            {{ __('Title') }}
+                        </label>
                         <input type="text" name="title" value="{{ $unit->title }}" required class="border-gray-200 rounded-md w-full" placeholder="Enter Unit Name">
 
                         <x-validation-error name="title" />
@@ -36,10 +42,12 @@
 
                     <!-- Description -->
                     <div class="mt-4 mb-4 h-40">
-                        <label for="description" class="block font-black required">{{ __('Description') }}</label>
-                        <textarea name="description" class="h-full border-gray-200 rounded-md w-full" placeholder="Description"> {{ $unit->description }} </textarea>
+                        <label for="description" class="block font-black required">
+                            {{ __('Description') }}
+                        </label>
+                        <textarea name="description" class="h-full border-gray-200 rounded-md w-full" placeholder="Description" required>{{ $unit->description }}</textarea>
 
-                        <x-validation-error name="description" />
+                        <x-validation-error name="description"/>
                     </div>
                     <!-- Buttons -->
                     <div class="mt-10">
@@ -47,7 +55,9 @@
                             {{ __('Update') }}
                         </button>
                         <div class="bg-blue-100 border-2 font-bold hover:bg-blue-600 hover:border-blue-700 hover:text-white inline ml-4 px-4 py-1.5 rounded-md text-gray-700">
-                            <a href="{{ route('courses.index') }}">Cancel</a>
+                            <a href="{{ route('courses.show', $course) }}">
+                                {{ __('Cancel') }}
+                            </a>
                         </div>
                     </div>
                 </form>
@@ -198,12 +208,12 @@
                         </div>
                     </div>
                     <div class="mt-2">
-                        <a href="{{ route('courses.units.tests.edit', [$course, $unit, $lesson->lessonable]) }}">
+                        <a href="{{ route('courses.tests.edit', [$course, $lesson->lessonable]) }}">
                             <svg class="w-6 h-6 inline mr-4" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" fill="blue" stroke="white" stroke-width="2" stroke-linecap="round" stroke-linejoin="round">
                                 <path d="M11 4H4a2 2 0 0 0-2 2v14a2 2 0 0 0 2 2h14a2 2 0 0 0 2-2v-7"></path><path d="M18.5 2.5a2.121 2.121 0 0 1 3 3L12 15l-4 1 1-4 9.5-9.5z"></path>
                             </svg>
                         </a>
-                        <a href="{{ route('courses.units.lessons.delete', [$course, $unit, $lesson]) }}">
+                        <a href="{{ route('courses.lessons.delete', [$course, $lesson]) }}">
                             <svg class="w-6 h-6 inline" viewBox="0 0 24 24" fill="white" xmlns="http://www.w3.org/2000/svg" stroke="red">
                                 <path d="M7 4a2 2 0 0 1 2-2h6a2 2 0 0 1 2 2v2h4a1 1 0 1 1 0 2h-1.069l-.867 12.142A2 2 0 0 1 17.069 22H6.93a2 2 0 0 1-1.995-1.858L4.07 8H3a1 1 0 0 1 0-2h4V4zm2 2h6V4H9v2zM6.074 8l.857 12H17.07l.857-12H6.074zM10 10a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1zm4 0a1 1 0 0 1 1 1v6a1 1 0 1 1-2 0v-6a1 1 0 0 1 1-1z" fill="red" stroke-width="1"></path>
                             </svg>

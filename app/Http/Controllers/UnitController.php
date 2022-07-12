@@ -17,6 +17,8 @@ class UnitController extends Controller
 
     public function store(Request $request, Course $course)
     {
+        $this->authorize('store', $course);
+
         $attributes = $request->validate([
             'title' => ['required','min:3', 'max:50'],
             'description' => ['required', 'min:5', 'max:255'],
@@ -26,16 +28,19 @@ class UnitController extends Controller
 
         $course->units()->attach($unit->id);
 
-        if($request->has('create_another'))
+        if($request->action == 'save')
         {
-            return back()->with('success', __('Unit created successfully.'));
+            return redirect()->route('courses.units.edit', [$course, $unit])
+                ->with('success', __('Unit created successfully.'));
         }
-        return redirect()->route('courses.show', $course)
-            ->with('success', __('Unit created successfully.'));
+
+        return back()->with('success', __('Unit created successfully.'));
     }
 
     public function edit(Course $course, Unit $unit)
     {
+        $this->authorize('edit', $course);
+
         return view('units.edit', [
             'unit' => $unit,
             'course' => $course,
@@ -43,8 +48,10 @@ class UnitController extends Controller
         ]);
     }
 
-    public function update(Course $course,Unit $unit, Request $request)
+    public function update( Request $request, Course $course,Unit $unit)
     {
+        $this->authorize('update', $course);
+
         $attributes = $request->validate([
             'title' => ['required', 'min:3', 'max:50'],
             'description' => ['required', 'min:5', 'max:255'],
@@ -58,6 +65,8 @@ class UnitController extends Controller
 
     public function delete(Course $course, Unit $unit)
     {
+        $this->authorize('delete', $course);
+
         $unit->delete();
 
         return back()->with('success', __('Unit deleted successfully.'));

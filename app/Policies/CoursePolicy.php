@@ -30,7 +30,7 @@ class CoursePolicy
      */
     public function view(User $user, Course $course)
     {
-        if($user->can('admin') || $course->user_id === $user->id) {
+        if($course->user_id === $user->id) {
             return true;
         }
     }
@@ -55,7 +55,7 @@ class CoursePolicy
      */
     public function store(User $user, Course $course)
     {
-        if($user->can('admin') || $course->user_id === $user->id) {
+        if($course->user_id === $user->id) {
             return true;
         }
     }
@@ -69,7 +69,7 @@ class CoursePolicy
      */
     public function show(User $user, Course $course)
     {
-        if($user->can('admin') || $course->user_id === $user->id) {
+        if($course->user_id === $user->id) {
             return true;
         }
     }
@@ -83,7 +83,7 @@ class CoursePolicy
      */
     public function edit(User $user, Course $course)
     {
-        if($user->can('admin') || $course->user_id === $user->id) {
+        if($course->user_id === $user->id) {
             return true;
         }
     }
@@ -97,7 +97,7 @@ class CoursePolicy
      */
     public function update(User $user, Course $course)
     {
-        if($user->can('admin') || $course->user_id === $user->id) {
+        if($course->user_id === $user->id) {
             return true;
         }
     }
@@ -111,7 +111,7 @@ class CoursePolicy
      */
     public function delete(User $user, Course $course)
     {
-        if($user->can('admin') || $course->user_id === $user->id) {
+        if($course->user_id === $user->id) {
             return true;
         }
     }
