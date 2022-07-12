@@ -17,8 +17,6 @@ class UnitController extends Controller
 
     public function store(Request $request, Course $course)
     {
-        $this->authorize('store', $course);
-
         $attributes = $request->validate([
             'title' => ['required','min:3', 'max:50'],
             'description' => ['required', 'min:5', 'max:255'],
