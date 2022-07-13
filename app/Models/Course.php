@@ -74,6 +74,11 @@ class Course extends Model
         return $this->belongsToMany(User::class, 'course_user', 'course_id', 'user_id');
     }
 
+    // public function lessons()
+    // {
+    //     return $this->hasManyThrough(Lesson::class, Unit::class, )
+    // }
+
     //Scopes
 
     public function scopeCourseOwner($query) {

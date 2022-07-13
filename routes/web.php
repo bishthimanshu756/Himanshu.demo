@@ -6,7 +6,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseTeamController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EnrollmentController;
-use App\Http\Controllers\LearnableController;
+use App\Http\Controllers\LearnerController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\UserController;
 use App\Http\Controllers\PasswordResetController;
@@ -35,18 +35,22 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-    return view('login');
+    if (Auth::check()){
+        if(Auth::user()->is_employee){
+            return redirect()->route('my-courses.index');
+        }
+
+        return redirect()->route('dashboard');
+    }
+
+    return redirect()->route('login');
 });
-
-
 
 require __DIR__.'/auth.php';
 
 Route::middleware('auth')->group( function() {
 
-    
-    Route::get('/dashboard', [DashboardController::class, 'view'])->name('dashboard');
-
+    Route::get('/dashboard', [DashboardController::class, 'dashboard'])->name('dashboard');
 
     /**User Routes */
     Route::controller(UserController::class)->group( function() {
@@ -169,8 +173,8 @@ Route::middleware('auth')->group( function() {
             ->name('courses.tests.questions.delete');
     });
 
-    Route::controller(LearnableController::class)->group(function() {
-        Route::get('/mycourses', 'index')->name('my-courses');
+    Route::controller(LearnerController::class)->group(function() {
+        Route::get('/mycourses', 'index')->name('my-courses.index');
     });
 
 });
