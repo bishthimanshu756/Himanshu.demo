@@ -1,4 +1,7 @@
 <x-app-layout>
+    @php
+        $i=0;
+    @endphp
     <div class="mx-24 my-6 py-12">
         <!-- BreadCrum Bar -->
         <div class="flex items-center justify-between mb-8">
@@ -11,7 +14,7 @@
                     <line x1="13" y1="18" x2="19" y2="12"></line>
                     <line x1="13" y1="6" x2="19" y2="12"></line>
                 </svg>
-                <a href="{{ route('courses.tests.edit', [$course, $lesson->unit, $test]) }}">
+                <a href="{{ route('courses.tests.edit', [$course, $test]) }}">
                     {{ $test->name }}
                 </a>
                 <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" width="24" height="24" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" fill="none" stroke-linecap="round" stroke-linejoin="round">
@@ -38,7 +41,7 @@
                 </div>
 
                 <!-- Attachment -->
-                <div class="mb-8 mt-10">
+                <div class="mb-8 mt-14">
                     <label for="attachment" class="block font-black required">
                         {{ __('Attachment') }}
                         <span class="font-medium italic text-gray-300"> {{ __('(Optional)') }}</span>
@@ -53,9 +56,9 @@
                         <span class="font-light italic text-gray-400">{{ __('(Tick the right answer)') }}</span>
                     </h4>
                     <div>
-                        @foreach($options as $option)
-                            <div class="h-11 mt-4">
-                                <input type="radio" id="{{ $option->id }}" name="answer" value="{{ $option->id }}" class="mb-11" {{$option->is_answer == 1? 'checked':''}}>
+                        @foreach($question->options as $option)
+                            <div class="min-h-12 mt-4">
+                                <input type="radio" id="{{ $option->id }}" name="is_answer" value="{{$i++}}" class="mb-11" {{$option->is_answer == 1? 'checked':''}}>
                                 <label for="{{ $option->id }}">
                                     <textarea type="text" name="options[]" class="h-full w-11/12" placeholder="Enter the answer here..." class="block">{{$option->name}}</textarea>
                                 </label>
@@ -71,7 +74,9 @@
                         {{ __('Update') }}
                     </button>
                     <div class="bg-blue-100 border-2 font-bold hover:bg-blue-600 hover:border-blue-700 hover:text-white inline ml-4 px-4 py-1.5 rounded-md text-gray-700">
-                        <a href="{{ route('courses.tests.edit', [$course, $lesson->unit, $test]) }}">Cancel</a>
+                        <a href="{{ route('courses.tests.edit', [$course, $test]) }}">
+                            {{ __('Cancel') }}
+                        </a>
                     </div>
                 </div>
             </form>

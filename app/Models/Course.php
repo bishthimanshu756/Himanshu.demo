@@ -118,7 +118,7 @@ class Course extends Model
                 return $query->where('team_id', Auth::id());
             });
         } elseif(Auth::user()->role_id == Role::EMPLOYEE){
-            $query->wherehas('', function($query) {
+            $query->wherehas('enrolledCourses', function($query) {
                 return $query->where('user_id', Auth::id());
             });
         }

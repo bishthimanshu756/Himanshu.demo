@@ -19,6 +19,8 @@ use App\Http\Controllers\UserEnrollmentController;
 use App\Http\Controllers\UserStatusController;
 use App\Http\Controllers\UserTeamController;
 use App\Http\Controllers\WelcomeController;
+use App\Models\Role;
+use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
 /*
@@ -33,9 +35,7 @@ use Illuminate\Support\Facades\Route;
 */
 
 Route::get('/', function () {
-
-
-    return view('welcome');
+    return view('login');
 });
 
 
@@ -43,11 +43,8 @@ Route::get('/', function () {
 require __DIR__.'/auth.php';
 
 Route::middleware('auth')->group( function() {
-    // if (Auth::check()) {
-    //     if (Auth::user()->is_employee) {
-    //         return redirect()->route('my-courses');
-    //     }
-    // }
+
+    
     Route::get('/dashboard', [DashboardController::class, 'view'])->name('dashboard');
 
 

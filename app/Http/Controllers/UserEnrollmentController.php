@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
+use App\Models\Status;
 use App\Models\User;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
@@ -53,7 +54,10 @@ class UserEnrollmentController extends Controller
 
         $courses = Course::visibleTo()->findMany($validated['courseIds']);
 
-        $user->enrolledCourses()->attach($courses);
+        $user->enrolledCourses()->attach($courses, [
+            'assigned_by' => Auth::id(),
+            'status' => Status::PUBLISHED,
+        ]);
 
         return back()->with('success', __('Course enrolled successfully.'));
     }
