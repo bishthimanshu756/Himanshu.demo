@@ -68,7 +68,7 @@ class User extends Authenticatable
     ];
 
     // Attributes
-    public function setPasswordAttribute($password){
+    public function setPasswordAttribute($password) {
         $this->attributes['password']= Hash::make($password);
     }
 
@@ -121,6 +121,12 @@ class User extends Authenticatable
     {
         return $this->belongsToMany(Course::class, 'course_user', 'user_id', 'course_id')
             ->withTimestamps();
+    }
+
+    public function enrollments(){
+        return $this->belongsToMany(Course::class)
+            ->withPivot('id', 'completed_percentage', 'status')
+            ->using(CourseUser::class);
     }
 
 

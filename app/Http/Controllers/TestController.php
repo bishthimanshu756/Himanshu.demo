@@ -38,6 +38,9 @@ class TestController extends Controller
 
         $lesson->save();
 
+        $unit->increment('duration', $lesson->duration);
+        $unit->increment('lesson_count');
+
         if($request->action == 'save') {
             return redirect()->route('courses.tests.edit', [$course, $test])
                     ->with('success', __('Test created successfully.'));
@@ -75,9 +78,12 @@ class TestController extends Controller
             'duration' => $request->duration,
         ]);
 
+        /** Updating Lesson */
         $test->lesson->name =  $test->name;
         $test->lesson->duration = $test->duration;
         $test->lesson->save();
+
+        $test->lesson->unit->increment('duration', $test->duration);
 
         return back()->with('success', __('Test updated successfully.'));
     }

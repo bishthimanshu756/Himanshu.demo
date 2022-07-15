@@ -71,17 +71,24 @@
                                 <div class="inline w-4/5 ml-8 p-4">
                                     <div class="flex justify-between">
                                         <span class="bg-gray-100 border font-bold px-6 py-0.5 text-gray-400 text-sm">
-                                            {{ __('Development') }}
+                                            {{ $course->category->name }}
                                         </span>
-                                        <span>
-                                            {{__('Certification')}}
-                                        </span>
+                                        @if($course->certificate == 1)
+                                            <div>
+                                                <svg class="w-6 h-6 inline" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 1024 1024" fill="darkgreen">
+                                                    <path d="M866.9 169.9L527.1 54.1C523 52.7 517.5 52 512 52s-11 .7-15.1 2.1L157.1 169.9c-8.3 2.8-15.1 12.4-15.1 21.2v482.4c0 8.8 5.7 20.4 12.6 25.9L499.3 968c3.5 2.7 8 4.1 12.6 4.1s9.2-1.4 12.6-4.1l344.7-268.6c6.9-5.4 12.6-17 12.6-25.9V191.1c.2-8.8-6.6-18.3-14.9-21.2zM694.5 340.7L481.9 633.4a16.1 16.1 0 0 1-26 0l-126.4-174c-3.8-5.3 0-12.7 6.5-12.7h55.2c5.1 0 10 2.5 13 6.6l64.7 89 150.9-207.8c3-4.1 7.8-6.6 13-6.6H688c6.5.1 10.3 7.5 6.5 12.8z"></path>
+                                                </svg>
+                                                <span>
+                                                    {{__('Certification')}}
+                                                </span>
+                                            </div>
+                                        @endif
                                     </div>
                                     <div class="text-2xl mt-2">
                                         {{ $course->title }}
                                     </div>
                                     <div class="text-sm mt-2">
-                                        {{('0% Completed')}}
+                                        {{ $course->pivot->completed_percentage.__( '% Completed')}}
                                     </div>
                                     <div class="mr-16 text-gray-500 mt-2">
                                         {{ $course->description }}
@@ -110,11 +117,11 @@
                                                 <path d="M216,40H136V24a8,8,0,0,0-16,0V40H40A16,16,0,0,0,24,56V176a16,16,0,0,0,16,16H79.4L57.8,219A8,8,0,0,0,64,232a7.8,7.8,0,0,0,6.2-3l29.6-37h56.4l29.6,37a7.8,7.8,0,0,0,6.2,3,8,8,0,0,0,6.2-13l-21.6-27H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,136H40V56H216V176ZM104,120v24a8,8,0,0,1-16,0V120a8,8,0,0,1,16,0Zm32-16v40a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm32-16v56a8,8,0,0,1-16,0V88a8,8,0,0,1,16,0Z"></path>
                                             </svg>
                                             <span class="align-middle text-sm text-gray-600 ml-2">
-                                                {{  __(' Lessons') }}
+                                                {{ $course->units->sum('lesson_count')  . __(' Lessons') }}
                                             </span>
                                         </div>
                                         <div>
-                                            <a href="#">
+                                            <a href="{{ route('my-courses.show', $course) }}">
                                                 <span>
                                                     {{ __('View') }}
                                                 </span>
@@ -132,7 +139,7 @@
                         <div class="bg-white border-b rounded-md border-gray-200 mt-6 w-full max-h-54 overflow-hidden">
                             <div class="flex mt-0.5 px-4 py-1">
                                 <span class="font-semibold italic ml-10 py-4 text-gray-400 text-xl">
-                                    {{ __('No Records Found...') }}
+                                    {{ __('No Courses Found...') }}
                                 </span>
                             </div>
                         </div>

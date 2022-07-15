@@ -19,7 +19,7 @@ return new class extends Migration
             $table->foreignId('user_id')->constrained();
             $table->unsignedBigInteger('assigned_by');
             $table->foreign('assigned_by')->references('id')->on('users');
-            $table->foreignId('status')->constrained('statuses')->default(2);
+            $table->foreignId('status')->nullable();
             $table->integer('completed_percentage')->default(0);
             $table->dateTime('certificate_issued_at');
             $table->dateTime('certificate_expires_at');

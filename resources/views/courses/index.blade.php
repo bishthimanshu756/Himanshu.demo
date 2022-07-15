@@ -102,9 +102,6 @@
                 <div>
                     @if($courses->count())
                     @foreach($courses as $course)
-                    @php
-                            $enrolledUsers = $course->enrolledUsers()->get();
-                        @endphp
                         <div class="bg-white border-b rounded-md border-gray-200 mt-6 w-full max-h-54 overflow-hidden">
                             <div class="flex mt-0.5 px-4 py-1">
                                 <div class="p-3 w-1/5 bg-gray-200">
@@ -115,18 +112,33 @@
                                         <span class="bg-gray-100 border font-bold px-6 py-0.5 text-gray-400 text-sm">
                                             {{$course->category->name}}
                                         </span>
-                                        <div x-data="{ show:false}" @click.away="show = false" class="relative">
-                                            <button @click="show = !show">
-                                                <svg class="w-6 h-6 inline" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
-                                                    <path d="M10.001 7.8a2.2 2.2 0 1 0 0 4.402A2.2 2.2 0 0 0 10 7.8zm-7 0a2.2 2.2 0 1 0 0 4.402A2.2 2.2 0 0 0 3 7.8zm14 0a2.2 2.2 0 1 0 0 4.402A2.2 2.2 0 0 0 17 7.8z"></path>
-                                                </svg>
-                                            </button>
-                                            <div x-show="show" class="absolute border-2 border-black-600 w-50 z-50 right-0" style="display:none;">
-                                                <a href="{{ route('courses.edit', $course) }}" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7">{{ __('Edit') }}</a>
-                                                @can('trainer')
+                                        <div>
+                                            <span class="mr-2.5 border text-sm text-green-500 bg-green-100 rounded-md py-0.5 px-2.5">{{ $course->status->name }}</span>
+                                            <div x-data="{ show:false}" @click.away="show = false" class="relative inline">
+                                                <button @click="show = !show">
+                                                    <svg class="w-6 h-6 inline" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">
+                                                        <path d="M10.001 7.8a2.2 2.2 0 1 0 0 4.402A2.2 2.2 0 0 0 10 7.8zm-7 0a2.2 2.2 0 1 0 0 4.402A2.2 2.2 0 0 0 3 7.8zm14 0a2.2 2.2 0 1 0 0 4.402A2.2 2.2 0 0 0 17 7.8z"></path>
+                                                    </svg>
+                                                </button>
+                                                <div x-show="show" class="absolute border-2 border-black-600 w-50 z-50 right-0" style="display:none;">
+                                                    <a href="{{ route('courses.edit', $course) }}" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7">{{ __('Edit') }}
+                                                    </a>
+                                                    <form action="{{ route('courses.status', $course) }}" method="POST">
+                                                        @csrf
+                                                        @if($course->status->name == 'Draft')
+                                                            <button type="submit" name="statusId" value="1" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7 w-full">{{ __('Published') }}</button>
+                                                            <button type="submit" name="statusId" value="3" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7 w-full">{{ __('Archived') }}</button>
+                                                        @elseif($course->status->name == 'Published')
+                                                            <button type="submit" name="statusId" value="2" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7 w-full">{{ __('Draft') }}</button>
+                                                            <button type="submit" name="statusId" value="3" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7 w-full">{{ __('Archived') }}</button>
+                                                        @else
+                                                            <button type="submit" name="statusId" value="1" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7 w-full">{{ __('Published') }}</button>
+                                                            <button type="submit" name="statusId" value="2" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7 w-full">{{ __('Draft') }}</button>
+                                                        @endif
+                                                    </form>
                                                     <a href="{{ route('courses.users.index', $course) }}" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7">{{ __('Users') }}</a>
-                                                @endcan
-                                                <a href="{{ route('courses.delete', $course) }}" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7">{{__('Delete')}}</a>
+                                                    <a href="{{ route('courses.delete', $course) }}" class="bg-gray-100 hover:bg-gray-400 block text-left px-3 leading-7">{{__('Delete')}}</a>
+                                                </div>
                                             </div>
                                         </div>
                                     </div>
@@ -161,7 +173,7 @@
                                             <path d="M216,40H136V24a8,8,0,0,0-16,0V40H40A16,16,0,0,0,24,56V176a16,16,0,0,0,16,16H79.4L57.8,219A8,8,0,0,0,64,232a7.8,7.8,0,0,0,6.2-3l29.6-37h56.4l29.6,37a7.8,7.8,0,0,0,6.2,3,8,8,0,0,0,6.2-13l-21.6-27H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,136H40V56H216V176ZM104,120v24a8,8,0,0,1-16,0V120a8,8,0,0,1,16,0Zm32-16v40a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm32-16v56a8,8,0,0,1-16,0V88a8,8,0,0,1,16,0Z"></path>
                                         </svg>
                                         <span class="align-middle text-sm text-gray-600 ml-2">
-                                            {{ $enrolledUsers->count() . __(' Enrolled') }}
+                                            {{ $course->enrollments->count(). __(' Enrolled') }}
                                         </span>
                                     </div>
                                 </div>

@@ -6,6 +6,7 @@ use App\Models\Category;
 use App\Models\Course;
 use App\Models\Image;
 use App\Models\Level;
+use App\Models\Status;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Validator;
@@ -30,10 +31,9 @@ class CourseController extends Controller
     {
         return view('courses.create');
     }
-    
+
     public function store(Request $request)
     {
-        // dd(request()->file('image')->getClientOriginalName());
         $validator = Validator::make($request->all(), [
             'category_id' => [
                 'required',
@@ -60,6 +60,7 @@ class CourseController extends Controller
             'user_id' => Auth::id(),
             'category_id' => $validated['category_id'],
             'level_id' => $validated['level_id'],
+            'status_id' => Status::DRAFT,
         ];
 
         $course = Course::create($attributes);
@@ -147,4 +148,19 @@ class CourseController extends Controller
 
         return back()->with('success', __('Course deleted successfully.') );
     }
+
+    public function status(Request $request, Course $course)
+    {
+        $this->authorize('update', $course);
+
+        $attribute = $request->validate([
+            'statusId' => ['required', 'numeric', 'exists:statuses,id']
+        ]);
+
+        $course->status_id = $attribute['statusId'];
+        $course->save();
+
+        return back()->with('success', __('Course status changed successfully.'));
+    }
+
 }

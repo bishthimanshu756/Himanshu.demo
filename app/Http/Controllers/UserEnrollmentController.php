@@ -56,7 +56,6 @@ class UserEnrollmentController extends Controller
 
         $user->enrolledCourses()->attach($courses, [
             'assigned_by' => Auth::id(),
-            'status' => Status::PUBLISHED,
         ]);
 
         return back()->with('success', __('Course enrolled successfully.'));

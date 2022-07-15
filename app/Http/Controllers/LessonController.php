@@ -12,6 +12,7 @@ class LessonController extends Controller
         $this->authorize('delete', $course);
 
         $lesson->delete();
+        $lesson->unit->decrement('lesson_count');
 
         return back()->with('success', __('Tests successfully deleted.'));
     }

@@ -19,6 +19,7 @@ return new class extends Migration
             $table->longText('description');
             $table->foreignId('category_id')->constrained('categories');
             $table->foreignId('level_id')->constrained('levels');
+            $table->foreignId('status_id')->constrained();
             $table->boolean('certificate');
             $table->foreignId('user_id')->constrained('users');
             $table->string('slug');

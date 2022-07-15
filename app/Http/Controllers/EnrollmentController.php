@@ -61,7 +61,6 @@ class EnrollmentController extends Controller
 
         $course->enrolledUsers()->attach($users, [
             'assigned_by' => Auth::id(),
-            'status' => Status::DRAFT,
         ]);
 
         Notification::send($users, new CourseUserEnrollNotification(Auth::user(), $course));

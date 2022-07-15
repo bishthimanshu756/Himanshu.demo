@@ -123,6 +123,7 @@ Route::middleware('auth')->group( function() {
         Route::post('courses/{course:slug}/update', 'update')->name('courses.update');
         Route::get('courses/{course:slug}/delete', 'delete')->name('courses.delete');
         Route::get('courses/{course:slug}/show', 'show')->name('courses.show');
+        Route::post('courses/{course}/status', 'status')->name('courses.status');
     });
 
     /** 1 Course assign to multiple Trainers */
@@ -175,6 +176,7 @@ Route::middleware('auth')->group( function() {
 
     Route::controller(LearnerController::class)->group(function() {
         Route::get('/mycourses', 'index')->name('my-courses.index');
+        Route::get('mycourses/{course}', 'show')->name('my-courses.show');
     });
 
 });
