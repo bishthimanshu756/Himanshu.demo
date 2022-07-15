@@ -10,11 +10,9 @@
                     <h3 class="font-extrabold text-blue-900 text-xl">
                         Courses
                     </h3>
-                    @if (auth()->user()->role_id != App\Models\Role::EMPLOYEE)
-                        <a href="{{ route( 'courses.create' ) }}" class="bg-blue-400 border font-bold hover:bg-white hover:text-blue-900 p-2 rounded-md text-center text-sm text-white">
-                            {{ __('Create New Course') }}
-                        </a>
-                    @endif
+                    <a href="{{ route( 'courses.create' ) }}" class="bg-blue-400 border font-bold hover:bg-white hover:text-blue-900 p-2 rounded-md text-center text-sm text-white">
+                        {{ __('Create New Course') }}
+                    </a>
                 </div>
                 <!-- Filters and Search Div -->
                 <div class="flex justify-between w-full mt-4">
@@ -105,15 +103,15 @@
                         <div class="bg-white border-b rounded-md border-gray-200 mt-6 w-full max-h-54 overflow-hidden">
                             <div class="flex mt-0.5 px-4 py-1">
                                 <div class="p-3 w-1/5 bg-gray-200">
-                                    <img src="{{ asset('/storage/'.$course->image->image_path) }}" alt="images"  class="h-full object-fill w-full">
+                                    <img src="{{ asset('/storage/'.$course->image->image_path) }}" alt="images"  class="h-44 object-fill w-full">
                                 </div>
                                 <div class="inline w-4/5 ml-8 p-4">
                                     <div class="flex justify-between">
-                                        <span class="bg-gray-100 border font-bold px-6 py-0.5 text-gray-400 text-sm">
+                                        <span class="bg-gray-100 border font-bold px-6 py-0.5 text-gray-400 text-sm rounded-md">
                                             {{$course->category->name}}
                                         </span>
                                         <div>
-                                            <span class="mr-2.5 border text-sm text-green-500 bg-green-100 rounded-md py-0.5 px-2.5">{{ $course->status->name }}</span>
+                                            <span class="mr-2.5 border text-sm rounded-md py-0.5 px-2.5 {{($course->status_id == 1) ? 'text-green-500 bg-green-100' :(($course->status_id == 2) ? 'bg-yellow-100 text-yellow-500' : 'bg-red-100 text-red-500') }}">{{ $course->status->name }}</span>
                                             <div x-data="{ show:false}" @click.away="show = false" class="relative inline">
                                                 <button @click="show = !show">
                                                     <svg class="w-6 h-6 inline" fill="currentColor" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 20 20">

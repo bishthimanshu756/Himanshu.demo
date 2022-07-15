@@ -3,18 +3,16 @@
 namespace App\Http\Controllers;
 
 use App\Models\Course;
-use App\Models\User;
-use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 
 class LearnerController extends Controller
 {
     public function index()
     {
-        $course = Auth::user()->enrollments()->published()->with(['units'])->paginate();
+        $courses = Auth::user()->enrollments()->published()->filter(request(['search', 'orderBy']))->paginate();
 
         return view('learners.courses.index', [
-            'courses' => $course,
+            'courses' => $courses,
         ]);
     }
 

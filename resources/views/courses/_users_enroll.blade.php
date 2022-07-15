@@ -18,7 +18,7 @@
                         </path>
                     </svg>
                 </button>
-                <div x-show="show" class="absolute bg-gray-500 border-2 border-black-600 font-bold max-h-80 py-4 rounded-md text-white w-52">
+                <div x-show="show" class="absolute bg-gray-500 border-2 border-black-600 font-bold max-h-80 overflow-y-auto py-4 rounded-md text-white w-52">
                     @if($users->count())
                     <form method="POST" action="{{ route('courses.users.store', $course) }}">
                         @csrf

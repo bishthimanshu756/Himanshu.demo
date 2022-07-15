@@ -32,7 +32,7 @@
                         <!-- Description -->
                         <div class="mt-4">
                             <label for="description" class="block font-black required">{{ __('Provide A Brief Description For What The Course Is About.') }}</label>
-                            <textarea name="description" value="{{ old('description') }}" class="border-gray-200 rounded-md w-full" placeholder="Description" required></textarea>
+                            <textarea name="description" class="border-gray-200 rounded-md w-full" placeholder="Description" required>{{ old('description') }}</textarea>
 
                             <x-validation-error name="description" />
                         </div>
@@ -63,8 +63,10 @@
 
                         <!-- Certificate checkbox -->
                         <div class="mt-4">
-                            <input type="checkbox" name="certificate" value="1" >
+                            <input type="checkbox" id="certificate" name="certificate" value="1" >
                             <label for="certificate" class="align-middle">{{ __('Certificate?') }}</label>
+
+                            <x-validation-error name="certificate" />
                         </div>
                     </div>
                     <!-- Form Right Div-->

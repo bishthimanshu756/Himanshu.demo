@@ -125,7 +125,7 @@ class UserController extends Controller
     {
         $this->authorize('update', $user);
 
-        $attributes = request()->validate([
+        $attributes = $request->validate([
             'first_name' => ['required', 'max:255', 'min:3', 'string'],
             'last_name' => ['required'],
             'email' => ['required', 'email', 'max:255'],

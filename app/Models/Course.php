@@ -20,6 +20,7 @@ class Course extends Model
         'certificate',
         'user_id',
         'slug',
+        'status_id',
     ];
 
     //attributes

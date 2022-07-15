@@ -54,6 +54,8 @@ class CourseController extends Controller
         $attributes = $request->validate([
             'title' => ['required','min:3', 'max:50'],
             'description' => ['required', 'min:5', 'max:255'],
+            'certificate' => ['boolean'],
+            'image' => ['image', 'max:2048', 'mimes:png,heic,jpg,jpeg', 'min:1'],
         ]);
 
         $attributes += [
@@ -67,12 +69,17 @@ class CourseController extends Controller
 
         if($request->file('image')) {
             $filename = $request->file('image')->getClientOriginalName();
-            $path = $request->image->storeAs('images', $filename);
+            $path = $request->image->storeAs('public/images', $filename);
             Image::create([
                 'image_path' => $path,
                 'course_id' => $course->id
             ]);
         }
+
+        Image::create([
+            'image_path' => 'images/image.png',
+            'course_id' => $course->id
+        ]);
 
         return back()->with('success', __('Course created successfully.') );
     }
@@ -119,6 +126,8 @@ class CourseController extends Controller
         $attributes = $request->validate([
             'title' => ['required', 'min:3', 'max:50'],
             'description' => ['required', 'min:5', 'max:255'],
+            'certificate' => ['boolean'],
+            'image' => ['image', 'max:2048', 'mimes:png,heic,jpg,jpeg', 'min:1'],
         ]);
 
         $attributes += [
@@ -130,11 +139,11 @@ class CourseController extends Controller
         $course->update($attributes);
 
         if(request()->file('image')) {
-            $path = $request->image->store('public/images');
-            Image::create([
-                'image_path' => $path,
-                'course_id' => $course->id
-            ]);
+            $filename = $request->file('image')->getClientOriginalName();
+            $path = $request->image->storeAs('public/images', $filename);
+
+            $course->image->image_path = $path;
+            $course->image->save();
         }
 
         return back()->with('success', __('Course updated successfully.') );
@@ -153,11 +162,21 @@ class CourseController extends Controller
     {
         $this->authorize('update', $course);
 
-        $attribute = $request->validate([
-            'statusId' => ['required', 'numeric', 'exists:statuses,id']
+        $validator = Validator::make($request->all(), [
+            'statusId' => [
+                'required',
+                'numeric',
+                Rule::exists('statuses', 'id'),
+            ],
         ]);
 
-        $course->status_id = $attribute['statusId'];
+        if($validator->fails()) {
+            return back()->with('error', 'Please enter valid status.');
+        }
+
+        $validated = $validator->validate();
+
+        $course->status_id = $validated['statusId'];
         $course->save();
 
         return back()->with('success', __('Course status changed successfully.'));

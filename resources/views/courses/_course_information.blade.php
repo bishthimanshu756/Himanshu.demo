@@ -90,6 +90,7 @@
                                 {{ __('Upload Course Cover Image') }}
                             </span>
                         </div>
+                        <x-validation-error name='image' />
                     </div>
                 </div>
                 <!-- Buttons -->

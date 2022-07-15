@@ -24,7 +24,7 @@
                 <!-- Filters and Search Div -->
                 <div class="flex justify-between w-full mt-4">
                     <!-- Search -->
-                    <form method="get" action="#" class="bg-white border border-gray-200 py-1 rounded-md w-1/3">
+                    <form method="get" action="{{ route('my-courses.index') }}" class="bg-white border border-gray-200 py-1 rounded-md w-1/3">
                         <input type="text" name="search" value="{{ request()->input('search') }}" class="text-sm border-0 h-8 ml-4 px-4 py-4 w-10/12" placeholder="Search by Name or Description">
                         <button type="submit">
                             <svg class="w-4 h-4 inline" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">
@@ -49,7 +49,7 @@
                             </svg>
                         </button>
                         <div x-show="show" class="absolute bg-white border-2 left-0 mt-1 p-2 w-44 z-50" style="display: none;">
-                            <form action="#" method="get">
+                            <form action="{{ route('my-courses.index') }}" method="get">
                                 <button name="orderBy" value="a-z" class="hover:bg-gray-200 py-0.5 w-full text-left">{{ __('Name A To Z') }}</button>
                                 <button name="orderBy" value="z-a" class="hover:bg-gray-200 py-0.5 w-full text-left">{{ __('Name Z To A') }}</button>
                                 <button name="orderBy" value="asc" class="hover:bg-gray-200 py-0.5 w-full text-left">{{ __('Latest Created Date') }}</button>
@@ -66,11 +66,11 @@
                         <div class="bg-white border-b rounded-md border-gray-200 mt-6 w-full max-h-54 overflow-hidden">
                             <div class="flex mt-0.5 px-4 py-1">
                                 <div class="p-3 w-1/5 bg-gray-200">
-                                    <img src="{{ asset('/storage/'.$course->image->image_path) }}" alt="images"  class="h-full object-fill w-full">
+                                    <img src="{{ asset('/storage/'.$course->image->image_path) }}" alt="images"  class="h-44 object-fill w-full">
                                 </div>
                                 <div class="inline w-4/5 ml-8 p-4">
                                     <div class="flex justify-between">
-                                        <span class="bg-gray-100 border font-bold px-6 py-0.5 text-gray-400 text-sm">
+                                        <span class="bg-gray-100 border font-bold px-6 py-0.5 text-gray-400 text-sm rounded-md">
                                             {{ $course->category->name }}
                                         </span>
                                         @if($course->certificate == 1)
@@ -111,7 +111,7 @@
                                                 <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"></path>
                                             </svg>
                                             <span class="align-middle text-sm text-gray-600 ml-2">
-                                                {{ __('00:00') }}
+                                                {{ date('i:s', $course->units->sum('duration')) }}
                                             </span>
                                             <svg class="align-middle h-4 inline w-4 text-gray-700 ml-4" xmlns="http://www.w3.org/2000/svg" viewBox="0 0 256 256" fill="currentColor">
                                                 <path d="M216,40H136V24a8,8,0,0,0-16,0V40H40A16,16,0,0,0,24,56V176a16,16,0,0,0,16,16H79.4L57.8,219A8,8,0,0,0,64,232a7.8,7.8,0,0,0,6.2-3l29.6-37h56.4l29.6,37a7.8,7.8,0,0,0,6.2,3,8,8,0,0,0,6.2-13l-21.6-27H216a16,16,0,0,0,16-16V56A16,16,0,0,0,216,40Zm0,136H40V56H216V176ZM104,120v24a8,8,0,0,1-16,0V120a8,8,0,0,1,16,0Zm32-16v40a8,8,0,0,1-16,0V104a8,8,0,0,1,16,0Zm32-16v56a8,8,0,0,1-16,0V88a8,8,0,0,1,16,0Z"></path>
@@ -121,7 +121,7 @@
                                             </span>
                                         </div>
                                         <div>
-                                            <a href="{{ route('my-courses.show', $course) }}">
+                                            <a href="{{ route('my-courses.show', $course) }}" class="border border-blue-400 px-2 py-1 rounded-md text-blue-400">
                                                 <span>
                                                     {{ __('View') }}
                                                 </span>

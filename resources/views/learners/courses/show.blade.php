@@ -4,7 +4,7 @@
         <div class="bg-white px-6 py-4 rounded-md">
             <div class="w-full bg-white flex mb-4">
                 <div class="object-fill w-1/4">
-                    <img src="" alt="image" class="h-full object-fill w-full">
+                    <img src="{{ asset('/storage/'.$course->image->image_path) }}" alt="image" class="h-full object-fill w-full">
                 </div>
                 <div class="w-3/4 relative ml-6">
                     <div class="mt-8">
@@ -33,7 +33,7 @@
                         <path d="M8 16A8 8 0 1 0 8 0a8 8 0 0 0 0 16zm7-8A7 7 0 1 1 1 8a7 7 0 0 1 14 0z"></path>
                     </svg>
                     <div class="mt-2">{{ __('Course Duration') }}</div>
-                    <div class="font-semibold mt-2">{{ __('00:00') }}</div>
+                    <div class="font-semibold mt-2">{{date('i:s', $course->units->sum('duration')) }}</div>
                 </div>
                 <div class="inline">
                     <svg class="w-6 h-6" xmlns="http://www.w3.org/2000/svg" fill="none" viewBox="0 0 24 24" stroke-width="2" stroke="currentColor" aria-hidden="true">

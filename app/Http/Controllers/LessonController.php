@@ -11,6 +11,9 @@ class LessonController extends Controller
     {
         $this->authorize('delete', $course);
 
+        /**Unit Duration Update */
+        $lesson->unit->decrement('duration', $lesson->duration);
+
         $lesson->delete();
         $lesson->unit->decrement('lesson_count');
 

@@ -28,6 +28,7 @@ class QuestionController extends Controller
         ]);
 
         $test->questions()->attach($question);
+        $test->increment('total_questions');
 
         $collection = new Collection($request->options);
 
@@ -83,6 +84,8 @@ class QuestionController extends Controller
     public function delete(Course $course, Test $test, Question $question)
     {
         $this->authorize('delete', $course);
+
+        $test->decrement('total_questions');
 
         $test->questions()->detach($question);
 

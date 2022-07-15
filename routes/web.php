@@ -6,6 +6,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseTeamController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LearnerController;
 use App\Http\Controllers\LessonController;
 use App\Http\Controllers\UserController;
@@ -178,6 +179,9 @@ Route::middleware('auth')->group( function() {
         Route::get('/mycourses', 'index')->name('my-courses.index');
         Route::get('mycourses/{course}', 'show')->name('my-courses.show');
     });
+
+    Route::get('courses/{course:slug}/featuredImage', [ImageController::class, 'featuredImage'])
+        ->name('courses.featuredImage');
 
 });
 
