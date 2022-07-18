@@ -24,15 +24,21 @@ class CategoryController extends Controller
     public function store(Request $request)
     {
         $request->validate([
-            'name' => ['required', 'max:50', 'unique:categories'],
+            'name' => ['required', 'max:50'],
         ]);
 
-        $category = Category::where('name', $request->name)->onlyTrashed()->first();
+        $category = Category::where('name', $request->name)->withTrashed()->first();
 
         if ($category) {
+            if(!$category->deleted_at) {
+
+                return redirect()->route('categories.create')->with('error', 'Name has already taken');
+            }
+
             $category->restore();
-            return redirect()->route('categories.index')
-                ->with('success', __('Category restore successfully') );
+            return redirect()->route('categories.edit', $category)
+                ->with('success', __('Category restored successfully') );
+
         }
 
         $category = Category::create([

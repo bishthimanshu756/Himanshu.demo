@@ -17,6 +17,6 @@ class LessonController extends Controller
         $lesson->delete();
         $lesson->unit->decrement('lesson_count');
 
-        return back()->with('success', __('Tests successfully deleted.'));
+        return back()->with('success', __('Lessons successfully deleted.'));
     }
 }

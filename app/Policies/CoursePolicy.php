@@ -69,8 +69,17 @@ class CoursePolicy
      */
     public function show(User $user, Course $course)
     {
-        if($course->user_id === $user->id) {
+        if($user->can('trainer')) {
+            if($course->user_id === $user->id) {
             return true;
+            }
+        }
+
+        $user = $course->enrolledUsers()->find($user->id);
+        if($user) {
+            if($course->is_published) {
+                return true;
+            }
         }
     }
 

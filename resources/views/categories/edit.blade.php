@@ -26,7 +26,7 @@
                 <div class="mt-4">
                     <button type="submit" class="bg-gray-600 border-2 border-gray-600 text-white font-bold hover: hover:bg-gray-800 hover:border-gray-900 hover:text-white mx-auto px-4 py-1.5 rounded-md">Update Category</button>
                     <div class="bg-blue-100 border-2 border-blue-100 font-bold hover:bg-blue-400 hover:text-white inline ml-8 px-4 py-1.5 rounded-md">
-                        <a href="{{ route('users.index') }}">Cancel</a>
+                        <a href="{{ route('categories.index') }}">Cancel</a>
                     </div>
                 </div>
             </form>

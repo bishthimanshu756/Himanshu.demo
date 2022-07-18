@@ -40,8 +40,8 @@ class StoreQuestionOptionsRequest extends FormRequest
     public function messages()
     {
         return [
-            'is_answer.required' => 'Please tick the correct answer.',
-            'is_answer.boolean' => 'Please tick the valid correct answer.',
+            'is_answer.required' => 'Please select the correct answer.',
+            'is_answer.boolean' => 'Please select the valid correct answer.',
             'options.required' => 'Please fill the options.',
             'options.array' => 'Please enter valid options.',
             'options.*.required' => 'Please fill all the options.',

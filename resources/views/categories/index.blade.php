@@ -74,7 +74,7 @@
                                         <span>{{ $category->user->full_name  }}</span>
                                         <span class="block text-xs text-gray-400">{{ $category->user->email }}</span>
                                     </td>
-                                    <td>{{ __('0') }}</td>
+                                    <td>{{ $category->courses->count() }}</td>
                                     <td class="p-2">
                                         <span ><date>{{ date_format($category->created_at, 'd-m-Y') }}</date></span>
                                         <span class="block text-xs text-gray-400"><time>{{ date_format($category->created_at, 'H:i:s')}}</time></span>

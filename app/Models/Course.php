@@ -33,6 +33,11 @@ class Course extends Model
         ];
     }
 
+    public function getIsPublishedAttribute()
+    {
+        return $this->attributes['status_id'] == Status::PUBLISHED;
+    }
+
 
     //relationships
     public function status()

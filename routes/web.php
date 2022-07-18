@@ -6,6 +6,7 @@ use App\Http\Controllers\CourseController;
 use App\Http\Controllers\CourseTeamController;
 use App\Http\Controllers\DashboardController;
 use App\Http\Controllers\EnrollmentController;
+use App\Http\Controllers\FileController;
 use App\Http\Controllers\ImageController;
 use App\Http\Controllers\LearnerController;
 use App\Http\Controllers\LessonController;
@@ -20,7 +21,6 @@ use App\Http\Controllers\UserEnrollmentController;
 use App\Http\Controllers\UserStatusController;
 use App\Http\Controllers\UserTeamController;
 use App\Http\Controllers\WelcomeController;
-use App\Models\Role;
 use Illuminate\Support\Facades\Auth;
 use Illuminate\Support\Facades\Route;
 
@@ -158,8 +158,20 @@ Route::middleware('auth')->group( function() {
         Route::post('courses/{course:slug}/tests/{test}/update', 'update')->name('courses.tests.update');
     });
 
+    /** File Controller */
+    Route::controller(FileController::class)->group(function(){
+        Route::get('courses/{course:slug}/units/{unit:slug}/files/create', 'create')
+            ->name('courses.units.files.create');
+        Route::post('courses/{course:slug}/units/{unit}/files/store', 'store')
+            ->name('courses.units.files.store');
+        Route::get('courses/{course:slug}/files/{file}/edit', 'edit')
+            ->name('courses.files.edit');
+        Route::post('course/{course:slug}/files/{file}/update', 'update')
+            ->name('courses.files.update');
+    });
+
     /**Lesson Controller for lesson delete */
-    Route::get('courses/{course:slug}/lessons/{lesson}/delete', [LessonController::class, 'delete'])
+    Route::post('courses/{course}/lessons/{lesson}/delete', [LessonController::class, 'delete'])
         ->name('courses.lessons.delete');
 
     Route::controller(QuestionController::class)->group(function() {
@@ -178,6 +190,7 @@ Route::middleware('auth')->group( function() {
     Route::controller(LearnerController::class)->group(function() {
         Route::get('/mycourses', 'index')->name('my-courses.index');
         Route::get('mycourses/{course}', 'show')->name('my-courses.show');
+        Route::get('mycourses/{course}/tests', 'test')->name('my-courses.test');
     });
 
     Route::get('courses/{course:slug}/featuredImage', [ImageController::class, 'featuredImage'])

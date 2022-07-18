@@ -69,8 +69,8 @@
                             </label>
                         </div>
 
-                        <x-validation-error name=answer />
-                        <x-validation-error name=options* />
+                        <x-validation-error name="is_answer" />
+                        <x-validation-error name="options*" />
                     </div>
                 </div>
                 <!-- Buttons -->

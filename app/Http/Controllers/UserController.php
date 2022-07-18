@@ -76,7 +76,8 @@ class UserController extends Controller
                     'last_name' => $request->last_name,
                     'role_id' => $request->role_id,
                 ]);
-                return back()->with('success', __('User updated successfully.'));
+                return redirect()->route('users.edit',$user)
+                    ->with('success', __('User updated successfully.'));
             }
         }
 
@@ -129,7 +130,6 @@ class UserController extends Controller
             'first_name' => ['required', 'max:255', 'min:3', 'string'],
             'last_name' => ['required'],
             'email' => ['required', 'email', 'max:255'],
-            'password' => ['required', Password::defaults()],
         ]);
 
         $attributes += [
@@ -138,7 +138,7 @@ class UserController extends Controller
 
         $user->update($attributes);
 
-        return redirect()->route('users.index')
+        return redirect()->route('users.edit',$user)
             ->with('success', __('User updated successfully'));
 
     }

@@ -68,15 +68,18 @@ class User extends Authenticatable
     ];
 
     // Attributes
-    public function setPasswordAttribute($password) {
+    public function setPasswordAttribute($password)
+    {
         $this->attributes['password']= Hash::make($password);
     }
 
-    public function getFullNameAttribute() {
+    public function getFullNameAttribute()
+    {
         return $this->first_name . ' ' . $this->last_name;
     }
 
-    public function getIsEmployeeAttribute() {
+    public function getIsEmployeeAttribute()
+    {
         return $this->attributes['role_id'] == Role::EMPLOYEE;
     }
 

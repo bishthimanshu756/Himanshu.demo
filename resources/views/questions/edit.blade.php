@@ -64,7 +64,7 @@
                                 </label>
                             </div>
                         @endforeach
-                        <x-validation-error name="radio" />
+                        <x-validation-error name="is_answer" />
                         <x-validation-error name="options*" />
                     </div>
                 </div>

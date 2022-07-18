@@ -24,7 +24,7 @@ class UserSeeder extends Seeder
             'email' => 'admin@gmail.com',
             'password' => 'admin123',
             'email_status' => '1',
-            'status' => '1',         
+            'status' => '1',
             'created_by'=> '0',
         ]);
 
@@ -36,7 +36,7 @@ class UserSeeder extends Seeder
             'email' => 'subadmin@gmail.com',
             'password' => 'subadmin123',
             'email_status' => '1',
-            'status' => '1',         
+            'status' => '1',
             'created_by'=> '1',
         ]);
 
@@ -48,7 +48,7 @@ class UserSeeder extends Seeder
             'email' => 'subadmin2@gmail.com',
             'password' => 'subadmin123',
             'email_status' => '1',
-            'status' => '1',         
+            'status' => '1',
             'created_by'=> '1',
         ]);
 
@@ -60,7 +60,7 @@ class UserSeeder extends Seeder
             'email' => 'trainer@gmail.com',
             'password' => 'trainer123',
             'email_status' => '1',
-            'status' => '1',         
+            'status' => '1',
             'created_by'=> '2',
         ]);
 
@@ -72,7 +72,7 @@ class UserSeeder extends Seeder
             'email' => 'employee@gmail.com',
             'password' => 'employee123',
             'email_status' => '1',
-            'status' => '1',         
+            'status' => '1',
             'created_by'=> '4',
         ]);
     }

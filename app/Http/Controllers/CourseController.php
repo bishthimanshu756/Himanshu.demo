@@ -75,12 +75,6 @@ class CourseController extends Controller
                 'course_id' => $course->id
             ]);
         }
-
-        Image::create([
-            'image_path' => 'images/image.png',
-            'course_id' => $course->id
-        ]);
-
         return back()->with('success', __('Course created successfully.') );
     }
 
